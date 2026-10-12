@@ -147,3 +147,44 @@ test('空间不够时照样放，但标记 overflow 让界面提示', () => {
   assert.ok(placed.some((item) => item.overflow));
   assertNoOverlap(placed.map((item) => item.footprint), base.gap, 'overflow 时也不能互相压');
 });
+
+/** 按 xuyu 现有 objectLabelLayout 的算法，从对象字段还原标签框（用来验证 labelOffset 写回后位置正确）。 */
+function labelRectFromObject(p: { x: number; y: number; labelWidth: number; labelOffset: { x: number; y: number } }, imageW: number, imageH: number, nameGap: number, lines: number) {
+  return {
+    x: p.x + (imageW - p.labelWidth) / 2 + p.labelOffset.x,
+    y: p.y + imageH + nameGap + p.labelOffset.y,
+    w: p.labelWidth,
+    h: lines * base.fontSize * base.lineHeight,
+  };
+}
+
+test('标签在右侧（演示页样式）：写回 labelOffset 后标签正好在图片右边、垂直居中、在占位框内', () => {
+  const inputs = randomInputs(rng(7), 12);
+  const placed = layoutLegends(inputs, { ...base, labelPosition: 'right', direction: 'column' });
+  placed.forEach((item, index) => {
+    const { imageW, imageH } = inputs[index];
+    const label = labelRectFromObject(item, imageW, imageH, base.nameGap, item.reservedLineCount);
+    assert.ok(Math.abs(label.x - (item.x + imageW + 8)) < 1e-6, '标签左边 = 图片右边 + 8');
+    assert.ok(Math.abs(label.y + label.h / 2 - (item.y + imageH / 2)) < 1e-6, '标签与图片垂直居中');
+    assert.ok(label.x + label.w <= item.footprint.x + item.footprint.w + 1e-6);
+    assert.ok(item.y >= item.footprint.y - 1e-6 && item.y + imageH <= item.footprint.y + item.footprint.h + 1e-6);
+    assert.equal(item.align, 'left');
+  });
+});
+
+test('标签在下方（现状）：labelOffset 为 0，位置与 objectLabelLayout 默认算法一致', () => {
+  const inputs = randomInputs(rng(8), 6);
+  for (const item of layoutLegends(inputs, base)) {
+    assert.deepEqual(item.labelOffset, { x: 0, y: 0 });
+    assert.equal(item.align, 'center');
+  }
+});
+
+test('标签在右侧时，120 组随机输入同样两两不重叠', () => {
+  for (let seed = 1; seed <= 120; seed += 1) {
+    const random = rng(seed * 104729);
+    const inputs = randomInputs(random, 1 + Math.floor(random() * 15));
+    const options: LegendLayoutOptions = { ...base, labelPosition: 'right', direction: random() < 0.5 ? 'row' : 'column', anchor: { x: random() * 800, y: random() * 500 } };
+    assertNoOverlap(layoutLegends(inputs, options).map((item) => item.footprint), options.gap, `right seed ${seed}`);
+  }
+});

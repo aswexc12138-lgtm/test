@@ -12,8 +12,11 @@
  *
  * 模型（与 EditorObject 一致）：
  *   图片：左上角 (x, y)，宽高 imageW × imageH（任意比例，不假设正方形）
- *   标签：宽 labelWidth，水平居中于图片，顶边在 y + imageH + nameGap，行高 fontSize × lineHeight
- *   占位框（footprint）= 图片与标签的并集，排版只看占位框。
+ *   标签位置两种（规格 S-05，待用户确认用哪种；用户确认前保持现状 'below'）：
+ *     'below'：现状。标签宽 labelWidth，水平居中于图片，顶边在 y + imageH + nameGap（objectLabelLayout 的默认算法）；
+ *     'right'：演示页样式。标签在图片右侧 captionGap 处，左对齐，与图片垂直居中。
+ *              不新增字段：用现有 EditorObject.labelOffset 把标签从“下方居中”挪到“右侧”，本文件直接算出这个偏移。
+ *   行高 fontSize × lineHeight。占位框（footprint）= 图片与标签的并集，排版只看占位框。
  */
 
 export interface Rect {
@@ -35,6 +38,10 @@ export interface LegendInput {
 export interface LegendLayoutOptions {
   /** 'row' = 横排，满了换行（默认，和现在一致）；'column' = 竖排，满了换列。方案设置项。 */
   direction: 'row' | 'column';
+  /** 标签在图片下方（默认，现状）还是右侧（演示页）。 */
+  labelPosition?: 'below' | 'right';
+  /** labelPosition = 'right' 时图片与文字的间距，默认 8 */
+  captionGap?: number;
   /** 第一个占位框的左上角 = 用户在画布上点的位置（没点过时由调用方给“当前可见区域”的左上角） */
   anchor: { x: number; y: number };
   page: { width: number; height: number };
@@ -63,6 +70,10 @@ export interface LegendPlacement {
   y: number;
   /** 写回 EditorObject.labelWidth，固定标签框，数量变化时不再变宽 */
   labelWidth: number;
+  /** 写回 EditorObject.labelOffset（'below' 时为 0,0）；配合 objectLabelLayout 的默认算法得到最终标签位置 */
+  labelOffset: { x: number; y: number };
+  /** 写回 EditorObject.style.align */
+  align: 'center' | 'left';
   /** 标签断行结果，两个渲染器都按它画 */
   lines: string[];
   /** 为预留位数准备的行数（占位高度按它算） */
@@ -183,9 +194,20 @@ export function measureLegend(input: LegendInput, options: LegendLayoutOptions) 
   labelWidth = Math.ceil(labelWidth + options.fontSize * 0.1);
   const lines = wrapLabel(input.name, quantityToken(input.qty, input.unit), labelWidth, options.fontSize, measure);
   const textHeight = reservedLineCount * options.fontSize * options.lineHeight;
+  if (options.labelPosition === 'right') {
+    const captionGap = options.captionGap ?? 8;
+    return {
+      labelWidth,
+      lines,
+      reservedLineCount,
+      textHeight,
+      footprintW: input.imageW + captionGap + labelWidth,
+      footprintH: Math.max(input.imageH, textHeight),
+    };
+  }
   const footprintW = Math.max(input.imageW, labelWidth);
   const footprintH = input.imageH + options.nameGap + textHeight;
-  return { labelWidth, lines, reservedLineCount, footprintW, footprintH };
+  return { labelWidth, lines, reservedLineCount, textHeight, footprintW, footprintH };
 }
 
 const EPS = 1e-6;
@@ -273,11 +295,36 @@ export function layoutLegends(inputs: LegendInput[], options: LegendLayoutOption
     : flow(sizes, anchor, bounds, options.gap, obstacles);
   return measured.map((item, index) => {
     const { rect, overflow } = rects[index];
+    const { imageW, imageH } = item.input;
+    if (options.labelPosition === 'right') {
+      const captionGap = options.captionGap ?? 8;
+      const imageY = rect.y + (rect.h - imageH) / 2;
+      // objectLabelLayout 默认把标签放在 left = (imageW - labelWidth) / 2、top = imageH + nameGap；
+      // 目标是 left = imageW + captionGap、top = 文字块与图片垂直居中。
+      const labelTop = rect.y + (rect.h - item.textHeight) / 2 - imageY;
+      return {
+        rowId: item.input.rowId,
+        x: rect.x,
+        y: imageY,
+        labelWidth: item.labelWidth,
+        labelOffset: {
+          x: imageW + captionGap - (imageW - item.labelWidth) / 2,
+          y: labelTop - (imageH + options.nameGap),
+        },
+        align: 'left' as const,
+        lines: item.lines,
+        reservedLineCount: item.reservedLineCount,
+        footprint: rect,
+        overflow,
+      };
+    }
     return {
       rowId: item.input.rowId,
-      x: rect.x + (rect.w - item.input.imageW) / 2,
+      x: rect.x + (rect.w - imageW) / 2,
       y: rect.y,
       labelWidth: item.labelWidth,
+      labelOffset: { x: 0, y: 0 },
+      align: 'center' as const,
       lines: item.lines,
       reservedLineCount: item.reservedLineCount,
       footprint: rect,

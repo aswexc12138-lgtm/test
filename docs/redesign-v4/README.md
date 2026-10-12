@@ -12,7 +12,7 @@
 | `04-代码与数据模型优化.md` | 用户 | 核对源码时发现的结构问题，哪些已纳入、哪些等你点头 |
 | `05-规则修订建议.md` | 用户 | 协调仓 AGENTS.md 需要改的三处文字（产品名、圆角、新增改版条款） |
 | `reference/summary-quantity.ts` | Codex | 设备汇总数量规则的样板实现（16 个测试） |
-| `reference/legend-layout.ts` | Codex | 图例排版与断行的样板实现（10 个测试，含 120 组随机形状） |
+| `reference/legend-layout.ts` | Codex | 图例排版与断行的样板实现（13 个测试，含 2 × 120 组随机形状） |
 | `reference/sun-times.ts` | Codex | 按日出日落切换白天 / 夜间（6 个测试） |
 | `reference/diff-guard.mjs` | Codex | 防跑偏检查：只查本次新增的行（4 个测试） |
 | `reference/themes/` | Codex | 从演示页原样提取的 9 套风格主题令牌和说明 |
@@ -28,7 +28,7 @@
 
 ## 已验证
 
-- 参考代码：36 个测试全部通过（Node 22.22）。运行方法见 `reference/README.md`。
+- 参考代码：39 个测试全部通过（Node 22.22）。运行方法见 `reference/README.md`。
 - `diff-guard.mjs` 在 xuyu 当前代码上空跑通过；埋入的违规全部拦下；用它检查演示页自己的样式，报出的 3 处在 `reference/demo/README.md` 里写了处理办法。
 - 规格中的“现状”均对照 xuyu `checkpoint/desktop-o1a6epq`（Preview.26，`0a33e7c`）源码核实，标了文件和行号。
 
