@@ -6,6 +6,7 @@
 
 | 文件 | 给谁 | 内容 |
 |---|---|---|
+| `00-硬约束.md` | Codex（必读第一页） | 22 条底线：顺序与范围、什么情况必须停下来问、不许碰的东西、怎么写、什么叫“做完”；附开工清单和收工命令 |
 | `01-P0开工前对照.md` | Codex | 第一步：对照规格与现有代码，只写报告、不改代码，写完就停 |
 | `02-改版规格.md` | Codex、用户 | 全部决定：每条带编号和状态（[定] / [默] / [待] / [禁]），含撤销清单、文案表、分阶段 |
 | `03-自测规范.md` | Codex、用户 | 七道门、12 条跨模块旅程、窗口尺寸矩阵、防跑偏检查、用户验收清单、报告模板 |
@@ -14,13 +15,16 @@
 | `reference/summary-quantity.ts` | Codex | 设备汇总数量规则的样板实现（16 个测试） |
 | `reference/legend-layout.ts` | Codex | 图例排版与断行的样板实现（13 个测试，含 2 × 120 组随机形状） |
 | `reference/sun-times.ts` | Codex | 按日出日落切换白天 / 夜间（6 个测试） |
-| `reference/diff-guard.mjs` | Codex | 防跑偏检查：只查本次新增的行（4 个测试） |
+| `reference/diff-guard.mjs` | Codex | 防跑偏检查：只查本次新增的行；G8 查每个阶段有没有改范围外的文件（5 个测试） |
+| `reference/trace-check.mjs` | Codex | “做完”检查：每个规格编号都要有真实的改动文件、真实存在的测试、界面截图（3 个测试） |
+| `reference/phase-scope.json` | Codex、用户 | 每个阶段允许改哪些文件、包含哪些规格编号 |
+| `reference/installer/` | Codex、用户 | 新安装器脚本、两张位图（1 倍 / 2 倍）与生成脚本、改前改后实测截图（`screenshots/compare.png`）、Wine 预览脚本 |
 | `reference/themes/` | Codex | 从演示页原样提取的 9 套风格主题令牌和说明 |
 | `reference/demo/` | Codex | 从演示页原样提取的组件样式、动效关键帧和反馈函数（按钮手感、开关、步进器连发、数字滑入、行高亮、定位脉冲、落点涟漪、撤销 Toast 等 26 项反馈） |
 
 ## 怎么交给 Codex
 
-1. 把整个 `docs/redesign-v4/` 文件夹放进 xuyu 仓库的 `docs/redesign-v4/`。
+1. 把整个 `docs/redesign-v4/` 文件夹放进 xuyu 仓库的 `docs/redesign-v4/`。告诉 Codex：**先读 `00-硬约束.md`**。
 2. 先看 `05-规则修订建议.md`，同意的话告诉 Codex 一起改进协调仓 AGENTS.md。
 3. 把 `01-P0开工前对照.md` 末尾那段话发给 Codex。
 4. Codex 交回 `P0-对照报告.md` 后，拿来和 Claude 逐条过一遍，再回复 Codex“P0 通过”。
@@ -28,7 +32,8 @@
 
 ## 已验证
 
-- 参考代码：39 个测试全部通过（Node 22.22）。运行方法见 `reference/README.md`。
+- 参考代码：43 个测试全部通过（Node 22.22）。运行方法见 `reference/README.md`。
+- 安装器：用与 xuyu 相同版本的 electron-builder（26.15.3）打出真实安装包，Linux + Wine 下逐页运行截图；新脚本编译 0 警告，全新安装 / 升级 / 静默安装 / 卸载都跑通。没在 Windows 真机上跑过。
 - `diff-guard.mjs` 在 xuyu 当前代码上空跑通过；埋入的违规全部拦下；用它检查演示页自己的样式，报出的 3 处在 `reference/demo/README.md` 里写了处理办法。
 - 规格中的“现状”均对照 xuyu `checkpoint/desktop-o1a6epq`（Preview.26，`0a33e7c`）源码核实，标了文件和行号。
 
@@ -36,3 +41,4 @@
 
 - **品牌标识**：图标（C 方向）和霞鹜文楷字标的源文件在「品牌标识.html」里，这次没有上传。拿到之前，标题栏先用现有图标。
 - 跨模块旅程（J1–J12）是规格，还没有在软件上跑过；由 Codex 按阶段实现。
+- 安装器的“全新安装点开始安装没反应”是 Wine 下复现的，需要在 Windows 真机上确认一次（P0 第 22 问）。

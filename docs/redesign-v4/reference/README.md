@@ -9,10 +9,10 @@
 ```bash
 cd docs/redesign-v4/reference
 TZ=Asia/Shanghai node --experimental-strip-types --test summary-quantity.test.ts legend-layout.test.ts sun-times.test.ts
-node --test diff-guard.test.mjs
+node --test diff-guard.test.mjs trace-check.test.mjs
 ```
 
-结果：39 个测试，全部通过。
+结果：43 个测试，全部通过。
 
 ## 文件
 
@@ -22,6 +22,9 @@ node --test diff-guard.test.mjs
 | `legend-layout.ts` | S-05、S-06 | 标签在下方（现状）或右侧（演示页）两种都支持；占位框 = 图片 ∪ 标签；“× 2台”不拆开；型号优先在连字符后断开；为 3 位数量预留占位；横排 / 竖排；避开已有对象；断行结果供屏幕和 PDF 共用 |
 | `sun-times.ts` | T-04 | 离线计算日出日落；返回当前白天 / 夜间及下一次切换时刻 |
 | `diff-guard.mjs` | 自测规范 §4 | 只看新增行；规则 G1–G7（G5 按动效三档）；单行豁免必须写理由 |
+| `trace-check.mjs` | 硬约束 R19 | 读 xuyu 的 `docs/redesign-v4/traceability.json`，核对本阶段每个编号的改动文件、测试名、截图是否真实存在 |
+| `phase-scope.json` | 硬约束 R4 | 每个阶段允许改的文件和包含的编号；G8 和 trace-check 都读它 |
+| `installer/` | 规格 §12B | 安装器脚本、位图与生成脚本、实测截图、Wine 预览脚本，见 `installer/README.md` |
 | `demo/` | M-01 – M-05、D-13 | 演示页原样提取的组件、动效、反馈函数，见 `demo/README.md` |
 | `themes/themes.generated.css` | T-03 | 9 风格 × 3 模式 + 强调色，演示页原样提取，变量名需按 T-03 映射 |
 | `themes/theme-meta.json` | T-01 | 风格名称与描述、强调色列表 |

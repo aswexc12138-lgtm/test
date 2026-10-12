@@ -6,7 +6,8 @@
  * 接入方式：由 Codex 挂到现有入口（xuyu 的 lint / `project-handoff.mjs check` 或 `ui-audit`）里调用，
  * 不要另起一个平行的检查体系（协调仓 AGENTS 第 20 条）。
  *
- * 用法：node diff-guard.mjs --base <git-ref> [--repo <path>] [--json]
+ * 用法：node diff-guard.mjs --base <git-ref> [--repo <path>] [--phase P1 --scope phase-scope.json] [--json]
+ *   --phase/--scope：开启 G8，检查本阶段是否改了范围外的文件。
  * 退出码：0 = 通过；1 = 有违规；2 = 参数或 git 出错。
  *
  * 单行豁免：在同一行写  `v4-allow: <规则号> <理由>`（理由必填）。所有豁免会列在输出里，必须写进自测报告。
@@ -83,14 +84,52 @@ function parseArgs(argv) {
   for (let i = 0; i < argv.length; i += 1) {
     if (argv[i] === '--base') args.base = argv[++i];
     else if (argv[i] === '--repo') args.repo = argv[++i];
+    else if (argv[i] === '--phase') args.phase = argv[++i];
+    else if (argv[i] === '--scope') args.scope = argv[++i];
     else if (argv[i] === '--json') args.json = true;
   }
   if (!args.base) throw new Error('缺少 --base <git-ref>');
+  if (Boolean(args.phase) !== Boolean(args.scope)) throw new Error('--phase 和 --scope 要一起给');
   return args;
 }
 
+/** 简单 glob：** 匹配任意层目录，* 匹配一层内任意字符。 */
+export function globToRegExp(glob) {
+  let out = '';
+  for (let i = 0; i < glob.length; i += 1) {
+    const c = glob[i];
+    if (c === '*' && glob[i + 1] === '*') {
+      out += '.*';
+      i += 1;
+      if (glob[i + 1] === '/') i += 1;
+    } else if (c === '*') out += '[^/]*';
+    else if (c === '?') out += '[^/]';
+    else out += c.replace(/[.+^${}()|[\]\\]/g, '\\$&');
+  }
+  return new RegExp(`^${out}$`);
+}
+
+/** G8：本阶段改动了范围外的文件。 */
+export function scopeViolations(changedFiles, scope, phase) {
+  const entry = scope.phases?.[phase];
+  if (!entry) return [{ rule: 'G8', title: '阶段不存在', detail: `phase-scope.json 里没有 ${phase}`, file: '-', line: 0, text: '' }];
+  const allow = [...(scope.always ?? []), ...(entry.allow ?? [])].map(globToRegExp);
+  const deny = (entry.deny ?? []).map(globToRegExp);
+  return [...new Set(changedFiles)]
+    .filter((file) => deny.some((re) => re.test(file)) || !allow.some((re) => re.test(file)))
+    .map((file) => ({
+      rule: 'G8',
+      title: '改了本阶段范围外的文件',
+      detail: `${phase} 不允许改动这个文件；确实需要改，先停下来在报告里说明，等用户同意`,
+      file,
+      line: 0,
+      text: '',
+    }));
+}
+
 function git(repo, ...args) {
-  return execFileSync('git', ['-C', repo, ...args], { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
+  // core.quotepath=false：中文文件名按原样输出（默认会被转成 "\350\207…" 这种转义，导致匹配失败）
+  return execFileSync('git', ['-c', 'core.quotepath=false', '-C', repo, ...args], { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
 }
 
 /** 解析 `git diff -U0` 的新增行：[{ file, line, text }] */
@@ -163,6 +202,10 @@ function main() {
       .forEach((text, index) => lines.push({ file, line: index + 1, text }));
   }
   const result = evaluate(lines, changedFiles);
+  if (args.phase) {
+    const scope = JSON.parse(readFileSync(path.resolve(args.scope), 'utf8'));
+    result.violations.push(...scopeViolations(changedFiles, scope, args.phase));
+  }
   if (args.json) console.log(JSON.stringify(result, null, 2));
   else {
     for (const item of result.violations) console.log(`✗ ${item.rule} ${item.file}:${item.line}  ${item.detail}\n    ${item.text}`);

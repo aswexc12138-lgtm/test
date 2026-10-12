@@ -1,0 +1,263 @@
+{
+  "$comment": "每个阶段允许改动的文件（xuyu 仓库内相对路径，glob）。diff-guard 的 G8 规则据此检查：本阶段改了范围外的文件就报错。要改范围外的文件：停下，在报告里写明原因，等用户同意后由用户（或 Claude）改这份文件，不许自己改。always 对所有阶段都允许。",
+  "always": [
+    "tests/**",
+    "fixtures/**",
+    "docs/redesign-v4/reports/**",
+    "docs/redesign-v4/traceability.json"
+  ],
+  "phases": {
+    "P0": {
+      "title": "开工前对照（只写报告）",
+      "allow": [
+        "docs/redesign-v4/P0-对照报告.md"
+      ],
+      "deny": [
+        "tests/**",
+        "fixtures/**",
+        "docs/redesign-v4/reports/**",
+        "docs/redesign-v4/traceability.json"
+      ]
+    },
+    "P1": {
+      "title": "数据层：汇总数量、图例排版与断行、分类说明放置点、返工删除与冻结、恢复记录",
+      "ids": [
+        "S-01",
+        "S-02",
+        "S-03",
+        "S-05",
+        "S-06",
+        "S-08",
+        "S-09",
+        "S-10",
+        "S-12",
+        "S-13",
+        "S-14",
+        "D-12",
+        "C-05"
+      ],
+      "allow": [
+        "src/core/equipment.ts",
+        "src/core/summary-quantity.ts",
+        "src/core/legend-layout.ts",
+        "src/core/object-label-layout.ts",
+        "src/core/text-layout.ts",
+        "src/core/descriptions.ts",
+        "src/core/drawing-schemes.ts",
+        "src/core/scheme-following.ts",
+        "src/core/export-status.ts",
+        "src/core/migrations.ts",
+        "src/core/asset-normalization.ts",
+        "src/core/workbench.ts",
+        "src/shared/models.ts",
+        "src/renderer/App.tsx",
+        "src/renderer/components/FloorPlanCanvas.tsx",
+        "src/renderer/components/ContinuousFloorPlanCanvas.tsx",
+        "src/renderer/components/TeamConfigPanel.tsx",
+        "electron/services/pdf-export.ts",
+        "electron/main.ts",
+        "electron/services/project-store.ts"
+      ]
+    },
+    "P2": {
+      "title": "外壳：标题栏、产品名、导出记录与全局进度、状态栏与操作说明、文案统一、命令、动效与反馈基础",
+      "ids": [
+        "G-01",
+        "G-03",
+        "G-04",
+        "G-05",
+        "G-06",
+        "G-07",
+        "M-01",
+        "M-02",
+        "M-03",
+        "M-04",
+        "M-05"
+      ],
+      "allow": [
+        "electron/main.ts",
+        "electron/preload.ts",
+        "src/shared/version.ts",
+        "src/core/keyboard-shortcuts.ts",
+        "src/renderer/App.tsx",
+        "src/renderer/main.tsx",
+        "src/renderer/styles.css",
+        "src/renderer/ab-ui.css",
+        "src/renderer/ab-centers.css",
+        "src/renderer/feedback/**",
+        "src/renderer/styles/**",
+        "src/renderer/env.d.ts",
+        "src/renderer/export-feedback.ts",
+        "src/renderer/components/ModuleRail.tsx",
+        "src/renderer/components/ToastNotice.tsx",
+        "src/renderer/components/BatchQueuePanel.tsx",
+        "src/renderer/components/BatchExportResult.tsx",
+        "src/renderer/components/ConfigurationCenter.tsx",
+        "src/renderer/components/ExportLog.tsx",
+        "src/renderer/components/CommandPalette.tsx",
+        "src/renderer/components/HelpPopover.tsx",
+        "NOTICE.txt"
+      ]
+    },
+    "PI": {
+      "title": "安装器与启动画面（需要用户明确要求打包后才能验收）",
+      "ids": [
+        "I-01",
+        "I-02",
+        "I-03",
+        "I-04",
+        "I-05",
+        "I-06",
+        "I-07",
+        "I-08",
+        "I-09"
+      ],
+      "allow": [
+        "build/installer.nsh",
+        "build/installer-header.bmp",
+        "build/installer-sidebar.bmp",
+        "build/startup-splash.bmp",
+        "build/startup-splash-preview.png",
+        "electron/startup-view.ts",
+        "scripts/create-portable-splash.ts",
+        "scripts/installer-smoke.mjs",
+        "package.json",
+        "NOTICE.txt"
+      ]
+    },
+    "P3": {
+      "title": "绘图：浮窗、竖条、工具栏、队列、属性、缩放、测量、导出入口、窄窗口、设备浮窗、汇总清单界面",
+      "ids": [
+        "D-01",
+        "D-02",
+        "D-03",
+        "D-04",
+        "D-05",
+        "D-06",
+        "D-07",
+        "D-08",
+        "D-09",
+        "D-10",
+        "D-11",
+        "D-13",
+        "D-14",
+        "S-04",
+        "S-07",
+        "S-11"
+      ],
+      "allow": [
+        "src/renderer/App.tsx",
+        "src/renderer/styles.css",
+        "src/renderer/ab-ui.css",
+        "src/renderer/ab-centers.css",
+        "src/renderer/drawing-view-state.ts",
+        "src/renderer/overlay-interaction.ts",
+        "src/renderer/feedback/**",
+        "src/renderer/components/FloorPlanCanvas.tsx",
+        "src/renderer/components/ContinuousFloorPlanCanvas.tsx",
+        "src/renderer/components/PagePanel.tsx",
+        "src/renderer/components/PagePanel.css",
+        "src/renderer/components/PageThumbnail.tsx",
+        "src/renderer/components/AnnotationTools.tsx",
+        "src/renderer/components/AnnotationTools.css",
+        "src/renderer/components/SummaryList.tsx",
+        "src/renderer/components/DevicePanel.tsx",
+        "src/renderer/components/FloatPanel.tsx",
+        "src/core/workspace-ui.ts",
+        "src/core/keyboard-shortcuts.ts",
+        "src/core/equipment.ts",
+        "src/core/summary-quantity.ts",
+        "src/core/legend-layout.ts"
+      ]
+    },
+    "P4": {
+      "title": "主题：风格 × 模式 × 强调色、日出日落、圆形展开、纸面、对比度门槛、选择器",
+      "ids": [
+        "T-01",
+        "T-02",
+        "T-03",
+        "T-04",
+        "T-05",
+        "T-06",
+        "T-07",
+        "T-08",
+        "T-09"
+      ],
+      "allow": [
+        "src/renderer/theme.tsx",
+        "src/renderer/themes/**",
+        "src/renderer/styles.css",
+        "src/renderer/ab-ui.css",
+        "src/renderer/ab-centers.css",
+        "src/core/theme-schedule.ts",
+        "src/core/sun-times.ts",
+        "src/shared/models.ts",
+        "src/renderer/components/ModuleRail.tsx",
+        "src/renderer/components/ConfigurationCenter.tsx",
+        "src/renderer/components/ThemePicker.tsx",
+        "src/renderer/App.tsx",
+        "electron/main.ts",
+        "electron/preload.ts"
+      ]
+    },
+    "P5": {
+      "title": "工作台与导出记录",
+      "ids": [
+        "W-01",
+        "W-02"
+      ],
+      "allow": [
+        "src/renderer/components/WorkbenchHome.tsx",
+        "src/core/workbench.ts",
+        "src/renderer/App.tsx",
+        "src/renderer/styles.css",
+        "src/renderer/ab-centers.css",
+        "src/renderer/components/ExportLog.tsx",
+        "src/renderer/components/BatchQueuePanel.tsx",
+        "electron/main.ts",
+        "electron/preload.ts",
+        "electron/services/source-library-service.ts",
+        "electron/services/work-index.ts"
+      ]
+    },
+    "P6": {
+      "title": "资料整理、企业与品牌库、绩效、配置清理",
+      "ids": [
+        "A-01",
+        "A-02",
+        "A-03",
+        "A-04",
+        "C-01",
+        "C-02",
+        "C-03",
+        "C-04",
+        "P"
+      ],
+      "allow": [
+        "src/renderer/components/SourceLibraryPanel.tsx",
+        "src/renderer/components/source-library-panel.css",
+        "src/renderer/components/SourceWorkflowSettings.tsx",
+        "src/renderer/components/source-workflow-settings.css",
+        "src/renderer/components/SourceFileOperationDialog.tsx",
+        "src/renderer/components/SourceDocumentPreview.tsx",
+        "src/renderer/components/SourceRootMappingDialog.tsx",
+        "src/renderer/components/PerformancePanel.tsx",
+        "src/renderer/components/ConfigurationCenter.tsx",
+        "src/renderer/components/TeamConfigPanel.tsx",
+        "src/renderer/use-source-library-scan.ts",
+        "src/core/source-library.ts",
+        "src/shared/source-library.ts",
+        "src/shared/models.ts",
+        "src/renderer/App.tsx",
+        "src/renderer/styles.css",
+        "src/renderer/ab-centers.css",
+        "electron/services/source-library-service.ts",
+        "electron/services/source-file-operations.ts",
+        "electron/services/source-identity-store.ts",
+        "electron/services/result-library-service.ts",
+        "electron/main.ts",
+        "electron/preload.ts"
+      ]
+    }
+  }
+}

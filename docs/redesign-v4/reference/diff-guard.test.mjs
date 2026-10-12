@@ -84,3 +84,24 @@ test('豁免必须写理由，空理由不算', () => {
   const dir = repoWith({ 'src/renderer/components/Toolbar.tsx': "const c = '#fff'; // v4-allow: G4\n" });
   assert.equal(run(dir).code, 1);
 });
+
+test('G8：阶段范围外的文件被拦下；always 里的测试、报告随时可改；P0 只许写报告', () => {
+  const scopePath = path.join(path.dirname(fileURLToPath(import.meta.url)), 'phase-scope.json');
+  const dir = repoWith({
+    'src/core/equipment.ts': 'export const x = 1;\n',
+    'src/renderer/components/PerformancePanel.tsx': 'export const y = 2;\n',
+    'tests/unit/summary-quantity.test.ts': "test('a', () => {});\n",
+    'docs/redesign-v4/reports/P1-自测报告.md': '# 报告\n',
+  });
+  const runPhase = (phase) => {
+    try {
+      return JSON.parse(execFileSync('node', [script, '--base', 'HEAD', '--repo', dir, '--phase', phase, '--scope', scopePath, '--json'], { encoding: 'utf8' }));
+    } catch (error) {
+      return JSON.parse(error.stdout);
+    }
+  };
+  const p1 = runPhase('P1').violations.filter((v) => v.rule === 'G8').map((v) => v.file);
+  assert.deepEqual(p1, ['src/renderer/components/PerformancePanel.tsx'], 'P1 不许改绩效页');
+  const p0 = runPhase('P0').violations.filter((v) => v.rule === 'G8').map((v) => v.file).sort();
+  assert.deepEqual(p0, ['docs/redesign-v4/reports/P1-自测报告.md', 'src/core/equipment.ts', 'src/renderer/components/PerformancePanel.tsx', 'tests/unit/summary-quantity.test.ts'].sort(), 'P0 除了对照报告什么都不许改（报告目录也不行）');
+});
