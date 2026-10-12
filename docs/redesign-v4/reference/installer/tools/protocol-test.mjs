@@ -34,7 +34,7 @@ const REPO = path.resolve(opt('--repo', process.cwd()));
 const BUILD_DIR = path.resolve(REPO, opt('--build-dir', 'build'));
 const UI_DIR = path.resolve(REPO, opt('--ui-dir', 'scripts/installer-ui/ui'));
 const OUT = path.resolve(REPO, opt('--out', 'docs/redesign-v4/reports/installer-protocol'));
-const EB_CLI = path.resolve(REPO, opt('--electron-builder', 'node_modules/electron-builder/cli.js'));
+const EB_CLI = path.resolve(REPO, opt('--electron-builder', 'node_modules/electron-builder/cli.js'));   // pnpm 下这是指向 .pnpm 的链接，同样可用
 const REAL_HOST = opt('--real-host', null);
 const KEEP = argv.includes('--keep');
 
