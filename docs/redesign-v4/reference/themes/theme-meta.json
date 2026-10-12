@@ -1,0 +1,324 @@
+{
+  "modes": [
+    "day",
+    "night",
+    "eye"
+  ],
+  "modeLabels": {
+    "day": "白天",
+    "night": "夜间",
+    "eye": "护眼"
+  },
+  "themes": {
+    "minimal": {
+      "label": "素",
+      "desc": "暖灰、细线分隔、几乎无阴影，按钮扁平。最安静，适合长时间画图。",
+      "preview": {
+        "day": {
+          "bg": "#F7F7F5",
+          "surface": "#FFFFFF",
+          "accent": "#15727A",
+          "accent2": "#15727A",
+          "text": "#1C1D1B",
+          "canvasBg": "#EBEBE7"
+        },
+        "night": {
+          "bg": "#111312",
+          "surface": "#191B1A",
+          "accent": "#5CB8BF",
+          "accent2": "#5CB8BF",
+          "text": "#E8E9E6",
+          "canvasBg": "#0C0D0D"
+        },
+        "eye": {
+          "bg": "#F3EEDF",
+          "surface": "#FAF6EA",
+          "accent": "#1F6B66",
+          "accent2": "#1F6B66",
+          "text": "#2A2620",
+          "canvasBg": "#E7E0CE"
+        }
+      }
+    },
+    "comfort": {
+      "label": "舒适",
+      "desc": "米色纸纹、暖棕强调、柔和漫射阴影，按钮微微凸起、顶部有一道受光高光。",
+      "preview": {
+        "day": {
+          "bg": "#EFEAE1",
+          "surface": "#F9F5ED",
+          "accent": "#8E5D39",
+          "accent2": "#8E5D39",
+          "text": "#2A241E",
+          "canvasBg": "#E9E4DA"
+        },
+        "night": {
+          "bg": "#15120F",
+          "surface": "#1E1A16",
+          "accent": "#D9A374",
+          "accent2": "#D9A374",
+          "text": "#EDE6DC",
+          "canvasBg": "#0F0D0B"
+        },
+        "eye": {
+          "bg": "#EBE1CC",
+          "surface": "#F6EEDB",
+          "accent": "#85552F",
+          "accent2": "#85552F",
+          "text": "#2C251B",
+          "canvasBg": "#E3D6BC"
+        }
+      }
+    },
+    "glass": {
+      "label": "玻璃",
+      "desc": "冷调磨砂玻璃：浮窗半透明并模糊身后的图纸，边缘有一道冷光高光，按钮为半透明胶囊。最适合“画布优先 + 浮窗”的布局。",
+      "preview": {
+        "day": {
+          "bg": "#EDF0F4",
+          "surface": "#FFFFFF",
+          "accent": "#2C5FA0",
+          "accent2": "#2C5FA0",
+          "text": "#17202B",
+          "canvasBg": "#E3E8EE"
+        },
+        "night": {
+          "bg": "#0D1117",
+          "surface": "#151B23",
+          "accent": "#7FAEEA",
+          "accent2": "#7FAEEA",
+          "text": "#E6ECF3",
+          "canvasBg": "#090C10"
+        },
+        "eye": {
+          "bg": "#ECE8DC",
+          "surface": "#F8F4E8",
+          "accent": "#2F5C8F",
+          "accent2": "#2F5C8F",
+          "text": "#26231C",
+          "canvasBg": "#E4DECA"
+        }
+      }
+    },
+    "keycap": {
+      "label": "键帽",
+      "desc": "像机械键盘：按钮有一道实体底边，按下时整颗下沉、底边消失，主按钮是深色键。浮窗像压在桌面上的金属板。触感最强。",
+      "preview": {
+        "day": {
+          "bg": "#EDEDEA",
+          "surface": "#F8F8F6",
+          "accent": "#2B2E33",
+          "accent2": "#2B2E33",
+          "text": "#1B1C1E",
+          "canvasBg": "#E2E2DE"
+        },
+        "night": {
+          "bg": "#121315",
+          "surface": "#1A1C1F",
+          "accent": "#DADCE0",
+          "accent2": "#DADCE0",
+          "text": "#E9EAEC",
+          "canvasBg": "#0B0C0D"
+        },
+        "eye": {
+          "bg": "#E9E5D9",
+          "surface": "#F5F2E8",
+          "accent": "#33302A",
+          "accent2": "#33302A",
+          "text": "#24221D",
+          "canvasBg": "#DFD9C8"
+        }
+      }
+    },
+    "ink": {
+      "label": "墨",
+      "desc": "高对比黑白：2px 实线边框、直角、无阴影，焦点框加粗。适合投屏、强光环境，或视力需要更高对比时。",
+      "preview": {
+        "day": {
+          "bg": "#FFFFFF",
+          "surface": "#FFFFFF",
+          "accent": "#000000",
+          "accent2": "#000000",
+          "text": "#000000",
+          "canvasBg": "#E0E0E0"
+        },
+        "night": {
+          "bg": "#000000",
+          "surface": "#0A0A0A",
+          "accent": "#FFFFFF",
+          "accent2": "#FFFFFF",
+          "text": "#FFFFFF",
+          "canvasBg": "#000000"
+        },
+        "eye": {
+          "bg": "#F5F0E3",
+          "surface": "#FBF7EE",
+          "accent": "#1A1813",
+          "accent2": "#1A1813",
+          "text": "#0F0D0A",
+          "canvasBg": "#E3DCC8"
+        }
+      }
+    },
+    "neon": {
+      "label": "霓虹",
+      "desc": "深色电光底，青色与品红双色撞色，主按钮和焦点带发光；浮窗是暗色磨砂。夜间最出彩，白天是电光紫。",
+      "preview": {
+        "day": {
+          "bg": "#F4F5FF",
+          "surface": "#FFFFFF",
+          "accent": "#5B2EFF",
+          "accent2": "#00A3B5",
+          "text": "#111325",
+          "canvasBg": "#E8EAFA"
+        },
+        "night": {
+          "bg": "#07080F",
+          "surface": "#10111C",
+          "accent": "#00E5FF",
+          "accent2": "#FF3DCB",
+          "text": "#EEF0FF",
+          "canvasBg": "#05060B"
+        },
+        "eye": {
+          "bg": "#EFE9DD",
+          "surface": "#F8F3E8",
+          "accent": "#5A35C9",
+          "accent2": "#1F7F8A",
+          "text": "#231F18",
+          "canvasBg": "#E6DECB"
+        }
+      }
+    },
+    "pop": {
+      "label": "撞色",
+      "desc": "克莱因蓝 × 柠檬黄 × 薄荷绿的高饱和撞色；粗黑描边、硬投影（新粗野风），按下时整颗按钮压进投影里。最鲜艳、最有冲击力。",
+      "preview": {
+        "day": {
+          "bg": "#FFF4D6",
+          "surface": "#FFFFFF",
+          "accent": "#2335E8",
+          "accent2": "#008A78",
+          "text": "#141414",
+          "canvasBg": "#FFE7A3"
+        },
+        "night": {
+          "bg": "#121212",
+          "surface": "#1C1C1C",
+          "accent": "#FFE14D",
+          "accent2": "#6B7BFF",
+          "text": "#F7F7F2",
+          "canvasBg": "#0D0D0D"
+        },
+        "eye": {
+          "bg": "#F6EBCB",
+          "surface": "#FFFAEB",
+          "accent": "#2A3AC2",
+          "accent2": "#0E9C88",
+          "text": "#1F1B12",
+          "canvasBg": "#EEDDA8"
+        }
+      }
+    },
+    "aurora": {
+      "label": "极光",
+      "desc": "底色铺一层很淡的紫、青、粉流动光晕，浮窗是磨砂玻璃，主按钮紫到青渐变的胶囊。安静但很有氛围。",
+      "preview": {
+        "day": {
+          "bg": "#F3F1FA",
+          "surface": "#FFFFFF",
+          "accent": "#6A3DF0",
+          "accent2": "#0C7F77",
+          "text": "#19162A",
+          "canvasBg": "#ECE8F7"
+        },
+        "night": {
+          "bg": "#0A0C1C",
+          "surface": "#121530",
+          "accent": "#A78BFA",
+          "accent2": "#2DD4BF",
+          "text": "#ECEBFF",
+          "canvasBg": "#070818"
+        },
+        "eye": {
+          "bg": "#EEE8DA",
+          "surface": "#F8F3E7",
+          "accent": "#5B3FC4",
+          "accent2": "#0F7068",
+          "text": "#241F17",
+          "canvasBg": "#E5DCC8"
+        }
+      }
+    },
+    "sunset": {
+      "label": "落日",
+      "desc": "晚霞紫到焦橙的渐变强调，底色带暖橙和紫的光晕，柔和的玫瑰色阴影。温暖又鲜艳。",
+      "preview": {
+        "day": {
+          "bg": "#FFF5EE",
+          "surface": "#FFFFFF",
+          "accent": "#7A2BD9",
+          "accent2": "#C2410C",
+          "text": "#2A1B17",
+          "canvasBg": "#FBE7DA"
+        },
+        "night": {
+          "bg": "#160E14",
+          "surface": "#20141D",
+          "accent": "#E879F9",
+          "accent2": "#FB923C",
+          "text": "#FBEFF4",
+          "canvasBg": "#0F090D"
+        },
+        "eye": {
+          "bg": "#F7ECDD",
+          "surface": "#FDF6EC",
+          "accent": "#7A2BC4",
+          "accent2": "#A93A0C",
+          "text": "#2A1E16",
+          "canvasBg": "#F0DFCA"
+        }
+      }
+    }
+  },
+  "accents": {
+    "auto": {
+      "label": "跟随风格"
+    },
+    "teal": {
+      "label": "青色",
+      "light": "#15727A",
+      "dark": "#5CB8BF"
+    },
+    "copper": {
+      "label": "铜茶",
+      "light": "#8A5634",
+      "dark": "#D9A374"
+    },
+    "olive": {
+      "label": "橄榄",
+      "light": "#56632A",
+      "dark": "#B5C27A"
+    },
+    "violet": {
+      "label": "紫罗兰",
+      "light": "#7C3AED",
+      "dark": "#C4B5FD"
+    },
+    "blue": {
+      "label": "蓝色",
+      "light": "#2C5FA0",
+      "dark": "#7FAEEA"
+    },
+    "magenta": {
+      "label": "洋红",
+      "light": "#B0258F",
+      "dark": "#F08BD6"
+    },
+    "graphite": {
+      "label": "石墨",
+      "light": "#2B2E33",
+      "dark": "#DADCE0"
+    }
+  }
+}
