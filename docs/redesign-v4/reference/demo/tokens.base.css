@@ -1,0 +1,103 @@
+/* 基础令牌：字体、间距、尺寸、动效时长与缓动、全局基线（不含颜色，颜色在 ../themes/）
+ * 来源：「设备绘图 · 改版参考演示.html」（v3）原样提取，未改动。
+ * 用法：Codex 按这里的类名 / 变量名 / 关键帧实现，接入 xuyu 时颜色一律用主题变量（规格 T-03 映射）。
+ * 与 v4 规格冲突时以规格为准。
+ * 已知冲突：--page-shift 是早期“模块切换横移 12px”的遗留变量，已无引用，不要使用（规格 M-03 / 撤销清单 X13）。
+ */
+
+
+/* ==========================================================================
+   tokens.css — 与主题无关的设计令牌（字体、字号、间距、尺寸、动效时长）
+   颜色、材质、光影、圆角、按钮样式全部来自 themes/themes.css（由 themes.json 生成）。
+   ---------------------------------------------------------------------------
+   硬规则（Codex 必须遵守）：
+   1. 除 themes/themes.css 外，任何 CSS/TSX/JS 中禁止新增颜色字面量（hex / rgb() / hsl()）、
+      渐变和阴影字面量；只能引用令牌。画布渲染层（PDF、点位导出样式）除外。
+   2. 组件只引用语义令牌（--bg / --text / --accent / --btn-* / --float-* ...）。
+   3. 导出的 PDF 永远是白纸；--paper 只是“屏幕上的纸面显示色”（夜间/护眼可略微调暗或调暖）。
+   4. 对比度由 build-themes.mjs 对每个 主题 × 模式 自动校验，不达标无法生成。
+   5. 动效只允许 transform / opacity / background-color / color / box-shadow
+      （开关拇指、分段控件滑块可过渡 width）。
+   ========================================================================== */
+
+:root {
+  /* ---------------- 字体 ---------------- */
+  --font-sans: "Segoe UI", "Microsoft YaHei UI", "Microsoft YaHei", "PingFang SC",
+               "Noto Sans SC", "Noto Sans CJK SC", system-ui, sans-serif;
+  --font-mono: "Cascadia Mono", Consolas, "SF Mono", monospace;
+  --fs-12: 12px;  /* 元信息、表头、徽标（最小字号，禁止 11px 及以下） */
+  --fs-13: 13px;  /* 正文、按钮、输入（默认） */
+  --fs-14: 14px;  /* 面板标题 */
+  --fs-16: 16px;  /* 对话框 / 浮窗大标题 */
+  --fs-20: 20px;  /* 模块页标题（每页一个） */
+  --fs-28: 28px;  /* 仅用于统计大数字 */
+  --lh-tight: 1.35;
+  --lh-body: 1.55;
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600; /* 最重；禁止 700+ */
+
+  /* ---------------- 间距（4px 网格） ---------------- */
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px;
+  --sp-5: 20px; --sp-6: 24px; --sp-8: 32px; --sp-10: 40px;
+
+  /* ---------------- 尺寸 ---------------- */
+  --h-control-sm: 28px;
+  --h-control: 32px;
+  --h-row: 40px;
+  --h-row-2: 56px;
+  --h-topbar: 44px;
+  --h-toolbar: 48px;     /* 绘图工具栏：永远单行 */
+  --h-statusbar: 28px;
+  --w-rail: 44px;        /* 左侧工具竖条（浮动） */
+  --w-float: 300px;      /* 浮窗区列宽（用户可拖 260–420，按用户记忆） */
+  --w-float-wide: 440px; /* 设备汇总等任务型浮窗 */
+  --float-gap: 8px;      /* 同区浮窗之间的间距 */
+  --float-inset: 12px;   /* 浮窗区距窗口边、工具栏、状态栏的距离 */
+  --w-dialog-sm: 420px;
+  --w-dialog-md: 560px;
+  --w-dialog-lg: 760px;
+  --r-full: 999px;
+
+  /* ---------------- 动效 ----------------
+     交互动画 ≤ 320ms；余晖提示（行高亮淡出、涟漪、差值气泡、定位脉冲、倒计时条）≤ 1200ms 且不阻塞操作。 */
+  --dur-instant: 80ms;
+  --dur-fast: 120ms;
+  --dur: 180ms;
+  --dur-slow: 240ms;
+  --dur-emph: 320ms;
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+  --ease-out: cubic-bezier(0.05, 0.7, 0.1, 1);
+  --ease-in: cubic-bezier(0.3, 0, 0.8, 0.15);
+  --press-scale-sm: 0.92;
+  --lift-y: -1px;
+  --page-shift: 12px;
+
+  /* 焦点环宽度随主题变化（墨主题 3px） */
+  --focus-ring: 0 0 0 2px var(--surface), 0 0 0 calc(2px + var(--focus-w, 2px)) var(--accent);
+}
+
+/* ================= 全局基线 ================= */
+html, body {
+  margin: 0;
+  background-color: var(--bg);
+  /* 氛围层（极光/落日的光晕、撞色的网点；其他风格为 none）叠在纸纹上方。只铺应用底色，不进图纸纸面。 */
+  background-image: var(--backdrop), var(--texture);
+  background-size: var(--backdrop-size), auto;
+  background-attachment: fixed;
+  color: var(--text);
+  font: var(--fw-regular) var(--fs-13)/var(--lh-body) var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+* { box-sizing: border-box; }
+.num, .tabular { font-variant-numeric: tabular-nums; }
+:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+::selection { background: var(--accent-soft); color: var(--text); }
+
+/* 减少动效：系统设置 或 应用内开关（<html data-motion="reduced">） */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 1ms !important; animation-iteration-count: 1 !important; transition-duration: 1ms !important; }
+}
+:root[data-motion="reduced"] *, :root[data-motion="reduced"] *::before, :root[data-motion="reduced"] *::after {
+  animation-duration: 1ms !important; animation-iteration-count: 1 !important; transition-duration: 1ms !important;
+}

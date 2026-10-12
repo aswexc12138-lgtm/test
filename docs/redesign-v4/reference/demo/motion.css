@@ -1,0 +1,145 @@
+/* 动效：基础关键帧、页面切换、数据变化、错误 / 阻止、成功、定位、拖拽、画布叠加层
+ * 来源：「设备绘图 · 改版参考演示.html」（v3）原样提取，未改动。
+ * 用法：Codex 按这里的类名 / 变量名 / 关键帧实现，接入 xuyu 时颜色一律用主题变量（规格 T-03 映射）。
+ * 与 v4 规格冲突时以规格为准。
+ * 说明：vt-out / vt-in 已是纯淡入淡出（不位移），模块切换直接用（M-03）。
+ * 时长分三档（规格 M-02）：交互 ≤ 320ms；余晖提示 fx-* ≤ 1200ms 且不挡操作；持续状态指示可循环但状态结束即停。
+ */
+
+/* ==========================================================================
+   motion.css — 关键帧 + 反馈工具类（依赖 tokens.css）
+   规则：
+   - 只动 transform / opacity / background-color / color / box-shadow，绝不动 width/height/top/left（开关拇指、分段滑块除外）。
+   - 交互动画 ≤ 320ms；余晖提示（fx-flash / fx-ripple / fx-delta / fx-locate / ui-countdown）≤ 1200ms 且不阻塞操作。
+   - 进入用 --ease-out，退出用 --ease-in，且退出比进入快（≈ 2/3 时长）。
+   - 动画必须可被打断：新状态到来时直接覆盖，不排队等待。
+   - 所有效果在 data-motion="reduced" 或系统“减少动效”下自动降为瞬时（tokens.css 已处理）。
+   ========================================================================== */
+
+/* ---------- 基础关键帧 ---------- */
+@keyframes ui-spin { to { transform: rotate(360deg); } }
+@keyframes ui-fade-in { from { opacity: 0; } }
+@keyframes ui-fade-down { from { opacity: 0; transform: translateY(-4px); } }
+@keyframes ui-fade-up { from { opacity: 0; transform: translateY(6px); } }
+@keyframes ui-pop-in { from { opacity: 0; transform: scale(0.96); } }
+@keyframes ui-grow-y { from { transform: scaleY(0); } }
+@keyframes ui-check-draw { from { opacity: 0; transform: rotate(45deg) scale(0.4); } }
+@keyframes ui-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+@keyframes ui-shimmer { to { transform: translateX(100%); } }
+@keyframes ui-indeterminate { from { transform: translateX(-100%); } to { transform: translateX(340%); } }
+@keyframes ui-countdown { to { transform: scaleX(0); } }
+
+/* 对话框 / 抽屉 / Toast */
+@keyframes ui-dialog-in { from { opacity: 0; transform: translateY(8px) scale(0.98); } }
+@keyframes ui-dialog-out { to { opacity: 0; transform: translateY(4px) scale(0.98); } }
+@keyframes ui-drawer-in { from { transform: translateX(24px); opacity: 0; } }
+@keyframes ui-drawer-out { to { transform: translateX(24px); opacity: 0; } }
+@keyframes ui-toast-in { from { opacity: 0; transform: translateY(12px) scale(0.98); } }
+@keyframes ui-toast-out { to { opacity: 0; transform: translateY(6px); } }
+
+/* ---------- 页面 / 模块切换（View Transitions API；Electron ≥ 23 可用） ----------
+   用法：document.startViewTransition(update)。只淡入淡出（旧页 120ms 淡出、新页 240ms 淡入），不左右滑动。
+   只给内容区命名，顶部导航与状态栏保持静止，避免整屏闪动。 */
+.app-main { view-transition-name: app-main; }
+::view-transition-old(app-main) { animation: vt-out var(--dur-fast) var(--ease-in) both; }
+::view-transition-new(app-main) { animation: vt-in var(--dur-slow) var(--ease-out) both; }
+:root[data-nav-dir="back"]::view-transition-old(app-main) { animation-name: vt-out-back; }
+:root[data-nav-dir="back"]::view-transition-new(app-main) { animation-name: vt-in-back; }
+/* 模块切换只做淡入淡出，不做位移：用户反馈左右滑动看起来像在抖 */
+@keyframes vt-out { to { opacity: 0; } }
+@keyframes vt-in { from { opacity: 0; } }
+@keyframes vt-out-back { to { opacity: 0; } }
+@keyframes vt-in-back { from { opacity: 0; } }
+/* 不支持 View Transitions 时的降级：给新页面根节点加 .page-enter */
+.page-enter { animation: vt-in var(--dur-slow) var(--ease-out) both; }
+
+/* 页面内容错峰入场：首屏卡片 / 列表前 8 行依次出现（每个 +30ms，总时长 ≤ 300ms） */
+.stagger > * { animation: ui-fade-up var(--dur-slow) var(--ease-out) both; }
+.stagger > *:nth-child(1) { animation-delay: 0ms; }
+.stagger > *:nth-child(2) { animation-delay: 30ms; }
+.stagger > *:nth-child(3) { animation-delay: 60ms; }
+.stagger > *:nth-child(4) { animation-delay: 90ms; }
+.stagger > *:nth-child(5) { animation-delay: 120ms; }
+.stagger > *:nth-child(6) { animation-delay: 150ms; }
+.stagger > *:nth-child(7) { animation-delay: 180ms; }
+.stagger > *:nth-child(n+8) { animation-delay: 210ms; }
+
+/* ---------- 数据变化反馈 ---------- */
+/* 新增/被修改的行：背景从强调色淡出（“刚刚是这里变了”） */
+@keyframes fx-flash { from { background-color: var(--accent-soft); } to { background-color: transparent; } }
+.fx-flash { animation: fx-flash 1200ms var(--ease) both; }
+@keyframes fx-flash-warn { from { background-color: var(--warn-soft); } to { background-color: transparent; } }
+.fx-flash-warn { animation: fx-flash-warn 1200ms var(--ease) both; }
+
+/* 数字变化：旧值上滑消失、新值从下滑入（配合 motion.ts: animateNumber） */
+.fx-num { display: inline-block; font-variant-numeric: tabular-nums; }
+.fx-num--up { animation: fx-num-up var(--dur) var(--ease-out); }
+.fx-num--down { animation: fx-num-down var(--dur) var(--ease-out); }
+@keyframes fx-num-up { from { opacity: 0; transform: translateY(60%); } }
+@keyframes fx-num-down { from { opacity: 0; transform: translateY(-60%); } }
+
+/* 差值气泡：“+2” 飘起后消失 */
+.fx-delta { position: absolute; pointer-events: none; font: var(--fw-semibold) var(--fs-12)/1 var(--font-sans); color: var(--success-text); animation: fx-delta 700ms var(--ease-out) forwards; }
+.fx-delta--neg { color: var(--danger-text); }
+@keyframes fx-delta { 0% { opacity: 0; transform: translateY(4px); } 20% { opacity: 1; } 100% { opacity: 0; transform: translateY(-14px); } }
+
+/* 徽标计数跳动（例如“待放置 2”变化时） */
+.fx-bump { animation: fx-bump var(--dur) var(--ease-spring); }
+@keyframes fx-bump { 50% { transform: scale(1.18); } }
+
+/* ---------- 错误 / 阻止反馈 ---------- */
+/* 校验失败抖动（只在“提交失败”时，不在输入过程中） */
+.fx-shake { animation: fx-shake 280ms var(--ease); }
+@keyframes fx-shake { 20%, 60% { transform: translateX(-4px); } 40%, 80% { transform: translateX(4px); } }
+/* 点击被禁用的按钮：轻微“拒绝”摆动 + 由 JS 弹出原因 tooltip */
+.fx-nope { animation: fx-nope 220ms var(--ease); }
+@keyframes fx-nope { 33% { transform: translateX(-2px); } 66% { transform: translateX(2px); } }
+
+/* ---------- 成功 / 完成反馈 ---------- */
+/* ✓ 描边绘制（SVG path 需 pathLength="1"） */
+.fx-check path { stroke-dasharray: 1; stroke-dashoffset: 1; animation: fx-draw var(--dur-emph) var(--ease-out) forwards; }
+@keyframes fx-draw { to { stroke-dashoffset: 0; } }
+/* 成功圆圈弹出 */
+.fx-success-pop { animation: fx-success-pop var(--dur-emph) var(--ease-spring); }
+@keyframes fx-success-pop { from { transform: scale(0.6); opacity: 0; } }
+/* 保存指示：保存中呼吸点 → 已保存 ✓ */
+.fx-saving::before { content: ""; display: inline-block; width: 6px; height: 6px; margin-right: 6px; border-radius: 50%; background: var(--info); animation: ui-pulse 1s var(--ease) infinite; vertical-align: middle; }
+
+/* ---------- 吸引注意（定位到某处） ---------- */
+/* 跳转后高亮目标：外圈脉冲两次（例如“定位到此设备”“从汇总跳回画布”） */
+.fx-locate { animation: fx-locate 900ms var(--ease-out) 2; }
+@keyframes fx-locate { from { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 45%, transparent); } to { box-shadow: 0 0 0 10px transparent; } }
+/* 使用快捷键时，对应按钮同步闪一下“按下态”，让用户学会快捷键与按钮的对应 */
+.fx-kbd-echo { animation: fx-kbd-echo 260ms var(--ease); }
+@keyframes fx-kbd-echo { 0% { background: var(--accent-soft); transform: scale(var(--press-scale-sm)); } 100% { background: transparent; transform: none; } }
+
+/* ---------- 拖拽 ---------- */
+.fx-draggable { cursor: grab; transition: transform var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease); }
+.fx-draggable:hover { box-shadow: var(--shadow-lift); }
+.fx-dragging { cursor: grabbing; transform: scale(1.02) rotate(-0.6deg); box-shadow: var(--shadow-drag); z-index: 10; }
+.fx-drag-ghost { opacity: 0.4; }
+.fx-dropzone { outline: 2px dashed transparent; outline-offset: -4px; transition: outline-color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease); }
+.fx-dropzone[data-over="true"] { outline-color: var(--accent); background: var(--accent-soft); }
+/* 列表插入位置指示线 */
+.fx-insert-line { height: 2px; margin: -1px 0; background: var(--accent); border-radius: 2px; animation: ui-fade-in var(--dur-fast) var(--ease-out); }
+
+/* ---------- 画布专属（只作用于 UI 叠加层，不进入 PDF 导出） ---------- */
+/* 落点涟漪：放下设备时以角色色扩散一圈 */
+.fx-ripple { position: absolute; width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%; border: 2px solid var(--ripple-color, var(--paper-point)); pointer-events: none; animation: fx-ripple 480ms var(--ease-out) forwards; }
+@keyframes fx-ripple { from { transform: scale(0.6); opacity: 0.9; } to { transform: scale(4); opacity: 0; } }
+/* 新放置的对象：轻弹入（批量放置时 JS 给每个加 30ms 递增 delay，最多 10 个后统一） */
+.fx-drop-in { animation: fx-drop-in 260ms var(--ease-spring) both; }
+@keyframes fx-drop-in { from { transform: translateY(-6px) scale(0.85); opacity: 0; } }
+/* 删除对象：缩小淡出（120ms，退出要快） */
+.fx-drop-out { animation: fx-drop-out var(--dur-fast) var(--ease-in) forwards; }
+@keyframes fx-drop-out { to { transform: scale(0.8); opacity: 0; } }
+/* 吸附 / 对齐参考线 */
+.fx-guide { position: absolute; background: var(--paper-canvas); opacity: 0.9; pointer-events: none; animation: ui-fade-in 60ms linear; }
+.fx-guide--v { width: 1px; top: 0; bottom: 0; }
+.fx-guide--h { height: 1px; left: 0; right: 0; }
+/* 框选矩形 */
+.fx-marquee { position: absolute; border: 1px solid var(--paper-select); background: color-mix(in srgb, var(--paper-select) 8%, transparent); pointer-events: none; }
+/* 连续放置模式：光标跟随的半透明预览 */
+.fx-cursor-ghost { position: absolute; pointer-events: none; opacity: 0.55; transform: translate(-50%, -50%); transition: opacity var(--dur-fast) var(--ease); }
+/* 选择框手柄：出现时轻缩放 */
+.fx-handles { animation: ui-pop-in var(--dur-fast) var(--ease-out); }

@@ -12,7 +12,7 @@ TZ=Asia/Shanghai node --experimental-strip-types --test summary-quantity.test.ts
 node --test diff-guard.test.mjs
 ```
 
-结果：35 个测试，全部通过。
+结果：36 个测试，全部通过。
 
 ## 文件
 
@@ -21,7 +21,8 @@ node --test diff-guard.test.mjs
 | `summary-quantity.ts` | S-02、S-03、S-08 – S-10、S-14 | 托盘行是唯一来源，`manualTotal` 存手改；手改值等于基准值时自动清掉；手改立即写到图例；点“设备汇总”只原位更新；导出前检查；旧工程迁移不改变图上内容 |
 | `legend-layout.ts` | S-05、S-06 | 占位框 = 图片 ∪ 标签；“× 2台”不拆开；型号优先在连字符后断开；为 3 位数量预留占位；横排 / 竖排；避开已有对象；断行结果供屏幕和 PDF 共用 |
 | `sun-times.ts` | T-04 | 离线计算日出日落；返回当前白天 / 夜间及下一次切换时刻 |
-| `diff-guard.mjs` | 自测规范 §4 | 只看新增行；规则 G1–G7；单行豁免必须写理由 |
+| `diff-guard.mjs` | 自测规范 §4 | 只看新增行；规则 G1–G7（G5 按动效三档）；单行豁免必须写理由 |
+| `demo/` | M-01 – M-05、D-13 | 演示页原样提取的组件、动效、反馈函数，见 `demo/README.md` |
 | `themes/themes.generated.css` | T-03 | 9 风格 × 3 模式 + 强调色，演示页原样提取，变量名需按 T-03 映射 |
 | `themes/theme-meta.json` | T-01 | 风格名称与描述、强调色列表 |
 

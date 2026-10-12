@@ -1,0 +1,254 @@
+/* 组件基准样式：按钮（含按压手感）、图标按钮、分段控件、开关、复选框、输入 / 步进器、标签、角色徽记、状态点、浮窗 Float、面板、卡片、列表行、选中条、菜单、提示、对话框 / 抽屉、Toast、横幅、进度、骨架屏、表格、按键
+ * 来源：「设备绘图 · 改版参考演示.html」（v3）原样提取，未改动。
+ * 用法：Codex 按这里的类名 / 变量名 / 关键帧实现，接入 xuyu 时颜色一律用主题变量（规格 T-03 映射）。
+ * 与 v4 规格冲突时以规格为准。
+ * 已知冲突：.ui-role--list / --role-list* 属于已撤销的“仅清单设备”角色，删除（X3）。
+ */
+
+/* ==========================================================================
+   components.css — 组件基准样式（依赖 tokens.css；动效细节见 motion.css）
+   仓库已有同职责组件时：把这里的规则迁移到既有组件，不要并存两套。
+   类名前缀 ui- 仅为参考命名。
+   ========================================================================== */
+
+/* ---------- 顶部模块导航：滑动下划线 + 模块识别色图标块 ---------- */
+.ui-topnav { position: relative; display: flex; align-items: center; gap: var(--sp-1); height: var(--h-topbar); padding: 0 var(--sp-3); background: var(--surface); border-bottom: 1px solid var(--border); }
+.ui-topnav__tab { position: relative; display: inline-flex; align-items: center; gap: var(--sp-2); height: 32px; padding: 0 var(--sp-2) 0 4px; border: 0; border-radius: var(--r-md); background: transparent; color: var(--text-2); font: var(--fw-medium) var(--fs-13)/1 var(--font-sans); cursor: pointer; transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease), transform var(--dur-instant) var(--ease); }
+.ui-topnav__tab:hover { background: var(--surface-2); color: var(--text); }
+.ui-topnav__tab:active { transform: scale(var(--btn-press-scale)); }
+.ui-topnav__tab[aria-selected="true"] { color: var(--text); }
+.ui-topnav__ico { width: 24px; height: 24px; display: grid; place-items: center; border-radius: var(--r-sm); background: var(--mod-bg, var(--surface-2)); color: var(--mod-fg, var(--text-2)); transition: transform var(--dur) var(--ease-spring); }
+.ui-topnav__tab[aria-selected="true"] .ui-topnav__ico { transform: scale(1.08); }
+.ui-topnav__ico svg { width: 15px; height: 15px; }
+/* 下划线是一个独立元素，用 transform 在 tab 之间滑动（见 motion.ts: moveIndicator） */
+/* 宽度固定 100px，用 scaleX(tab宽/100) 伸缩：渐变（--accent-line）按 100px 栅格化，缩放后仍是渐变而不是一块纯色 */
+.ui-topnav__indicator { position: absolute; left: 0; bottom: -1px; height: 2px; width: 100px; background: var(--accent-line); border-radius: 2px; transform-origin: left; transition: transform var(--dur) var(--ease); pointer-events: none; }
+
+/* ---------- 自绘标题栏：顶栏本身就是窗口标题栏（替代 Windows 原生粗边框 + 白色标题栏） ----------
+   Electron 主进程：titleBarStyle: 'hidden' + titleBarOverlay（Windows 11 保留系统圆角、阴影、贴靠布局）。
+   右侧最小化 / 最大化 / 关闭由系统绘制在 overlay 区域；这里用 env(titlebar-area-*) 给它让出位置。 */
+.ui-titlebar { -webkit-app-region: drag; user-select: none; padding-right: calc(var(--sp-3) + 100vw - env(titlebar-area-x, 0px) - env(titlebar-area-width, 100vw)); }
+.ui-titlebar button, .ui-titlebar select, .ui-titlebar input, .ui-titlebar a, .ui-titlebar [role="button"] { -webkit-app-region: no-drag; }
+.ui-titlebar__brand { display: inline-flex; align-items: center; gap: 8px; margin-right: var(--sp-3); color: var(--text); font: var(--fw-semibold) var(--fs-13)/1 var(--font-sans); white-space: nowrap; }
+.ui-titlebar__mark { width: 18px; height: 18px; border-radius: 6px; background: var(--btn-primary-bg); box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.18); }
+/* 窗口失去焦点：标题栏文字变淡（与系统一致），帮助判断哪个窗口在前台 */
+:root[data-window-blur] .ui-titlebar { color: var(--text-3); }
+:root[data-window-blur] .ui-titlebar__mark { opacity: 0.5; }
+
+/* ---------- Button ----------
+   primary（每个视图最多 1 个）/ secondary（默认）/ ghost / danger；默认 32px，--sm 28px
+   按下：缩放 0.97 + 内阴影（“摁下去的感觉”）；松开回弹。 */
+.ui-btn {
+  position: relative; overflow: hidden;
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--sp-1);
+  height: var(--h-control); padding: 0 var(--sp-3);
+  border: var(--btn-border-w) solid var(--btn-border-color); border-radius: var(--btn-radius);
+  background: var(--btn-bg); color: var(--text); box-shadow: var(--btn-shadow);
+  font: var(--fw-medium) var(--fs-13)/1 var(--font-sans); white-space: nowrap; cursor: pointer;
+  transition: background var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease),
+              box-shadow var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease-spring);
+  -webkit-user-select: none; user-select: none;
+}
+/* 按钮的材质（底色/渐变、描边、受光高光、实体底边、按下方式）全部来自主题：
+   素=扁平；舒适=微凸+顶部高光；玻璃=半透明胶囊；键帽=实体底边、按下整颗下沉；墨=2px 实线 */
+.ui-btn:hover { background: var(--btn-bg-hover); box-shadow: var(--btn-shadow-hover); }
+.ui-btn:active:not(:disabled) { transform: translate(var(--btn-press-x), var(--btn-press-y)) scale(var(--btn-press-scale)); box-shadow: var(--btn-shadow-press); transition-duration: var(--dur-instant); }
+.ui-btn:disabled, .ui-btn[aria-disabled="true"] { color: var(--text-disabled); cursor: not-allowed; box-shadow: none; }
+.ui-btn--sm { height: var(--h-control-sm); padding: 0 var(--sp-2); font-size: var(--fs-12); }
+.ui-btn--primary { background: var(--btn-primary-bg); border-color: var(--accent); color: var(--on-accent); box-shadow: var(--btn-primary-shadow); }
+.ui-btn--primary:hover { background: var(--btn-primary-bg-hover); box-shadow: var(--btn-primary-shadow); }
+.ui-btn--primary:active:not(:disabled) { background: var(--accent-press); box-shadow: var(--btn-shadow-press); }
+.ui-btn--primary:disabled { background: var(--surface-3); border-color: var(--surface-3); color: var(--text-disabled); box-shadow: none; }
+.ui-btn--ghost { border-color: transparent; background: transparent; color: var(--text-2); box-shadow: none; }
+.ui-btn--ghost:hover { background: var(--surface-2); color: var(--text); box-shadow: none; }
+.ui-btn--danger { background: var(--danger); border-color: var(--danger); color: var(--on-danger); box-shadow: none; }
+.ui-btn--danger:hover { background: var(--danger-hover); border-color: var(--danger-hover); box-shadow: none; }
+.ui-btn svg { width: 16px; height: 16px; flex: none; }
+/* 加载态：文字保留占位（宽度不跳），叠一个转圈 */
+.ui-btn.ui-btn[aria-busy="true"] { color: transparent; pointer-events: none; } /* 双类提高优先级，不用 important 声明 */
+.ui-btn[aria-busy="true"]::after { content: ""; position: absolute; width: 14px; height: 14px; border-radius: 50%; border: 2px solid currentColor; border-color: var(--on-accent) transparent var(--on-accent) var(--on-accent); animation: ui-spin 700ms linear infinite; }
+.ui-btn:not(.ui-btn--primary)[aria-busy="true"]::after { border-color: var(--text-2) transparent var(--text-2) var(--text-2); }
+/* 成功态：按钮短暂变成 ✓（见 motion.ts: confirmButton） */
+.ui-btn[data-state="done"] { background: var(--success); border-color: var(--success); color: var(--on-accent); }
+
+/* ---------- IconButton：32×32；必须 aria-label + title（含快捷键） ---------- */
+.ui-icon-btn { width: var(--h-control); height: var(--h-control); padding: 0; display: inline-grid; place-items: center; border: 0; border-radius: var(--r-md); background: transparent; color: var(--text-2); cursor: pointer; transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease-spring); }
+.ui-icon-btn:hover { background: var(--surface-2); color: var(--text); }
+.ui-icon-btn:active { transform: scale(var(--press-scale-sm)); transition-duration: var(--dur-instant); }
+.ui-icon-btn[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent-text); }
+.ui-icon-btn svg { width: 18px; height: 18px; }
+
+/* ---------- Segmented：滑块在选项间滑动（.ui-seg__thumb 由 JS 定位） ---------- */
+.ui-seg { position: relative; display: inline-flex; padding: 2px; gap: 2px; background: var(--surface-2); border-radius: var(--r-md); }
+.ui-seg__thumb { position: absolute; top: 2px; bottom: 2px; left: 0; width: 1px; background: var(--surface); border-radius: var(--r-sm); box-shadow: 0 0 0 1px var(--border), var(--shadow-thumb); transition: transform var(--dur) var(--ease), width var(--dur) var(--ease); }
+.ui-seg > button { position: relative; z-index: 1; height: calc(var(--h-control) - 4px); padding: 0 var(--sp-3); border: 0; border-radius: var(--r-sm); background: transparent; color: var(--text-2); font: var(--fw-medium) var(--fs-13)/1 var(--font-sans); cursor: pointer; transition: color var(--dur-fast) var(--ease), transform var(--dur-instant) var(--ease); }
+.ui-seg > button:active { transform: scale(var(--btn-press-scale)); }
+.ui-seg > button[aria-checked="true"], .ui-seg > button[aria-selected="true"] { color: var(--text); }
+
+/* ---------- Switch：按住时拇指“压扁拉长”，松开回弹 ---------- */
+.ui-switch { position: relative; width: 34px; height: 20px; flex: none; border: 0; border-radius: var(--r-full); background: var(--border-strong); cursor: pointer; transition: background var(--dur) var(--ease); }
+.ui-switch::after { content: ""; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: var(--r-full); background: var(--switch-thumb); box-shadow: var(--shadow-thumb); transition: transform var(--dur) var(--ease-spring), width var(--dur-fast) var(--ease); }
+.ui-switch:active::after { width: 20px; }
+.ui-switch[aria-checked="true"] { background: var(--accent); }
+.ui-switch[aria-checked="true"]::after { transform: translateX(14px); }
+.ui-switch[aria-checked="true"]:active::after { transform: translateX(10px); }
+
+/* ---------- Checkbox：勾选时 ✓ 被“画”出来 ---------- */
+.ui-check { appearance: none; -webkit-appearance: none; position: relative; width: 16px; height: 16px; margin: 0; flex: none; border: 1.5px solid var(--border-strong); border-radius: var(--r-sm); background: var(--surface); cursor: pointer; transition: background var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease-spring); }
+.ui-check:active { transform: scale(0.88); }
+.ui-check:checked, .ui-check:indeterminate { background: var(--accent); border-color: var(--accent); }
+.ui-check:checked::after { content: ""; position: absolute; left: 4px; top: 1px; width: 4px; height: 8px; border: solid var(--on-accent); border-width: 0 2px 2px 0; transform: rotate(45deg); animation: ui-check-draw var(--dur) var(--ease-out); }
+.ui-check:indeterminate::after { content: ""; position: absolute; left: 3px; top: 6px; width: 7px; height: 2px; background: var(--on-accent); border-radius: 1px; }
+
+/* ---------- Input / Select / Stepper ---------- */
+.ui-input, .ui-select { height: var(--h-control); padding: 0 var(--sp-2); border: 1px solid var(--border-strong); border-radius: var(--r-md); background: var(--surface); color: var(--text); font: var(--fs-13)/1 var(--font-sans); transition: border-color var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease); }
+.ui-input::placeholder { color: var(--text-3); }
+.ui-input:focus, .ui-select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.ui-input[aria-invalid="true"] { border-color: var(--danger); box-shadow: 0 0 0 3px var(--danger-soft); }
+.ui-field__error { margin-top: 4px; color: var(--danger-text); font-size: var(--fs-12); animation: ui-fade-down var(--dur) var(--ease-out); }
+.ui-stepper { display: inline-flex; align-items: center; border: 1px solid var(--border-strong); border-radius: var(--r-md); overflow: hidden; background: var(--surface); transition: border-color var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease); }
+.ui-stepper:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.ui-stepper input { width: 48px; height: calc(var(--h-control) - 2px); border: 0; outline: 0; text-align: center; font: var(--fs-13) var(--font-sans); font-variant-numeric: tabular-nums; background: transparent; color: var(--text); }
+.ui-stepper button { width: 28px; height: calc(var(--h-control) - 2px); border: 0; background: var(--surface-2); color: var(--text-2); font-size: 15px; cursor: pointer; transition: background var(--dur-fast) var(--ease); }
+.ui-stepper button:hover { background: var(--surface-3); color: var(--text); }
+.ui-stepper button:active { background: var(--border); }
+
+/* ---------- Tag ---------- */
+.ui-tag { display: inline-flex; align-items: center; gap: 4px; height: 20px; padding: 0 6px; border-radius: var(--r-sm); font: var(--fw-medium) var(--fs-12)/1 var(--font-sans); background: var(--surface-2); color: var(--text-2); white-space: nowrap; }
+.ui-tag--accent  { background: var(--accent-soft);  color: var(--accent-text); }
+.ui-tag--warn    { background: var(--warn-soft);    color: var(--warn-text); }
+.ui-tag--danger  { background: var(--danger-soft);  color: var(--danger-text); }
+.ui-tag--success { background: var(--success-soft); color: var(--success-text); }
+.ui-tag--info    { background: var(--info-soft);    color: var(--info-text); }
+
+/* ---------- 设备角色徽记：形状 + 颜色 + 文字 ---------- */
+.ui-role { display: inline-flex; align-items: center; gap: 6px; font-size: var(--fs-12); color: var(--text-2); white-space: nowrap; }
+.ui-role::before { content: ""; width: 8px; height: 8px; flex: none; }
+.ui-role--point::before  { border-radius: 50%; background: var(--role-point); }
+.ui-role--canvas::before { border-radius: 2px; background: var(--role-canvas); }
+.ui-role--list::before   { border-radius: 50%; box-shadow: inset 0 0 0 1.5px var(--role-list); }
+/* 设备图标底块随角色着色 */
+.ui-devico { width: 32px; height: 32px; flex: none; display: grid; place-items: center; border-radius: var(--r-md); }
+.ui-devico--point  { background: var(--role-point-soft);  color: var(--role-point); }
+.ui-devico--canvas { background: var(--role-canvas-soft); color: var(--role-canvas-text); }
+.ui-devico--list   { background: var(--role-list-soft);   color: var(--role-list); }
+
+/* ---------- 状态点 ---------- */
+.ui-status { display: inline-flex; align-items: center; gap: 6px; font-size: var(--fs-12); color: var(--text-2); white-space: nowrap; }
+.ui-status::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--text-3); }
+.ui-status--ok::before { background: var(--success); }
+.ui-status--pending::before { background: var(--warn); }
+.ui-status--running::before { background: var(--info); animation: ui-pulse 1.4s var(--ease) infinite; }
+.ui-status--error { color: var(--danger-text); }
+.ui-status--error::before { background: var(--danger); }
+
+/* ---------- 画布四周（图纸外的区域）：底色 + 氛围层；纸面本身永远是 --paper，不受氛围层影响 ---------- */
+.ui-canvas-surround { background-color: var(--canvas-bg); background-image: var(--backdrop); background-size: var(--backdrop-size); }
+
+/* ---------- Float：浮在画布上的面板（绘图区所有面板都用它） ----------
+   材质来自主题：玻璃主题半透明 + 背景模糊；舒适主题带纸纹；墨主题 2px 实线。 */
+.ui-float {
+  display: flex; flex-direction: column; min-height: 0; overflow: hidden;
+  background-color: var(--float-bg); background-image: var(--texture);
+  border: var(--float-border); border-radius: var(--r-lg); box-shadow: var(--float-shadow);
+  -webkit-backdrop-filter: blur(var(--float-blur)) saturate(1.4); backdrop-filter: blur(var(--float-blur)) saturate(1.4);
+  transition: opacity var(--dur-fast) var(--ease), transform var(--dur) var(--ease), box-shadow var(--dur-fast) var(--ease);
+}
+/* 平移/缩放画布期间关闭模糊、换成实色，保证 60fps（由画布在交互开始/结束时切换 data-canvas-busy） */
+:root[data-canvas-busy] .ui-float { -webkit-backdrop-filter: none; backdrop-filter: none; background-color: var(--float-bg-solid); }
+/* 避让：拖动对象或连续放置时光标进入浮窗 → 变淡并让鼠标穿透到画布 */
+.ui-float[data-yield="true"] { opacity: 0.22; pointer-events: none; }
+.ui-float__head { display: flex; align-items: center; gap: var(--sp-1); height: var(--h-row); padding: 0 var(--sp-2) 0 var(--sp-3); flex: none; cursor: default; -webkit-user-select: none; user-select: none; }
+.ui-float__title { font: var(--fw-semibold) var(--fs-14)/1 var(--font-sans); color: var(--text); }
+.ui-float__meta { color: var(--text-3); font-size: var(--fs-12); }
+.ui-float__head .grow { flex: 1; }
+.ui-float__body { flex: 1; min-height: 0; overflow: auto; border-top: 1px solid var(--border); }
+.ui-float[data-state="collapsed"] .ui-float__body { display: none; }
+
+/* ---------- Panel ---------- */
+.ui-panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); }
+.ui-panel__head { display: flex; align-items: center; gap: var(--sp-2); height: var(--h-row); padding: 0 var(--sp-3); border-bottom: 1px solid var(--border); }
+.ui-panel__title { font: var(--fw-semibold) var(--fs-14)/1 var(--font-sans); }
+.ui-panel__meta { color: var(--text-3); font-size: var(--fs-12); }
+
+/* ---------- 可点击卡片：hover 微微上浮 ---------- */
+.ui-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); transition: transform var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease); }
+.ui-card[role="button"], a.ui-card { cursor: pointer; }
+.ui-card[role="button"]:hover, a.ui-card:hover { transform: translateY(var(--lift-y)); box-shadow: var(--shadow-lift); border-color: var(--border-strong); }
+.ui-card[role="button"]:active, a.ui-card:active { transform: translateY(0) scale(0.995); box-shadow: none; }
+
+/* ---------- 列表行 ---------- */
+.ui-row { position: relative; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: var(--sp-3); min-height: var(--h-row-2); padding: var(--sp-2) var(--sp-3); border-bottom: 1px solid var(--border); transition: background var(--dur-fast) var(--ease); }
+.ui-row:hover { background: var(--surface-2); }
+.ui-row[aria-selected="true"] { background: var(--accent-soft); }
+.ui-row[aria-selected="true"]::before { content: ""; position: absolute; left: 0; top: 8px; bottom: 8px; width: 3px; border-radius: 0 3px 3px 0; background: var(--accent-line); animation: ui-grow-y var(--dur) var(--ease-out); }
+.ui-row__title { font-weight: var(--fw-medium); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ui-row__meta { color: var(--text-3); font-size: var(--fs-12); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ui-row__actions { display: flex; gap: var(--sp-1); }
+.ui-row__actions .is-secondary { opacity: 0; transform: translateX(4px); transition: opacity var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease); }
+.ui-row:hover .ui-row__actions .is-secondary, .ui-row:focus-within .ui-row__actions .is-secondary { opacity: 1; transform: none; }
+
+/* ---------- SelectionBar：有选中才滑出 ---------- */
+.ui-selbar { display: flex; align-items: center; gap: var(--sp-2); height: var(--h-row); padding: 0 var(--sp-3); background: var(--accent-soft); color: var(--accent-text); border-radius: var(--r-md); animation: ui-fade-down var(--dur) var(--ease-out); }
+.ui-selbar__count { font-weight: var(--fw-semibold); margin-right: auto; font-variant-numeric: tabular-nums; }
+
+/* ---------- Menu ---------- */
+.ui-menu { min-width: 200px; padding: var(--sp-1); background: var(--surface); border: var(--float-border); border-radius: var(--r-lg); box-shadow: var(--shadow-pop); transform-origin: var(--origin, top left); animation: ui-pop-in var(--dur-fast) var(--ease-out); }
+.ui-menu__item { display: flex; align-items: center; gap: var(--sp-2); width: 100%; height: 30px; padding: 0 var(--sp-2); border: 0; border-radius: var(--r-md); background: none; color: var(--text); font: var(--fs-13) var(--font-sans); text-align: left; cursor: pointer; }
+.ui-menu__item:hover, .ui-menu__item:focus-visible { background: var(--surface-2); box-shadow: none; }
+.ui-menu__item kbd { margin-left: auto; }
+.ui-menu__item--danger { color: var(--danger-text); }
+.ui-menu__item--danger:hover { background: var(--danger-soft); }
+.ui-menu__sep { height: 1px; margin: var(--sp-1) 0; background: var(--border); }
+.ui-menu__label { padding: 6px var(--sp-2) 2px; color: var(--text-3); font-size: var(--fs-12); }
+
+/* ---------- Tooltip（含快捷键） ---------- */
+.ui-tooltip { position: fixed; z-index: 100; padding: 4px 8px; border-radius: var(--r-sm); background: var(--text); color: var(--surface); font-size: var(--fs-12); pointer-events: none; animation: ui-fade-in var(--dur-fast) var(--ease-out); }
+.ui-tooltip kbd { margin-left: 6px; background: transparent; color: inherit; border-color: color-mix(in srgb, var(--surface) 35%, transparent); }
+
+/* ---------- Dialog / Drawer ---------- */
+.ui-scrim { position: fixed; inset: 0; background: var(--scrim); animation: ui-fade-in var(--dur) var(--ease-out); }
+.ui-dialog { width: var(--w-dialog-md); max-height: calc(100vh - 96px); display: flex; flex-direction: column; background-color: var(--surface); background-image: var(--texture); border: var(--float-border); border-radius: var(--r-lg); box-shadow: var(--shadow-modal); animation: ui-dialog-in var(--dur-slow) var(--ease-out); }
+.ui-dialog[data-leaving] { animation: ui-dialog-out var(--dur-fast) var(--ease-in) forwards; }
+.ui-dialog__head { display: flex; align-items: flex-start; gap: var(--sp-3); padding: var(--sp-5) var(--sp-5) var(--sp-3); }
+.ui-dialog__title { margin: 0; font: var(--fw-semibold) var(--fs-16)/var(--lh-tight) var(--font-sans); }
+.ui-dialog__desc { margin: var(--sp-1) 0 0; color: var(--text-2); font-size: var(--fs-13); }
+.ui-dialog__body { padding: 0 var(--sp-5); overflow: auto; }
+.ui-dialog__foot { display: flex; align-items: center; gap: var(--sp-2); padding: var(--sp-4) var(--sp-5); border-top: 1px solid var(--border); }
+.ui-dialog__foot .spacer { flex: 1; }
+.ui-drawer { position: fixed; top: 0; right: 0; bottom: 0; width: var(--w-float-wide); display: flex; flex-direction: column; background: var(--surface); border-left: 1px solid var(--border); box-shadow: var(--shadow-modal); animation: ui-drawer-in var(--dur-slow) var(--ease-out); }
+.ui-drawer[data-leaving] { animation: ui-drawer-out var(--dur-fast) var(--ease-in) forwards; }
+/* 停靠式抽屉：占据右侧属性面板的位置，画布相应变窄，不遮挡画布（设备汇总用这个） */
+.ui-drawer--docked { position: relative; inset: auto; width: auto; min-width: 0; box-shadow: none; }
+
+/* ---------- Toast（单实例队列；撤销型带倒计时条） ---------- */
+.ui-toast { position: relative; overflow: hidden; display: flex; align-items: center; gap: var(--sp-2); min-height: 40px; max-width: 440px; padding: var(--sp-2) var(--sp-3); background: var(--text); color: var(--surface); border-radius: var(--r-md); box-shadow: var(--shadow-pop); font-size: var(--fs-13); animation: ui-toast-in var(--dur) var(--ease-out); }
+.ui-toast[data-leaving] { animation: ui-toast-out var(--dur-fast) var(--ease-in) forwards; }
+.ui-toast__icon { width: 16px; height: 16px; flex: none; }
+.ui-toast__action { margin-left: auto; padding: 4px 8px; border: 0; border-radius: var(--r-sm); background: color-mix(in srgb, var(--surface) 14%, transparent); color: inherit; font: var(--fw-semibold) var(--fs-13) var(--font-sans); cursor: pointer; }
+.ui-toast__action:hover { background: color-mix(in srgb, var(--surface) 24%, transparent); }
+.ui-toast__timer { position: absolute; left: 0; bottom: 0; height: 2px; width: 100%; background: var(--accent); transform-origin: left; animation: ui-countdown var(--toast-ms, 6000ms) linear forwards; }
+
+/* ---------- InlineBanner（持续性问题，替代红色长 Toast） ---------- */
+.ui-banner { display: flex; align-items: center; gap: var(--sp-2); padding: var(--sp-2) var(--sp-3); border-radius: var(--r-md); font-size: var(--fs-13); background: var(--warn-soft); color: var(--warn-text); animation: ui-fade-down var(--dur) var(--ease-out); }
+.ui-banner--danger { background: var(--danger-soft); color: var(--danger-text); }
+.ui-banner--info { background: var(--info-soft); color: var(--info-text); }
+
+/* ---------- Progress ---------- */
+.ui-progress { position: relative; height: 4px; background: var(--surface-3); border-radius: var(--r-full); overflow: hidden; }
+/* 进度值用 CSS 变量 --p（0–1）驱动 scaleX，不动 width：el.style.setProperty("--p", 0.44) */
+.ui-progress > i { display: block; width: 100%; height: 100%; background: var(--accent-line); border-radius: inherit; transform-origin: left; transform: scaleX(var(--p, 0)); transition: transform var(--dur-slow) var(--ease); }
+.ui-progress.ui-progress--indeterminate > i { width: 30%; transform: none; animation: ui-indeterminate 1.2s var(--ease) infinite; }
+
+/* ---------- Skeleton ---------- */
+.ui-skeleton { position: relative; overflow: hidden; background: var(--surface-2); border-radius: var(--r-sm); }
+.ui-skeleton::after { content: ""; position: absolute; inset: 0; transform: translateX(-100%); background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--surface) 70%, transparent), transparent); animation: ui-shimmer 1.4s var(--ease) infinite; }
+
+/* ---------- Table ---------- */
+.ui-table { width: 100%; border-collapse: collapse; font-size: var(--fs-13); }
+.ui-table th { height: 32px; padding: 0 var(--sp-3); background: var(--surface-2); color: var(--text-3); font: var(--fw-medium) var(--fs-12)/1 var(--font-sans); text-align: left; }
+.ui-table td { height: var(--h-row); padding: 0 var(--sp-3); border-bottom: 1px solid var(--border); }
+.ui-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+
+/* ---------- Kbd ---------- */
+kbd { display: inline-block; padding: 0 5px; border: 1px solid var(--border); border-bottom-width: 2px; border-radius: var(--r-sm); background: var(--surface); color: var(--text-2); font: var(--fs-12)/18px var(--font-sans); }

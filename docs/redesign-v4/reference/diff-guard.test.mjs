@@ -63,6 +63,23 @@ test('图纸内容文件里的颜色允许写死；带理由的单行豁免会�
   assert.match(out.allowances[0].reason, /品牌青/);
 });
 
+test('动效三档：fx- 余晖允许到 1200ms，持续状态允许无限循环，交互超过 320ms 拦下', () => {
+  const dir = repoWith({
+    'src/renderer/motion.css': [
+      '.fx-flash { animation: fx-flash 1200ms var(--ease) both; }',
+      '.fx-locate { animation: fx-locate 900ms var(--ease-out) 2; }',
+      '.ui-skeleton::after { animation: ui-shimmer 1.4s var(--ease) infinite; }',
+      '.ui-dialog { animation: ui-dialog-in 400ms var(--ease-out); }',
+      '.fx-too-long { animation: fx-too-long 1500ms ease; }',
+      '.panel { transition: opacity 180ms, transform 240ms; }',
+      '.bad { transition: inset 120ms; }',
+    ].join('\n'),
+  });
+  const { code, out } = run(dir);
+  assert.equal(code, 1);
+  assert.deepEqual(out.violations.map((item) => item.line).sort(), [4, 5, 7]);
+});
+
 test('豁免必须写理由，空理由不算', () => {
   const dir = repoWith({ 'src/renderer/components/Toolbar.tsx': "const c = '#fff'; // v4-allow: G4\n" });
   assert.equal(run(dir).code, 1);

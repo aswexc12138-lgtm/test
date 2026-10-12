@@ -44,17 +44,21 @@ const RULES = [
   },
   {
     id: 'G5',
-    title: '动效：不许 transition: all，不许动布局属性，时长不超过 320ms',
+    title: '动效：不许 transition: all，不许动布局属性，时长按三档（交互 ≤ 320ms；fx- 余晖 ≤ 1200ms；无限循环只用于持续状态）',
     files: /^src\/renderer\/.*\.(?:css|tsx?)$/,
     check(line) {
       if (/transition\s*:\s*all\b/.test(line)) return 'transition: all';
-      if (/transition(?:-property)?\s*:[^;]*\b(?:width|height|top|left|right|bottom|margin[\w-]*|padding[\w-]*)\b/.test(line))
+      if (/transition(?:-property)?\s*:[^;]*\b(?:width|height|top|left|right|bottom|inset|margin[\w-]*|padding[\w-]*|font-size)\b/.test(line))
         return '对布局属性做过渡';
-      if (/(?:transition|animation)(?:-duration)?\s*:/.test(line)) {
-        for (const match of line.matchAll(/(\d*\.?\d+)(ms|s)\b/g)) {
-          const ms = match[2] === 's' ? Number(match[1]) * 1000 : Number(match[1]);
-          if (ms > 320) return `时长 ${ms}ms > 320ms`;
-        }
+      const declaration = /(transition|animation)(?:-duration)?\s*:([^;}]*)/.exec(line);
+      if (!declaration) return undefined;
+      const [, kind, value] = declaration;
+      // 持续状态指示（无限循环、Toast 倒计时条）：时长跟着状态走，运行时由 G5 旅程断言检查是否按时停止
+      if (kind === 'animation' && /\binfinite\b|\bui-countdown\b/.test(value)) return undefined;
+      const limit = kind === 'animation' && /\bfx-[\w-]+/.test(value) ? 1200 : 320;
+      for (const match of value.matchAll(/(\d*\.?\d+)(ms|s)\b/g)) {
+        const ms = match[2] === 's' ? Number(match[1]) * 1000 : Number(match[1]);
+        if (ms > limit) return `时长 ${ms}ms > ${limit}ms（${limit === 1200 ? '余晖' : '交互'}档）`;
       }
       return undefined;
     },
