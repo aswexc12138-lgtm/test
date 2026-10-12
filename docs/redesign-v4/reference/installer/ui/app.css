@@ -1,0 +1,291 @@
+/* 胥宇安装器界面 · 水墨（规格 §12B · I-2x）
+ *
+ * 白天是宣纸上的墨，夜间是墨底上的白（像拓片），跟随 Windows 浅色 / 深色。
+ * 颜色只有墨的浓淡，外加三种国画颜料各管一件事：花青 = 可点的字和焦点框，赭石 = 提醒，胭脂 = 出错。
+ * 动效遵守规格 M-02：交互 ≤ 320ms；余晖（落墨、洇开、起笔、圆相）≤ 1200ms 且不挡操作；减少动效时全部关闭。
+ * 字：标题、数字、主按钮用霞鹜文楷子集（wenkai.woff2，由 make-ui-assets.py 生成）；路径、说明用微软雅黑。 */
+
+@font-face {
+  font-family: "XuyuWenKai";
+  src: url("wenkai.woff2") format("woff2");
+  font-weight: 400 700;
+  font-display: block;
+}
+@property --sweep { syntax: "<angle>"; inherits: false; initial-value: 360deg; }
+@property --p { syntax: "<number>"; inherits: false; initial-value: 0; }
+
+:root {
+  --paper: #F2EDE2; --paper-2: #EAE4D6; --paper-3: #E0D8C6;
+  --ink: #1B1A17;  --ink-2: #4A463F; --ink-3: #777166; --ink-4: #ADA697; --ink-5: #D3CBB9;
+  --on-ink: #F6F2E8;
+  --huaqing: #2B5573; --huaqing-soft: rgb(43 85 115 / .10);
+  --zheshi: #8F5226;  --zheshi-soft: rgb(143 82 38 / .09);
+  --yanzhi: #9B2C34;  --yanzhi-soft: rgb(155 44 52 / .08);
+  --wash: 27 26 23;              /* 墨的 RGB，给淡墨渲染用 */
+  --texture-opacity: .55; --texture-filter: none; --watermark-opacity: .04;
+  --font-brush: "XuyuWenKai", "KaiTi", "STKaiti", serif;
+  --font: "Microsoft YaHei UI", "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", "Segoe UI", system-ui, sans-serif;
+  --dur-fast: 120ms; --dur: 180ms; --dur-slow: 240ms; --dur-emph: 320ms;
+  --ease: cubic-bezier(.2, 0, 0, 1); --ease-out: cubic-bezier(.05, .7, .1, 1); --ease-ink: cubic-bezier(.12, .8, .2, 1);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #171612; --paper-2: #201E19; --paper-3: #2A2721;
+    --ink: #ECE6D8; --ink-2: #C3BCAC; --ink-3: #908A7C; --ink-4: #5F5A50; --ink-5: #3A362F;
+    --on-ink: #191814;
+    --huaqing: #93B6CE; --huaqing-soft: rgb(147 182 206 / .12);
+    --zheshi: #D9A26F;  --zheshi-soft: rgb(217 162 111 / .10);
+    --yanzhi: #E68D93;  --yanzhi-soft: rgb(230 141 147 / .10);
+    --wash: 236 230 216;
+    --texture-opacity: .22; --texture-filter: invert(1); --watermark-opacity: .03;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #171612; --paper-2: #201E19; --paper-3: #2A2721;
+  --ink: #ECE6D8; --ink-2: #C3BCAC; --ink-3: #908A7C; --ink-4: #5F5A50; --ink-5: #3A362F;
+  --on-ink: #191814;
+  --huaqing: #93B6CE; --huaqing-soft: rgb(147 182 206 / .12);
+  --zheshi: #D9A26F;  --zheshi-soft: rgb(217 162 111 / .10);
+  --yanzhi: #E68D93;  --yanzhi-soft: rgb(230 141 147 / .10);
+  --wash: 236 230 216;
+  --texture-opacity: .22; --texture-filter: invert(1); --watermark-opacity: .03;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { margin: 0; height: 100%; }
+body {
+  font: 13px/1.65 var(--font);
+  color: var(--ink);
+  background: var(--paper);
+  overflow: hidden;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+button { font: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--huaqing); outline-offset: 3px; border-radius: 2px; }
+
+/* ---------- 纸 ---------- */
+.window {
+  position: relative;
+  display: grid; grid-template-columns: 318px 1fr;
+  height: 100vh;
+  isolation: isolate;
+}
+.window::before {                      /* 宣纸纤维，铺满整个窗口 */
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: url("paper.png") 0 0 / 384px 384px repeat;
+  opacity: var(--texture-opacity); filter: var(--texture-filter);
+}
+.watermark {
+  position: absolute; right: -54px; bottom: -78px; z-index: -1; pointer-events: none;
+  width: 380px; height: auto;
+  fill: var(--ink); opacity: var(--watermark-opacity); filter: blur(.6px);
+}
+.window::after {                       /* 窗口边：一道极淡的墨线 */
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  box-shadow: inset 0 0 0 1px rgb(var(--wash) / .14);
+}
+
+/* ---------- 左：界画 ---------- */
+.stage {
+  position: relative;
+  padding: 26px 0 0 30px;
+}
+.wordmark { display: block; height: 30px; width: auto; fill: var(--ink); }
+.plan {
+  position: absolute; left: 34px; top: 92px;
+  width: 236px; height: auto; overflow: visible;
+}
+.walls path { fill: none; stroke: var(--ink); stroke-linecap: round; stroke-linejoin: round; }
+.walls .w-outer { stroke-width: 2.6; }
+.walls .w-inner { stroke-width: 1.7; stroke: var(--ink-2); }
+.walls .w-door  { stroke-width: 1; stroke: var(--ink-3); stroke-dasharray: 2.2 2.6; }
+.walls .w-thin  { stroke-width: 1; stroke: var(--ink-3); }
+
+/* 起笔：第一次出现时，墙一笔一笔画出来（余晖，≤ 1200ms，不挡操作） */
+body.is-drawing .walls path:not(.w-door) { stroke-dasharray: 1; stroke-dashoffset: 1; animation: ink-draw 560ms var(--ease) forwards; }
+body.is-drawing .walls .w-door { opacity: 0; animation: ink-fade 300ms var(--ease) 820ms forwards; }
+body.is-drawing .walls path:nth-child(2)  { animation-delay: 220ms; }
+body.is-drawing .walls path:nth-child(3)  { animation-delay: 280ms; }
+body.is-drawing .walls path:nth-child(4)  { animation-delay: 340ms; }
+body.is-drawing .walls path:nth-child(5)  { animation-delay: 400ms; }
+body.is-drawing .walls path:nth-child(n+7) { animation-delay: 520ms; animation-duration: 420ms; }
+@keyframes ink-draw { to { stroke-dashoffset: 0; } }
+@keyframes ink-fade { to { opacity: 1; } }
+
+/* 点位：一滴墨 + 一圈洇开 + 一片淡墨视野 */
+.wash-0 { stop-color: rgb(var(--wash)); stop-opacity: .26; }
+.wash-1 { stop-color: rgb(var(--wash)); stop-opacity: .10; }
+.wash-2 { stop-color: rgb(var(--wash)); stop-opacity: 0; }
+.pt .fov  { fill: url(#fovWash); }
+.pt .halo { fill: var(--ink); opacity: .16; filter: url(#bleed); }
+.pt .dot  { fill: var(--ink); filter: url(#dotEdge); }
+.pt.is-ghost .fov, .pt.is-ghost .halo { display: none; }
+.pt.is-ghost .dot { fill: none; stroke: var(--ink-4); stroke-width: .9; stroke-dasharray: 1.4 1.6; filter: none; }
+
+.pt.is-new .dot  { animation: ink-drop 220ms var(--ease-out) both; transform-box: fill-box; transform-origin: center; }
+.pt.is-new .halo { animation: ink-bleed 1000ms var(--ease-ink) both; transform-box: fill-box; transform-origin: center; }
+.pt.is-new .fov  { animation: ink-wash 900ms var(--ease) 120ms both; }
+@keyframes ink-drop  { from { transform: scale(1.9); opacity: 0; } }
+@keyframes ink-bleed { from { transform: scale(.35); opacity: .55; } }
+@keyframes ink-wash  { from { opacity: 0; } }
+
+.legend {
+  position: absolute; left: 34px; top: 404px; margin: 0;
+  display: flex; align-items: center; gap: 8px;
+  font: 15px/1 var(--font-brush); color: var(--ink-2); letter-spacing: .06em;
+  opacity: 0; transform: translateY(3px);
+  transition: opacity var(--dur-slow) var(--ease), transform var(--dur-slow) var(--ease-out);
+}
+.legend i { width: 7px; height: 7px; border-radius: 50%; background: var(--ink); box-shadow: 0 0 0 3px rgb(var(--wash) / .10); }
+body[data-state="done"] .legend { opacity: 1; transform: none; transition-delay: 260ms; }
+
+/* 题款：竖排，写在画的右边 */
+.inscription {
+  position: absolute; right: 18px; top: 118px; margin: 0;
+  writing-mode: vertical-rl;
+  font: 14px/1.5 var(--font-brush); letter-spacing: .32em;
+  color: var(--ink-3);
+}
+
+/* ---------- 右：说明和按钮 ---------- */
+.panel { position: relative; display: flex; flex-direction: column; padding: 0 44px 34px 26px; }
+.chrome { height: 44px; display: flex; align-items: center; margin: 0 -36px 0 0; }
+.chrome .grow { flex: 1; align-self: stretch; }
+.ver { color: var(--ink-3); font-size: 11px; font-variant-numeric: tabular-nums; letter-spacing: .02em; }
+.win-btn {
+  width: 38px; height: 30px; display: grid; place-items: center;
+  border: 0; border-radius: 3px; background: transparent; color: var(--ink-2);
+  transition: background-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
+}
+.win-btn svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 1.3; stroke-linecap: round; }
+.win-btn:hover { background: rgb(var(--wash) / .07); color: var(--ink); }
+.win-btn--close:hover { background: var(--yanzhi); color: var(--on-ink); }
+.win-btn:active { transform: scale(.92); }
+body[data-state="installing"] #btnClose { visibility: hidden; }
+
+.view { display: none; flex: 1; flex-direction: column; justify-content: center; padding-bottom: 10px; }
+body[data-state="welcome"] .view--welcome,
+body[data-state="installing"] .view--installing,
+body[data-state="done"] .view--done,
+body[data-state="failed"] .view--failed { display: flex; animation: view-in var(--dur-slow) var(--ease) both; }
+@keyframes view-in { from { opacity: 0; transform: translateY(4px); } }
+
+h1 { margin: 0 0 8px; font: 34px/1.25 var(--font-brush); letter-spacing: .06em; color: var(--ink); }
+.lead { margin: 0 0 26px; color: var(--ink-2); }
+.lead__version { color: var(--ink); font: 16px/1.5 var(--font-brush); letter-spacing: .02em; }
+.note { margin: 0; color: var(--ink-3); font-size: 12px; }
+
+.banner {
+  margin: -12px 0 20px; padding: 7px 12px;
+  border-left: 2px solid var(--zheshi);
+  background: var(--zheshi-soft); color: var(--zheshi); font-size: 12px;
+}
+
+/* 按钮：主按钮是一块墨，按下去像笔按在纸上 */
+.btn {
+  position: relative; isolation: isolate;
+  display: inline-flex; align-items: center; justify-content: center;
+  height: 36px; padding: 0 18px;
+  border: 0; border-radius: 2px; background: transparent; color: var(--ink);
+  transition: transform var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
+}
+.btn--ink { color: var(--on-ink); font-family: var(--font-brush); font-size: 16px; letter-spacing: .2em; padding-left: calc(18px + .2em); }
+.btn--ink::before {                     /* 一笔横扫的墨（swipe.png 当遮罩，颜色跟主题走） */
+  content: ""; position: absolute; inset: -3px -6px; z-index: -1;
+  background: var(--ink);
+  -webkit-mask: url("swipe.png") center / 100% 100% no-repeat;
+          mask: url("swipe.png") center / 100% 100% no-repeat;
+  transition: transform var(--dur) var(--ease-out), opacity var(--dur) var(--ease);
+}
+.btn--ink:hover::before { transform: scale(1.02, 1.08); }          /* 墨再洇开一点 */
+.btn--ink:active { transform: translateY(1px); }
+.btn--ink:active::before { transform: scale(.99, .96); }
+.btn--ink:disabled { cursor: not-allowed; }
+.btn--ink:disabled::before { background: var(--ink-4); transform: none; }
+.btn--xl { height: 48px; font-size: 19px; letter-spacing: .5em; padding-left: calc(24px + .5em); padding-right: 24px; }
+.btn--quiet { color: var(--ink-2); }
+.btn--quiet::after {                    /* 悬停时字下出现一笔淡墨 */
+  content: ""; position: absolute; left: 18px; right: 18px; bottom: 7px; height: 1.5px;
+  background: currentColor; opacity: 0; transform: scaleX(.3); transform-origin: left;
+  transition: opacity var(--dur) var(--ease), transform var(--dur-slow) var(--ease-out);
+}
+.btn--quiet:hover { color: var(--ink); }
+.btn--quiet:hover::after { opacity: .5; transform: none; }
+.btn--quiet:active { transform: translateY(1px); }
+.view--welcome .btn--xl { align-self: stretch; }
+
+.link { border: 0; background: none; padding: 0; color: var(--huaqing); font-size: 12px; text-underline-offset: 3px; }
+.link:hover { text-decoration: underline; }
+.link--quiet { color: var(--ink-3); }
+.link--quiet:hover { color: var(--huaqing); }
+
+.where { margin-top: 18px; font-size: 12px; color: var(--ink-3); }
+.where__line { display: flex; align-items: baseline; gap: 8px; min-width: 0; }
+.where__path { color: var(--ink); font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.where__meta { margin-top: 1px; }
+.where__error { margin-top: 6px; color: var(--yanzhi); }
+.where.is-invalid .where__path { color: var(--yanzhi); }
+.where.is-invalid { animation: shake 280ms var(--ease); }
+@keyframes shake { 20%, 60% { transform: translateX(-4px); } 40%, 80% { transform: translateX(4px); } }
+#btnAllUsers { align-self: flex-start; margin-top: 26px; }
+body[data-mode="upgrade"] #btnAllUsers, body[data-mode="upgrade"] #btnChange { display: none; }
+
+/* ---------- 安装中：一笔横画就是进度条 ---------- */
+.pct { font: 76px/1 var(--font-brush); letter-spacing: -.01em; margin: 6px 0 10px; font-variant-numeric: tabular-nums; }
+.pct small { font-size: 26px; margin-left: 4px; color: var(--ink-3); }
+.stroke { position: relative; height: 22px; margin: 4px 0 6px; }
+.stroke::before {                       /* 界尺留下的一道细线：整笔有多长 */
+  content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1px;
+  background: var(--ink-5);
+}
+.stroke i {                             /* 笔画写到 --p 处，笔尖那一小段是湿的、渐淡（不是一刀切） */
+  position: absolute; inset: 0;
+  background: var(--ink);
+  -webkit-mask: url("stroke.png") 0 50% / 100% 100% no-repeat,
+                linear-gradient(90deg, #000 calc(var(--p) * 100% - 12px), transparent calc(var(--p) * 100% + 1px));
+  -webkit-mask-composite: source-in;
+          mask: url("stroke.png") 0 50% / 100% 100% no-repeat,
+                linear-gradient(90deg, #000 calc(var(--p) * 100% - 12px), transparent calc(var(--p) * 100% + 1px));
+          mask-composite: intersect;
+  transition: --p 420ms linear;
+}
+/* 准备阶段还没有真实字节数：不写数字、不动笔，只在起笔处“蘸墨” */
+body[data-phase="prepare"] .stroke i { --p: .07; transition: none; animation: ink-breathe 1400ms var(--ease) infinite alternate; }
+body[data-phase="prepare"] .pct { visibility: hidden; }
+@keyframes ink-breathe { from { opacity: .3; } to { opacity: 1; } }
+.phase { margin: 12px 0 4px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+
+/* ---------- 完成：一笔圆（圆相），从正上方偏左起笔，顺时针一圈 ---------- */
+.enso {
+  display: block; width: 64px; height: 64px; margin: 0 0 14px -6px;
+  background: var(--ink);
+  -webkit-mask: url("enso.png") center / contain no-repeat, conic-gradient(from 335deg, #000 var(--sweep), transparent 0);
+  -webkit-mask-composite: source-in;
+          mask: url("enso.png") center / contain no-repeat, conic-gradient(from 335deg, #000 var(--sweep), transparent 0);
+          mask-composite: intersect;
+}
+body[data-state="done"] .enso { animation: enso-sweep 760ms cubic-bezier(.35, .1, .25, 1) 80ms both; }
+@keyframes enso-sweep { from { --sweep: 0deg; } to { --sweep: 360deg; } }
+.actions { display: flex; align-items: center; gap: 14px; margin-top: 2px; }
+.view--done .btn--xl { min-width: 176px; letter-spacing: .3em; padding-left: calc(24px + .3em); }
+
+/* ---------- 失败 ---------- */
+.view--failed h1 { color: var(--yanzhi); }
+.reason {
+  margin: -12px 0 24px; padding: 8px 12px;
+  border-left: 2px solid var(--yanzhi);
+  background: var(--yanzhi-soft); color: var(--yanzhi); font-size: 12px; user-select: text;
+}
+.view--failed > .link { margin-top: 16px; align-self: flex-start; }
+
+body[data-state="loading"] .panel > .view { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 1ms !important; animation-delay: 0ms !important; animation-iteration-count: 1 !important; transition-duration: 1ms !important; }
+}
+:root[data-motion="reduced"] *, :root[data-motion="reduced"] *::before, :root[data-motion="reduced"] *::after { animation-duration: 1ms !important; animation-delay: 0ms !important; animation-iteration-count: 1 !important; transition-duration: 1ms !important; }

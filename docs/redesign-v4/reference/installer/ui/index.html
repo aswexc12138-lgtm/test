@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self' data:; style-src 'self'; font-src 'self'; script-src 'self'">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>安装胥宇</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body data-state="loading" data-mode="fresh">
+<div class="window">
+  <!-- 纸背透出来的一个“宇”：极淡，只是气氛，不承载信息 -->
+  <svg class="watermark" viewBox="1040 100 940 960" aria-hidden="true"><path d="M1132 494Q1119 494 1101.5 480.0Q1084 466 1084 455Q1084 446 1099.5 421.5Q1115 397 1139.0 340.0Q1163 283 1177 234Q1185 211 1204 211Q1220 211 1235.0 220.0Q1250 229 1250 240Q1250 249 1243 269L1459 256L1458 180Q1458 161 1448.0 147.0Q1438 133 1438 128Q1438 113 1457 113Q1471 113 1490 118Q1540 130 1540 154L1538 252L1864 233Q1897 233 1913.5 247.5Q1930 262 1930.0 274.0Q1930 286 1921.0 293.0Q1912 300 1886.0 337.5Q1860 375 1835.5 409.5Q1811 444 1798.5 456.0Q1786 468 1776 468Q1762 468 1762 451Q1762 439 1779.0 406.0Q1796 373 1824 304L1221 337Q1161 494 1132 494ZM1294 904Q1294 894 1307 894Q1315 894 1337 904Q1402 934 1468 952L1465 691L1146 705Q1111 705 1088.0 697.5Q1065 690 1053 653Q1052 650 1052 644Q1052 633 1066 633Q1101 640 1125 640L1464 624L1462 487Q1305 497 1296 497Q1247 497 1234 441Q1233 437 1233 431Q1233 421 1243 421Q1248 421 1263.5 425.5Q1279 430 1307 430Q1662 410 1673.0 406.0Q1684 402 1691 402Q1699 402 1712 411Q1748 433 1748 453Q1748 468 1727 472Q1725 473 1541 484L1543 621Q1866 605 1874 602Q1894 595 1901 595Q1909 595 1923 605Q1960 631 1960 652Q1960 668 1936 671L1544 688Q1547 934 1549 975Q1549 1024 1512 1039Q1499 1044 1488.0 1044.0Q1477 1044 1443.0 1027.0Q1409 1010 1351.5 964.5Q1294 919 1294 904Z"/></svg>
+  <!-- 左：界画。平面图用毛笔线画在纸上，进度走到哪，摄像机点位就落到哪 -->
+  <aside class="stage" data-drag>
+    <svg class="wordmark" viewBox="0 0 2000 1184" role="img" aria-label="胥宇" data-drag><path d="M85 600Q70 600 70.0 588.0Q70 576 86 562Q215 443 288 305Q296 289 296.0 267.5Q296 246 312 246Q324 246 339.0 254.0Q354 262 365.5 273.0Q377 284 377 293Q377 300 361.5 329.5Q346 359 327 384Q385 408 468 424L470 232Q218 250 209 250Q168 250 154 209L149 194Q149 181 162 181Q201 185 214 185L810 147Q826 147 843.5 162.0Q861 177 861 190Q861 212 797.0 252.0Q733 292 716 292Q702 292 702.0 280.0Q702 268 723.5 247.0Q745 226 752 214L543 228L542 315L674 307Q693 305 705.0 300.0Q717 295 723 295Q730 295 743 303Q779 325 779 346Q779 364 748 366L542 378L541 435Q663 450 945 450Q970 450 970 466Q970 471 962.0 489.5Q954 508 945.5 512.5Q937 517 886 517Q822 517 635.0 510.5Q448 504 286 436Q215 522 129 577Q95 600 85 600ZM728 1037Q695 1037 600 971Q547 931 547 912Q547 900 562 900Q572 900 610.0 917.5Q648 935 697 949L696 842L324 858L322 1008Q322 1033 299 1033Q278 1033 261.0 1017.5Q244 1002 244 991Q244 983 248.0 967.0Q252 951 257 615Q257 582 250.0 564.5Q243 547 243 542Q243 527 264 527Q281 527 325 552L708 532Q739 532 753.5 545.0Q768 558 768 575L765 594Q769 961 770 986Q770 1006 756.5 1021.5Q743 1037 728 1037ZM327 671 695 653 694 600 328 618ZM325 793 696 777 695 719 326 736Z M1132 494Q1119 494 1101.5 480.0Q1084 466 1084 455Q1084 446 1099.5 421.5Q1115 397 1139.0 340.0Q1163 283 1177 234Q1185 211 1204 211Q1220 211 1235.0 220.0Q1250 229 1250 240Q1250 249 1243 269L1459 256L1458 180Q1458 161 1448.0 147.0Q1438 133 1438 128Q1438 113 1457 113Q1471 113 1490 118Q1540 130 1540 154L1538 252L1864 233Q1897 233 1913.5 247.5Q1930 262 1930.0 274.0Q1930 286 1921.0 293.0Q1912 300 1886.0 337.5Q1860 375 1835.5 409.5Q1811 444 1798.5 456.0Q1786 468 1776 468Q1762 468 1762 451Q1762 439 1779.0 406.0Q1796 373 1824 304L1221 337Q1161 494 1132 494ZM1294 904Q1294 894 1307 894Q1315 894 1337 904Q1402 934 1468 952L1465 691L1146 705Q1111 705 1088.0 697.5Q1065 690 1053 653Q1052 650 1052 644Q1052 633 1066 633Q1101 640 1125 640L1464 624L1462 487Q1305 497 1296 497Q1247 497 1234 441Q1233 437 1233 431Q1233 421 1243 421Q1248 421 1263.5 425.5Q1279 430 1307 430Q1662 410 1673.0 406.0Q1684 402 1691 402Q1699 402 1712 411Q1748 433 1748 453Q1748 468 1727 472Q1725 473 1541 484L1543 621Q1866 605 1874 602Q1894 595 1901 595Q1909 595 1923 605Q1960 631 1960 652Q1960 668 1936 671L1544 688Q1547 934 1549 975Q1549 1024 1512 1039Q1499 1044 1488.0 1044.0Q1477 1044 1443.0 1027.0Q1409 1010 1351.5 964.5Q1294 919 1294 904Z"/></svg>
+
+    <svg class="plan" viewBox="0 0 240 300" aria-hidden="true" data-drag>
+      <defs>
+        <!-- 毛笔线：手拉的轻微起伏 + 纸纹 + 一圈很淡的洇开 -->
+        <filter id="brushLine" x="-5%" y="-5%" width="110%" height="110%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" seed="11" result="wobble"/>
+          <feDisplacementMap in="SourceGraphic" in2="wobble" scale="1.8" xChannelSelector="R" yChannelSelector="G" result="line"/>
+          <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" seed="4" result="grain"/>
+          <feDisplacementMap in="line" in2="grain" scale="0.7" xChannelSelector="R" yChannelSelector="G" result="rough"/>
+          <feGaussianBlur in="rough" stdDeviation="1.2" result="blur"/>
+          <feComponentTransfer in="blur" result="bleed"><feFuncA type="linear" slope="0.35"/></feComponentTransfer>
+          <feMerge><feMergeNode in="bleed"/><feMergeNode in="rough"/></feMerge>
+        </filter>
+        <!-- 墨点落纸：外圈洇开 -->
+        <filter id="bleed" x="-80%" y="-80%" width="260%" height="260%">
+          <feTurbulence type="fractalNoise" baseFrequency="1.6" numOctaves="2" seed="3" result="n"/>
+          <feDisplacementMap in="SourceGraphic" in2="n" scale="2.2" xChannelSelector="R" yChannelSelector="G" result="d"/>
+          <feGaussianBlur in="d" stdDeviation="0.9"/>
+        </filter>
+        <filter id="dotEdge" x="-50%" y="-50%" width="200%" height="200%">
+          <feTurbulence type="fractalNoise" baseFrequency="2.4" numOctaves="1" seed="5" result="n"/>
+          <feDisplacementMap in="SourceGraphic" in2="n" scale="1.1" xChannelSelector="R" yChannelSelector="G"/>
+        </filter>
+        <!-- 视野：淡墨从镜头往外渲开 -->
+        <radialGradient id="fovWash" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="26">
+          <stop offset="0" class="wash-0"/>
+          <stop offset=".55" class="wash-1"/>
+          <stop offset="1" class="wash-2"/>
+        </radialGradient>
+      </defs>
+      <g class="walls" filter="url(#brushLine)">
+        <path class="w-outer" pathLength="1" d="M8 8 H232 V292 H8 Z"/>
+        <path class="w-inner" pathLength="1" d="M8 140 H96"/>
+        <path class="w-inner" pathLength="1" d="M126 140 H232"/>
+        <path class="w-inner" pathLength="1" d="M150 8 V92"/>
+        <path class="w-inner" pathLength="1" d="M150 188 V292"/>
+        <path class="w-door" pathLength="1" d="M96 140 A30 30 0 0 1 126 140"/>
+        <path class="w-thin" pathLength="1" d="M24 24 H84 V58 H24 Z"/>
+        <path class="w-thin" pathLength="1" d="M172 206 H216 V216 H172 Z"/>
+        <path class="w-thin" pathLength="1" d="M172 228 H216 V238 H172 Z"/>
+        <path class="w-thin" pathLength="1" d="M172 250 H216 V260 H172 Z"/>
+        <path class="w-thin" pathLength="1" d="M24 192 H42 V262 H24 Z"/>
+      </g>
+      <g id="points"></g>
+    </svg>
+
+    <p class="legend" id="legend"><i></i><span id="legendText">摄像机 × 0</span></p>
+    <p class="inscription" data-drag>让方案，清晰呈现。</p>
+  </aside>
+
+  <main class="panel">
+    <header class="chrome" data-drag>
+      <span class="ver" id="version" data-drag></span>
+      <span class="grow" data-drag></span>
+      <button class="win-btn" id="btnMin" aria-label="最小化" title="最小化" type="button"><svg viewBox="0 0 12 12"><path d="M2 6.5h8"/></svg></button>
+      <button class="win-btn win-btn--close" id="btnClose" aria-label="关闭" title="关闭" type="button"><svg viewBox="0 0 12 12"><path d="M2.5 2.5l7 7M9.5 2.5l-7 7"/></svg></button>
+    </header>
+
+    <section class="view view--welcome" aria-labelledby="welcomeTitle">
+      <h1 id="welcomeTitle">安装胥宇</h1>
+      <p class="lead" id="welcomeLead"></p>
+      <p class="banner" id="runningBanner" role="status" hidden>胥宇正在运行。点“<span class="primaryName">安装</span>”会先关闭它，请先保存手头的图纸。</p>
+      <button class="btn btn--ink btn--xl" id="btnInstall" type="button"><span class="primaryName">安装</span></button>
+      <div class="where">
+        <div class="where__line">
+          <span class="where__label" id="whereLabel">安装到</span>
+          <strong class="where__path" id="wherePath"></strong>
+          <button class="link" id="btnChange" type="button">更改</button>
+        </div>
+        <div class="where__meta" id="whereMeta"></div>
+        <div class="where__error" id="whereError" role="alert" hidden></div>
+      </div>
+      <button class="link link--quiet" id="btnAllUsers" type="button">给这台电脑的所有用户安装…</button>
+    </section>
+
+    <section class="view view--installing" aria-labelledby="installingTitle">
+      <h1 id="installingTitle">正在安装</h1>
+      <div class="pct" aria-hidden="true"><span id="pctNum">0</span><small>%</small></div>
+      <div class="stroke" role="progressbar" aria-labelledby="installingTitle" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="bar"><i id="barInk"></i></div>
+      <p class="phase" id="phase" aria-live="polite">正在准备…</p>
+      <p class="note">通常不到一分钟。可以先最小化，去做别的。</p>
+    </section>
+
+    <section class="view view--done" aria-labelledby="doneTitle">
+      <i class="enso" aria-hidden="true"></i>
+      <h1 id="doneTitle">装好了</h1>
+      <p class="lead" id="doneLead"></p>
+      <div class="actions">
+        <button class="btn btn--ink btn--xl" id="btnLaunch" type="button">打开胥宇</button>
+        <button class="btn btn--quiet" id="btnFinish" type="button">完成</button>
+      </div>
+    </section>
+
+    <section class="view view--failed" aria-labelledby="failedTitle">
+      <h1 id="failedTitle">安装没有完成</h1>
+      <p class="lead">你的图纸、方案和设置都还在，重新运行一次安装就好。</p>
+      <p class="reason" id="failReason"></p>
+      <div class="actions">
+        <button class="btn btn--ink" id="btnRetry" type="button">重新运行安装</button>
+        <button class="btn btn--quiet" id="btnClassic" type="button">改用经典安装界面</button>
+      </div>
+      <button class="link link--quiet" id="btnLog" type="button">打开安装日志</button>
+    </section>
+  </main>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
