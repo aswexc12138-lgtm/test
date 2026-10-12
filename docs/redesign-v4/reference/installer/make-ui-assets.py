@@ -2,7 +2,8 @@
 """生成安装器界面（ui/）用到的水墨素材。素材全部由程序生成，可重复，不用任何外部图片。
 
 用法：
-  python3 make-ui-assets.py <LXGWWenKai-Medium.ttf> <ui 目录>
+  python3 make-ui-assets.py <LXGWWenKai-Medium.ttf> <ui 目录>        生成全部素材
+  python3 make-ui-assets.py --check <ui 目录>                       只检查：页面用到的字是否都在 wenkai.woff2 里（规格 I-29）
 
 生成：
   paper.png    宣纸纹理（只有透明度，颜色由 CSS 决定；可平铺）
@@ -207,14 +208,31 @@ def make_paper(path, rng):
     save_alpha(np.clip(alpha, 0, 1) * 0.5, path)
 
 
-def make_font(ttf, ui_dir, out):
-    from fontTools import subset
-    from fontTools.ttLib import TTFont
+def page_chars(ui_dir):
     text = ''
     for name in ('index.html', 'app.js'):
         text += (ui_dir / name).read_text(encoding='utf-8')
     chars = set(ch for ch in text if ord(ch) > 0x2E7F)                     # 所有中日韩字和全角标点
     chars |= set('0123456789%×·→…—.:-+ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz')
+    return chars
+
+
+def check_font(ui_dir):
+    from fontTools.ttLib import TTFont
+    font = TTFont(str(ui_dir / 'wenkai.woff2'))
+    have = set(chr(c) for c in font.getBestCmap())
+    missing = sorted(ch for ch in page_chars(ui_dir) if ch not in have and not ch.isspace())
+    if missing:
+        print('wenkai.woff2 缺字（改了页面文字没重新生成？）：' + ''.join(missing))
+        return 1
+    print(f'wenkai.woff2 覆盖页面用到的全部 {len(page_chars(ui_dir))} 个字')
+    return 0
+
+
+def make_font(ttf, ui_dir, out):
+    from fontTools import subset
+    from fontTools.ttLib import TTFont
+    chars = page_chars(ui_dir)
     opts = subset.Options()
     opts.flavor = 'woff2'
     opts.layout_features = ['*']
@@ -234,6 +252,8 @@ def make_font(ttf, ui_dir, out):
 
 
 def main():
+    if len(sys.argv) == 3 and sys.argv[1] == '--check':
+        sys.exit(check_font(Path(sys.argv[2])))
     if len(sys.argv) != 3:
         print(__doc__)
         sys.exit(2)

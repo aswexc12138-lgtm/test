@@ -100,7 +100,7 @@
       ]
     },
     "PI": {
-      "title": "安装器与启动画面（需要用户明确要求打包后才能验收）",
+      "title": "安装器与启动画面：经典向导 + 水墨安装界面（需要用户明确要求打包后才能验收）",
       "ids": [
         "I-01",
         "I-02",
@@ -110,7 +110,17 @@
         "I-06",
         "I-07",
         "I-08",
-        "I-09"
+        "I-09",
+        "I-20",
+        "I-21",
+        "I-22",
+        "I-23",
+        "I-24",
+        "I-25",
+        "I-26",
+        "I-27",
+        "I-28",
+        "I-29"
       ],
       "allow": [
         "build/installer.nsh",
@@ -122,7 +132,11 @@
         "scripts/create-portable-splash.ts",
         "scripts/installer-smoke.mjs",
         "package.json",
-        "NOTICE.txt"
+        "NOTICE.txt",
+        "build/installer-inkui.nsh",
+        "build/xuyu-extract-progress.nsh",
+        "scripts/installer-ui/**",
+        ".gitignore"
       ]
     },
     "P3": {
@@ -181,7 +195,8 @@
         "T-06",
         "T-07",
         "T-08",
-        "T-09"
+        "T-09",
+        "T-10"
       ],
       "allow": [
         "src/renderer/theme.tsx",

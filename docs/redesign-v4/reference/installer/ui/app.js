@@ -70,7 +70,7 @@
   /* ---------- 状态 ---------- */
   const state = { mode: 'fresh', dir: '', dirSource: '', freeBytes: 0, needBytes: 0, pathOk: true, installing: false, version: '', installedVersion: '' };
 
-  const PRIMARY = { welcome: 'btnInstall', done: 'btnLaunch', failed: 'btnRetry' };
+  const PRIMARY = { welcome: 'btnInstall', done: 'btnLaunch', failed: 'btnRetry' };   // 回车 = 当前页主按钮
   function setState(name) {
     body.dataset.state = name;
   }
@@ -137,6 +137,11 @@
     }
     $('runningBanner').hidden = !msg.appRunning;
     $('btnAllUsers').hidden = msg.allUsersAvailable === false;
+    // 不提供“打开胥宇”时（nsis.runAfterFinish = false），“完成”就是主按钮
+    state.canLaunch = msg.canLaunch !== false;
+    $('btnLaunch').hidden = !state.canLaunch;
+    $('btnFinish').className = state.canLaunch ? 'btn btn--quiet' : 'btn btn--ink btn--xl';
+    PRIMARY.done = state.canLaunch ? 'btnLaunch' : 'btnFinish';
     renderWhere();
     if (!state.pathOk) showPathError(msg.pathReason || '这个位置用不了，请点“更改”选一个文件夹。');
     if (upgrade) setPoints(0, { ghost: true });
@@ -146,8 +151,8 @@
 
   // 进度只来自宿主转来的真实字节数（规格 I-25）：prepare 阶段没有数字，只“蘸墨”；extract 阶段笔画长度 = 已解压 / 总量；finish 阶段写满
   function applyProgress(msg) {
-    const phase = msg.phase === 'finish' ? 'finish' : msg.phase === 'extract' ? 'extract' : 'prepare';
-    const fraction = phase === 'finish' ? 1 : phase === 'extract' ? Math.max(0, Math.min(1, msg.fraction ?? 0)) : 0;
+    const phase = ['extract', 'copy', 'finish'].includes(msg.phase) ? msg.phase : 'prepare';
+    const fraction = phase === 'extract' ? Math.max(0, Math.min(1, msg.fraction ?? 0)) : phase === 'prepare' ? 0 : 1;
     const pct = Math.floor(fraction * 100);
     body.dataset.phase = phase;
     $('pctNum').textContent = String(pct);
@@ -155,7 +160,9 @@
     $('barInk').style.setProperty('--p', String(fraction));
     $('phase').textContent = phase === 'finish'
       ? '正在创建快捷方式…'
-      : phase === 'extract'
+      : phase === 'copy'
+        ? '正在写入安装位置…'
+        : phase === 'extract'
         ? (msg.bytesTotal ? `正在解压文件 · ${fmtMB(msg.bytesDone ?? 0)} / ${fmtMB(msg.bytesTotal)}` : '正在解压文件…')
         : state.mode === 'upgrade' ? '正在替换旧版本…' : '正在准备…';
     setPoints(Math.floor(fraction * POINTS.length));
@@ -184,12 +191,18 @@
           state.dir = msg.dir; state.freeBytes = msg.freeBytes ?? 0; state.pathOk = true; state.dirSource = 'user';
           $('whereError').hidden = true; document.querySelector('.where').classList.remove('is-invalid');
         } else if (msg.reason) {
+          // 点“安装”以后宿主复查路径没通过：回到欢迎页说明原因
+          if (body.dataset.state === 'installing') { state.installing = false; setState('welcome'); }
           state.pathOk = false; showPathError(msg.reason);
         }
         renderWhere();
         break;
       case 'appRunning': $('runningBanner').hidden = !msg.running; break;
-      case 'progress': applyProgress(msg); break;
+      case 'progress':
+        // 页面重新载入（宿主补发进度）时直接回到安装中
+        if (body.dataset.state !== 'installing') { state.installing = true; setState('installing'); }
+        applyProgress(msg);
+        break;
       case 'done': applyProgress({ phase: 'finish' }); applyDone(); break;
       case 'failed':
         state.installing = false;
@@ -259,8 +272,9 @@
           if (f >= to) {
             clearInterval(timer);
             if (fail) { setTimeout(() => send(FAIL), 300); return; }
-            send({ type: 'progress', phase: 'finish' });
-            setTimeout(() => send({ type: 'done' }), 500);
+            send({ type: 'progress', phase: 'copy' });
+            setTimeout(() => send({ type: 'progress', phase: 'finish' }), 400);
+            setTimeout(() => send({ type: 'done' }), 800);
           }
         }, 220);
       }, 800);
@@ -268,7 +282,7 @@
     this.post = (m) => {
       switch (m.type) {
         case 'ready': {
-          send({ type: 'init', mode, version: '1.0.0-preview.26', installedVersion: mode === 'upgrade' ? '1.0.0-preview.25' : '', dir: 'D:\\XUYU', dirSource: mode === 'upgrade' ? 'previous' : 'auto', freeBytes: 128.4 * GB, needBytes: need, appRunning: q.get('running') === '1', allUsersAvailable: true, theme: q.get('theme') || undefined });
+          send({ type: 'init', mode, version: '1.0.0-preview.26', installedVersion: mode === 'upgrade' ? '1.0.0-preview.25' : '', dir: 'D:\\XUYU', dirSource: mode === 'upgrade' ? 'previous' : 'auto', freeBytes: 128.4 * GB, needBytes: need, appRunning: q.get('running') === '1', allUsersAvailable: true, canLaunch: q.get('launch') !== '0', theme: q.get('theme') || undefined });
           const snap = q.get('state');
           const p = Number(q.get('p') ?? 0.42);
           if (snap === 'installing') setTimeout(() => { $('btnInstall').click(); clearInterval(timer); send({ type: 'progress', fraction: p, bytesDone: Math.round(need * p), bytesTotal: need, phase: 'extract' }); }, 30);

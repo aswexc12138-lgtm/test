@@ -18,8 +18,8 @@
 | `reference/diff-guard.mjs` | Codex | 防跑偏检查：只查本次新增的行；G8 查每个阶段有没有改范围外的文件（5 个测试） |
 | `reference/trace-check.mjs` | Codex | “做完”检查：每个规格编号都要有真实的改动文件、真实存在的测试、界面截图（3 个测试） |
 | `reference/phase-scope.json` | Codex、用户 | 每个阶段允许改哪些文件、包含哪些规格编号 |
-| `reference/installer/` | Codex、用户 | 新安装器脚本、两张位图（1 倍 / 2 倍）与生成脚本、改前改后实测截图（`screenshots/compare.png`）、Wine 预览脚本 |
-| `reference/themes/` | Codex | 从演示页原样提取的 9 套风格主题令牌和说明 |
+| `reference/installer/` | Codex、用户 | **水墨安装界面**（页面、WebView2 宿主、NSIS 接入、真实进度、协议测试；效果见 `screenshots/ink-flow.mp4`、`ink-overview.jpg`）和**经典向导**（脚本、位图与生成脚本、改前改后截图 `compare.png`） |
+| `reference/themes/` | Codex | 从演示页原样提取的 9 套风格主题令牌和说明；第 10 套“水墨”的生成脚本、令牌、纸纹与墨块图、效果图（`previews/inkwash-overview.jpg`） |
 | `reference/demo/` | Codex | 从演示页原样提取的组件样式、动效关键帧和反馈函数（按钮手感、开关、步进器连发、数字滑入、行高亮、定位脉冲、落点涟漪、撤销 Toast 等 26 项反馈） |
 
 ## 怎么交给 Codex
@@ -33,7 +33,8 @@
 ## 已验证
 
 - 参考代码：43 个测试全部通过（Node 22.22）。运行方法见 `reference/README.md`。
-- 安装器：用与 xuyu 相同版本的 electron-builder（26.15.3）打出真实安装包，Linux + Wine 下逐页运行截图；新脚本编译 0 警告，全新安装 / 升级 / 静默安装 / 卸载都跑通。没在 Windows 真机上跑过。
+- 安装器：用与 xuyu 相同版本的 electron-builder（26.15.3）打出真实安装包，Linux + Wine（+ wine-mono）下跑通：经典向导逐页截图；水墨界面的协议测试 33 项全过（全新安装、升级、取消、经典 + 所有用户、宿主崩溃、宿主卡住、静默、`/classic`、没有 WebView2、真宿主兜底）；宿主按 .NET Framework 4.8 引用程序集、C# 5 编译 0 警告；makensis 0 警告。**WebView2 页面在 Windows 真机上的样子和交互没跑过**（Wine 没有 WebView2），页面效果是 Chromium 渲染的截图和录屏。
+- 水墨主题：3 个模式全部通过对比度和色差校验（生成脚本自带），注入演示页渲染了绘图、工作台、资料整理、主题浮层。
 - `diff-guard.mjs` 在 xuyu 当前代码上空跑通过；埋入的违规全部拦下；用它检查演示页自己的样式，报出的 3 处在 `reference/demo/README.md` 里写了处理办法。
 - 规格中的“现状”均对照 xuyu `checkpoint/desktop-o1a6epq`（Preview.26，`0a33e7c`）源码核实，标了文件和行号。
 
@@ -42,3 +43,4 @@
 - **品牌标识**：图标（C 方向）和霞鹜文楷字标的源文件在「品牌标识.html」里，这次没有上传。拿到之前，标题栏先用现有图标。
 - 跨模块旅程（J1–J12）是规格，还没有在软件上跑过；由 Codex 按阶段实现。
 - 安装器的“全新安装点开始安装没反应”是 Wine 下复现的，需要在 Windows 真机上确认一次（P0 第 22 问）。
+- 水墨安装界面要等用户说“打包”后在 Windows 真机上走一遍（规格 I-29）。

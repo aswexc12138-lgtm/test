@@ -24,10 +24,11 @@ node --test diff-guard.test.mjs trace-check.test.mjs
 | `diff-guard.mjs` | 自测规范 §4 | 只看新增行；规则 G1–G7（G5 按动效三档）；单行豁免必须写理由 |
 | `trace-check.mjs` | 硬约束 R19 | 读 xuyu 的 `docs/redesign-v4/traceability.json`，核对本阶段每个编号的改动文件、测试名、截图是否真实存在 |
 | `phase-scope.json` | 硬约束 R4 | 每个阶段允许改的文件和包含的编号；G8 和 trace-check 都读它 |
-| `installer/` | 规格 §12B | 安装器脚本、位图与生成脚本、实测截图、Wine 预览脚本，见 `installer/README.md` |
+| `installer/` | 规格 §12B | 水墨安装界面（页面、宿主、NSIS 接入、真实进度、协议测试）和经典向导（脚本、位图），见 `installer/README.md` |
 | `demo/` | M-01 – M-05、D-13 | 演示页原样提取的组件、动效、反馈函数，见 `demo/README.md` |
 | `themes/themes.generated.css` | T-03 | 9 风格 × 3 模式 + 强调色，演示页原样提取，变量名需按 T-03 映射 |
-| `themes/theme-meta.json` | T-01 | 风格名称与描述、强调色列表 |
+| `themes/theme-meta.json` | T-01 | 风格名称与描述（10 套）、强调色列表 |
+| `themes/make-inkwash.py` → `themes/inkwash.css` | T-10 | 第 10 套风格“水墨”：调色板、生成、对比度与色差校验（不达标不生成）；`inkwash/` 是它用的纸纹和墨块图；`previews/` 是注入演示页的效果图 |
 
 ## 注意
 

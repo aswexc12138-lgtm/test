@@ -1,5 +1,8 @@
-; 胥宇安装器 · v4 改版（规格 I-01 – I-08）
+; 胥宇安装器 · v4 改版（规格 I-01 – I-08 经典向导；I-20 – I-29 水墨界面）
 ; 替换 xuyu/build/installer.nsh。只扩展 electron-builder 自带的安装器，安装 / 升级 / 卸载 / 静默流程不动。
+;
+; 双击安装时先用水墨界面（installer-inkui.nsh + XuyuSetupUI.exe）；用不了水墨界面时就是下面这套经典向导。
+; 两种界面用的是同一套默认位置逻辑（XuyuChooseDefaultInstallDirectory：优先剩余空间最大的非系统盘，自动建 XUYU 文件夹）。
 ;
 ; 与旧版相比：
 ;   - 欢迎页改用 MUI 欢迎页骨架（左侧位图 + 整页高度），不再在带横幅的普通页里塞 193u 高的内容（旧版下半截被裁掉）
@@ -13,6 +16,10 @@
 !include LogicLib.nsh
 !include WinMessages.nsh
 !include nsDialogs.nsh
+; 定义了 customCheckAppRunning 以后，electron-builder 不再自动引入进程检查库和 $pid，这里补上（下面的 _CHECK_APP_RUNNING 要用）。
+!include "getProcessInfo.nsh"
+Var pid
+!include "installer-inkui.nsh"
 
 ; 本页负责选择位置；不要再出现第二个自带的目录页。
 !ifdef allowToChangeInstallationDirectory
@@ -37,6 +44,8 @@
     ShowWindow $mui.WelcomePage.Text ${SW_HIDE}
     Call XuyuWelcomeBuild
   FunctionEnd
+  ; 水墨界面的启动函数要用到 electron-builder 的 $installMode 等变量，那些变量到这里才全部声明，所以放在这里定义。
+  !insertmacro XuyuInkUiFunctions
 !macroend
 
 !macro customInstallMode
@@ -58,7 +67,7 @@
   !define MUI_INSTFILESPAGE_FINISHHEADER_TEXT "安装完成"
   !define MUI_INSTFILESPAGE_FINISHHEADER_SUBTEXT "点“下一步”结束。"
   !define MUI_INSTFILESPAGE_ABORTHEADER_TEXT "安装没有完成"
-  !define MUI_INSTFILESPAGE_ABORTHEADER_SUBTEXT "原来的版本和你的数据都没有被改动，可以重新运行安装程序。"
+  !define MUI_INSTFILESPAGE_ABORTHEADER_SUBTEXT "你的图纸、方案和设置都还在，可以重新运行安装程序。"
 !macroend
 
 !macro customFinishPage
@@ -82,6 +91,25 @@
   !insertmacro MUI_PAGE_FINISH
 !macroend
 
+; ---------- 安装段：水墨界面的进度回报 ----------
+; 关闭正在运行的胥宇：沿用 electron-builder 自带的检查（静默时自动关闭），只在前面报一下“准备”阶段。
+!macro customCheckAppRunning
+  !ifndef BUILD_UNINSTALLER
+    Push "prepare"
+    Call XuyuUiStatus
+  !endif
+  !insertmacro IS_POWERSHELL_AVAILABLE
+  !insertmacro _CHECK_APP_RUNNING
+  !ifndef BUILD_UNINSTALLER
+    ; 编译期：把解压宏换成会报进度的版本（这时模板的 extractUsing7za 已定义、还没被展开）
+    !include "xuyu-extract-progress.nsh"
+  !endif
+!macroend
+
+!macro customInstall
+  !insertmacro XuyuInkUiAfterInstall
+!macroend
+
 !macro customUnWelcomePage
   !define MUI_WELCOMEPAGE_TITLE "卸载胥宇"
   !define MUI_WELCOMEPAGE_TEXT "只删除程序本身。$\r$\n$\r$\n你的图纸、方案、设置和导出的成果都会保留，以后重新安装可以直接接着用。$\r$\n$\r$\n点“下一步”开始卸载。"
@@ -102,19 +130,31 @@
   ${EndIf}
   !insertmacro GetDParameter $R0
   StrCpy $XuyuExactPath "0"
-  ${If} $R0 != ""
-    StrCpy $XuyuExactPath "1"
-  ${ElseIf} $installMode == "all"
+  StrCpy $XuyuHasPrevious "0"
+  ${If} $installMode == "all"
   ${AndIf} $perMachineInstallationFolder != ""
-    StrCpy $XuyuExactPath "1"
+    StrCpy $XuyuHasPrevious "1"
   ${ElseIf} $installMode != "all"
   ${AndIf} $perUserInstallationFolder != ""
+    StrCpy $XuyuHasPrevious "1"
+  ${EndIf}
+  ${If} $R0 != ""
     StrCpy $XuyuExactPath "1"
+    StrCpy $XuyuDirSource "param"
+  ${ElseIf} $XuyuHasPrevious == "1"
+    StrCpy $XuyuExactPath "1"
+    StrCpy $XuyuDirSource "previous"
   ${Else}
     Call XuyuChooseDefaultInstallDirectory
   ${EndIf}
   StrCpy $XuyuChosenInstallDir $INSTDIR
   StrCpy $XuyuInitialInstallDir $INSTDIR
+
+  ; 能用水墨界面就用（不能用时函数直接返回，下面照常显示经典向导）
+  Call XuyuInkUiRun
+  ${If} $XuyuUiActive == "1"
+    SetSilent silent
+  ${EndIf}
 !endif
 !macroend
 
@@ -143,10 +183,13 @@ Function XuyuChooseDefaultInstallDirectory
   StrCpy $XuyuBestDataFree "0"
   StrCpy $XuyuSystemDrive $WINDIR 1
   ${GetDrives} "HDD" XuyuInspectDrive
+  StrCpy $XuyuDirSource "default"
   ${If} $XuyuBestDataDrive != ""
     StrCpy $INSTDIR "$XuyuBestDataDrive\XUYU"
+    StrCpy $XuyuDirSource "auto"
   ${ElseIf} $XuyuBestAnyDrive != ""
     StrCpy $INSTDIR "$XuyuBestAnyDrive\XUYU"
+    StrCpy $XuyuDirSource "auto-system"
   ${EndIf}
 FunctionEnd
 

@@ -250,6 +250,37 @@
         }
       }
     },
+    "inkwash": {
+      "label": "水墨",
+      "desc": "宣纸底色和纸纹，主按钮是一笔横扫的墨块，强调色用花青；直角、没有高光，大标题用楷体。夜间是墨底白字，像拓片。",
+      "preview": {
+        "day": {
+          "bg": "#ECE6D8",
+          "surface": "#F6F2E8",
+          "accent": "#2B5573",
+          "accent2": "#2B5573",
+          "text": "#1E1C18",
+          "canvasBg": "#E4DCCB"
+        },
+        "night": {
+          "bg": "#12110E",
+          "surface": "#1B1915",
+          "accent": "#8FB4CF",
+          "accent2": "#8FB4CF",
+          "text": "#ECE6D8",
+          "canvasBg": "#0E0D0B"
+        },
+        "eye": {
+          "bg": "#E6DCC6",
+          "surface": "#F1E9D7",
+          "accent": "#2D5670",
+          "accent2": "#2D5670",
+          "text": "#29241B",
+          "canvasBg": "#DED3BA"
+        }
+      },
+      "source": "make-inkwash.py（不是从演示页提取的；规格 T-10）"
+    },
     "sunset": {
       "label": "落日",
       "desc": "晚霞紫到焦橙的渐变强调，底色带暖橙和紫的光晕，柔和的玫瑰色阴影。温暖又鲜艳。",
