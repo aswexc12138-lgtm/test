@@ -34,9 +34,26 @@ P0 报告我和 Claude 已经过完了，结论和后面的做法写在新压缩
 8. 最后写 docs/redesign-v4/reports/最终报告.md（06 第五节），里面要有给我的一次性验收清单。写完告诉我报告路径、安装包路径和最后的提交号。
 ```
 
+## 第三段：第一轮审计后的返工
+
+第一轮做完、推到 GitHub 后，Claude 审计了代码（结论在 `07-审计结论与返工.md`）。把**新的** `xuyu-redesign-v4.zip` 和下面这段话一起发给 Codex：
+
+```text
+第一轮我和 Claude 审过了，结论和返工要求在新压缩包的 docs/redesign-v4/07-审计结论与返工.md。简单说：大部分界面编号只写了底层、没有接进软件；测试是把源代码当文本查字符串，证明不了行为；最终报告的验收清单里有一半功能软件里没有；还有几处退化（窗口拖不动、夜间几套风格的文字看不见、旧工程迁移可能删掉图例）。参考包也有我们自己的错（检查脚本在 Windows 上其实没运行、lint 没忽略参考代码、协议测试两项误判、字体许可没带），新包里已经修好。请返工，还是一口气做完，我最后一次性验收。按顺序：
+
+1. 把附件 xuyu-redesign-v4.zip 在 xuyu 仓库根目录解压，覆盖 docs/redesign-v4/（你写的 P0-对照报告.md、reports/、traceability.json 保留不动）。只把 docs/redesign-v4/ 单独提交一次，提交信息“docs: import redesign v4 rework package”。这个提交就是 R0 的起始提交。
+2. 先读 07-审计结论与返工.md，再按 00-硬约束.md 的 R1 顺序重读其他文件。07 和其他文件冲突时以 07 为准；和协调仓 AGENTS.md 冲突时以 AGENTS 为准，写进报告。
+3. 按 07 第五节的顺序做：R0 → P1 → P2 → P3 → P4 → P5 → P6 → PI。每个阶段只改 phase-scope.json 里本阶段允许的文件；收工跑 node docs/redesign-v4/reference/run-gates.mjs，没过不许进下一阶段；阶段报告里的门禁结果原样贴它生成的 summary.md；单独提交并同步，更新 reports/进度.md，然后直接做下一阶段，不用等我。
+4. “做完”按 07 第二节：软件里看得到、wiring-check 证明接上了、有行为测试（界面类要有后台 e2e，用 CCTV_E2E_HEADLESS=1，不抢前台）、有截图。不许用 partial 往下走；读源码查字符串的测试不算数。
+5. 只有 07 第五节列的四种情况才停下来问我；其他问题选改动最小的做法，写进报告，接着做。不许删断言、放宽阈值、关掉检查来过关。
+6. 我同意：全部做完后跑一次安装器协议测试（这次不要改 TEMP），打一次包（源码 Preview + 安装包）给我验收。不发布、不上传、不碰 main、Tag、Release。
+7. 最后写 docs/redesign-v4/reports/返工最终报告.md（07 第六节），告诉我报告路径、安装包路径和最后的提交号。
+```
+
 ## 用户自己要做的
 
 1. 第一次：把 `xuyu-redesign-v4.zip` 和第一段话发给 Codex（P0，已做完）。第二次：把新的压缩包和第二段话发给 Codex。
 2. 想先看看要做成什么样：解压后打开 `docs/redesign-v4/README.md`；安装器看 `reference/installer/screenshots/ink-flow.mp4`，水墨主题看 `reference/themes/previews/inkwash-overview.jpg`。
-3. Codex 全部做完后，打开 `reports/最终报告.md`，按里面的一次性验收清单用“胥宇 Preview.lnk”和安装包走一遍；有问题把报告和问题拿回来找 Claude。
-4. 每个阶段都是单独提交的：哪个阶段不满意，可以只回退那个阶段。
+3. ~~Codex 全部做完后，按 `reports/最终报告.md` 的清单验收~~：第一轮的清单不要走（里面一半功能软件里没有）。把新压缩包和第三段话发给 Codex 返工。
+4. 返工做完后，打开 `reports/返工最终报告.md`，按里面的验收清单用“胥宇 Preview.lnk”和安装包走一遍；有问题把报告和问题拿回来找 Claude（也可以让 Codex 推到 GitHub，Claude 直接看代码）。
+5. 每个阶段都是单独提交的：哪个阶段不满意，可以只回退那个阶段。

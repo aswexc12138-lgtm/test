@@ -9,7 +9,7 @@
 //   4. 跑下面的场景并核对；5. 卸载测试安装、删掉测试注册表项和临时目录（--keep 保留现场）。
 //
 // 用法（xuyu 仓库根目录）：
-//   node scripts/installer-ui/protocol-test.mjs [--out <报告目录>] [--keep]
+//   node scripts/installer-ui/tools/protocol-test.mjs [--out <报告目录>] [--keep]
 //        [--build-dir build] [--ui-dir scripts/installer-ui/ui] [--electron-builder <cli.js>]
 //        [--real-host <目录>]     只在 Linux：目录里放真宿主和 3 个 WebView2 文件，验证“没有 WebView2 运行时 → 经典向导”
 //
@@ -25,6 +25,7 @@ import {
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { extractProgress } from './protocol-progress.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const WIN = process.platform === 'win32';
@@ -98,6 +99,15 @@ const say = (s) => { lines.push(s); console.log(s); };
 const check = (ok, text) => { if (ok) { pass += 1; say(`  ✓ ${text}`); } else { fail += 1; say(`  ✗ ${text}`); } };
 const note = (text) => say(`  · ${text}`);
 
+async function waitForFile(file, timeoutMs) {
+  const deadline = Date.now() + timeoutMs;
+  while (Date.now() < deadline) {
+    if (existsSync(file)) return true;
+    await new Promise((resolve) => setTimeout(resolve, 200));
+  }
+  return existsSync(file);
+}
+
 // ------------------------------------------------------------------ 搭测试工程、打包
 
 function buildTestInstaller(work, hostDir) {
@@ -161,10 +171,10 @@ function buildTestInstaller(work, hostDir) {
     nsis, compression: 'normal', electronVersion: electron,
   }, null, 1));
   const r = sh(process.execPath, [EB_CLI, '--win', 'nsis', '--x64', '--prepackaged', 'app', '--config', 'eb.json', '--publish', 'never'], { cwd: work, maxBuffer: 64 * 1024 * 1024 });
-  writeFileSync(path.join(OUT, hostDir ? 'build-real-host.log' : 'build.log'), `${r.stdout}\n${r.stderr}`);
+  writeFileSync(path.join(OUT, hostDir ? 'build-real-host.txt' : 'build.txt'), `${r.stdout}\n${r.stderr}`);
   const setup = path.join(work, 'out', 'ProtocolTest-Setup.exe');
-  if (!existsSync(setup)) throw new Error(`没有打出测试安装包，见 ${path.join(OUT, 'build.log')}`);
-  if (/warning \d+:/.test(r.stdout + r.stderr)) throw new Error('makensis 有警告（electron-builder 会当错误处理），见 build.log');
+  if (!existsSync(setup)) throw new Error(`没有打出测试安装包，见 ${path.join(OUT, 'build.txt')}`);
+  if (/warning \d+:/.test(r.stdout + r.stderr)) throw new Error('makensis 有警告（electron-builder 会当错误处理），见 build.txt');
   return setup;
 }
 
@@ -241,7 +251,6 @@ async function main() {
   const setup = buildTestInstaller(work, null);
   say(`测试安装包：${setup}\n`);
   rmSync(testRoot, { recursive: true, force: true });
-  rmSync(path.join(TEMP, 'xuyu-launched.txt'), { force: true });
   for (const d of sessionDirs()) rmSync(path.join(TEMP, d), { recursive: true, force: true });
 
   try {
@@ -250,24 +259,29 @@ async function main() {
     const fresh = testDir('fresh');
     let r = await runToExit(setup, [], { XUYU_STUB: 'install', XUYU_STUB_DIR: fresh.win, XUYU_STUB_AFTER: 'launch' });
     let log = readStub();
-    writeFileSync(path.join(OUT, '1.stub.log'), log);
+    writeFileSync(path.join(OUT, '1.stub.txt'), log);
     check(r.code === 0, `安装程序退出码 0（实际 ${r.code}）`);
     check(existsSync(path.join(fresh.host, 'XUYU.exe')) && existsSync(path.join(fresh.host, 'resources', 'payload.bin')), '文件装到了界面选的位置');
     check(/init\.mode=fresh/.test(log), 'init.ini：mode=fresh');
     check(/init\.protocol=1/.test(log) && /init\.needKB=\d+/.test(log), 'init.ini：protocol=1，needKB 有值');
     const src = (log.match(/init\.dirSource=([a-z-]*)/) ?? [])[1];
     check(['auto', 'auto-system', 'default'].includes(src), `init.ini：dirSource 是自动选盘的结果（${src}）；init.dir=${(log.match(/init\.dir=(.*)/) ?? [])[1]}`);
-    const extract = [...log.matchAll(/phase=extract extractDone=(\d+)/g)].map((m) => Number(m[1]));
     check(/phase=prepare/.test(log), '进度：先有 prepare');
-    check(extract.length >= 3, `进度：extract 阶段至少 3 次真实字节数（${extract.length} 次）`);
-    check(extract.every((v, i) => i === 0 || v >= extract[i - 1]), '进度：解压字节数只增不减');
+    const progress = extractProgress(log);
+    check(progress.records.length >= progress.expected,
+      `进度：extract 阶段有真实字节数（${progress.records.length} 次，解压用时 ${progress.durationMs} ms，按每 150 ms 一次至少应有 ${progress.expected} 次）`);
+    check(progress.records.every((r) => r.done >= 0 && r.done <= r.total), '进度：字节数都在 [0, 总量] 之内（第一次回调报 0 是正常的）');
+    check(progress.records.every((r, i) => i === 0 || r.done >= progress.records[i - 1].done), '进度：解压字节数只增不减');
     check(/phase=copy/.test(log) && /phase=finish/.test(log) && /phase=done/.test(log), '进度：copy → finish → done 都出现');
     check(r.titles.size === 0, `全程没有出现 NSIS 窗口（${[...r.titles].join('、') || '无'}）`);
     const lastSession = sessionDirs().pop();
     const status = lastSession ? readStatus(lastSession) : '';
     check(/launchResult=/.test(status), `点“打开胥宇”后 NSIS 执行了启动（launchResult=${(status.match(/launchResult=(.*)/) ?? [])[1] ?? '无'}）`);
-    if (existsSync(path.join(TEMP, 'xuyu-launched.txt'))) check(true, '胥宇确实被启动了');
-    else if (WIN) check(false, '胥宇确实被启动了');
+    // 假胥宇把标记写在自己旁边（安装目录），不写 %TEMP%：经 Explorer 以普通用户身份启动的进程用的是用户自己的 TEMP，
+    // 和跑测试的这个进程的 TEMP 可能不是同一个目录。启动是异步的，最多等 10 秒。
+    const launched = await waitForFile(path.join(fresh.host, 'xuyu-launched.txt'), 10_000);
+    if (launched) check(true, '胥宇确实被启动了');
+    else if (WIN) check(false, '胥宇确实被启动了（10 秒内安装目录里没有出现 xuyu-launched.txt）');
     else note('胥宇没有真的启动：Wine 不支持 StdUtils 以普通用户身份启动（依赖 Explorer 的 Shell 接口），这项由 Windows 上的运行覆盖');
     check(/XuyuProtocolTest.fresh.XUYU/i.test(installLocation()), '注册表 InstallLocation 指向选的位置');
 
@@ -275,7 +289,7 @@ async function main() {
     resetStub();
     r = await runToExit(setup, [], { XUYU_STUB: 'install' });
     log = readStub();
-    writeFileSync(path.join(OUT, '2.stub.log'), log);
+    writeFileSync(path.join(OUT, '2.stub.txt'), log);
     check(r.code === 0, `退出码 0（实际 ${r.code}）`);
     check(/init\.mode=upgrade/.test(log), 'init.ini：mode=upgrade');
     check(/init\.dirSource=previous/.test(log) && /init\.dir=.*XuyuProtocolTest.fresh.XUYU/i.test(log), 'init.ini：沿用原位置');
@@ -338,7 +352,7 @@ async function main() {
         const hostLog = readdirSync(TEMP).filter((n) => n.startsWith('XuyuSetup-') && n.endsWith('.log') && !before.has(n));
         hostLogs.push(...hostLog);
         const text = hostLog.length ? readFileSync(path.join(TEMP, hostLog[0]), 'utf8') : '';
-        writeFileSync(path.join(OUT, '10.host.log'), text);
+        writeFileSync(path.join(OUT, '10.host.txt'), text);
         check(Boolean(w.title), `经典向导出现了（${w.title || '没有窗口'}，${w.waited.toFixed(1)} 秒）`);
         check(/webview2 runtime check/.test(text), '真宿主日志写明了原因（webview2 runtime check …）');
       }
@@ -359,8 +373,7 @@ async function main() {
       for (const d of sessionDirs()) rmSync(path.join(TEMP, d), { recursive: true, force: true });
     }
     resetStub();
-    rmSync(path.join(TEMP, 'xuyu-launched.txt'), { force: true });
-  }
+    }
 
   say(`\n通过 ${pass} 项，失败 ${fail} 项`);
   writeFileSync(path.join(OUT, 'report.md'), lines.join('\n') + '\n');

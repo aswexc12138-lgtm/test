@@ -3,7 +3,7 @@
 ;
 ; 规则（Codex 必读）：
 ;   - 除了行尾带 ";XUYU" 的行，其余每一行都必须和 electron-builder 模板里的 extractUsing7za 一字不差。
-;     scripts/installer-ui/check-extract-template.mjs 会逐行比对，不一致（比如升级了 electron-builder）就让打包失败。
+;     scripts/installer-ui/tools/check-extract-template.mjs 会逐行比对，不一致（比如升级了 electron-builder）就让打包失败。
 ;   - 本文件由 installer.nsh 的 customCheckAppRunning 在编译期 !include：那一刻模板已经定义了 extractUsing7za，
 ;     而 installApplicationFiles 还没展开，所以这里的新定义会被用上。
 ;   - 没有水墨界面时（静默安装、经典界面），走的仍是原来的 Nsis7z::Extract，行为不变。

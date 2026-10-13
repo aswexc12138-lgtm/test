@@ -105,3 +105,20 @@ test('G8：阶段范围外的文件被拦下；always 里的测试、报告随�
   const p0 = runPhase('P0').violations.filter((v) => v.rule === 'G8').map((v) => v.file).sort();
   assert.deepEqual(p0, ['docs/redesign-v4/reports/P1-自测报告.md', 'src/core/equipment.ts', 'src/renderer/components/PerformancePanel.tsx', 'tests/unit/summary-quantity.test.ts'].sort(), 'P0 除了对照报告什么都不许改（报告目录也不行）');
 });
+
+test('G9：测试把源代码当文本读来查字符串 → 拦下；读夹具、读主题 CSS 算对比度、调用真函数 → 放行', () => {
+  const dir = repoWith({
+    'tests/unit/p3-surfaces.test.ts': [
+      "const text = await readFile('src/renderer/components/FloatPanel.tsx', 'utf8');",
+      "const feedback = await readFile(resolve('src/renderer/feedback/index.ts'), 'utf8');",
+      "const css = readFileSync('src/renderer/styles.css', 'utf8');",
+      "import source from '../../src/renderer/App.tsx?raw';",
+      "const bytes = await readFile('tests/fixtures/legacy-config/a.cctv-config');",
+      "const themes = readFileSync('src/renderer/themes/themes.generated.css', 'utf8');",
+      "import { setQuantity } from '../../src/core/summary-quantity';",
+    ].join('\n') + '\n',
+  });
+  const { code, out } = run(dir);
+  assert.equal(code, 1);
+  assert.deepEqual(out.violations.filter((v) => v.rule === 'G9').map((v) => v.line), [1, 2, 3, 4]);
+});

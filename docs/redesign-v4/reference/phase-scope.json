@@ -1,5 +1,5 @@
 {
-  "$comment": "每个阶段允许改动的文件（xuyu 仓库内相对路径，glob）。diff-guard 的 G8 规则据此检查：本阶段改了范围外的文件就报错。要改范围外的文件：停下，在报告里写明原因，等用户同意后由用户（或 Claude）改这份文件，不许自己改。always 对所有阶段都允许。 同一个文件既在 always 里又在本阶段 deny 里时，以 deny 为准（例如 P0 只许写报告，不许动 tests、fixtures）。",
+  "$comment": "每个阶段允许改动的文件（xuyu 仓库内相对路径，glob）。diff-guard 的 G8 规则据此检查：本阶段改了范围外的文件就报错。要改范围外的文件：停下，在报告里写明原因，等用户同意后由用户（或 Claude）改这份文件，不许自己改。always 对所有阶段都允许。 同一个文件既在 always 里又在本阶段 deny 里时，以 deny 为准（例如 P0 只许写报告，不许动 tests、fixtures）。 2026-10-13 返工（07 文件）：新增 R0；M-05 从 P2 移到 P4；P1、P2、P3、P4、PI 补了返工要用的文件。",
   "always": [
     "tests/**",
     "fixtures/**",
@@ -17,6 +17,53 @@
         "fixtures/**",
         "docs/redesign-v4/reports/**",
         "docs/redesign-v4/traceability.json"
+      ]
+    },
+    "R0": {
+      "title": "返工第一步：先修会伤数据、让软件变难用的退化，并把检查工具接好（07 文件第三节）",
+      "ids": [
+        "R-01",
+        "R-02",
+        "R-03",
+        "R-04",
+        "R-05",
+        "R-06",
+        "R-07",
+        "R-08",
+        "R-09",
+        "R-10",
+        "R-11",
+        "R-12"
+      ],
+      "allow": [
+        "electron/main.ts",
+        "electron/preload.ts",
+        "src/shared/models.ts",
+        "src/renderer/main.tsx",
+        "src/renderer/App.tsx",
+        "src/renderer/styles.css",
+        "src/renderer/ab-ui.css",
+        "src/renderer/theme.tsx",
+        "src/renderer/themes/**",
+        "src/core/theme-schedule.ts",
+        "src/renderer/components/ModuleRail.tsx",
+        "src/renderer/components/ConfigurationCenter.tsx",
+        "src/core/object-label-layout.ts",
+        "src/renderer/components/FloorPlanCanvas.tsx",
+        "src/renderer/components/ContinuousFloorPlanCanvas.tsx",
+        "electron/services/pdf-export.ts",
+        "src/core/migrations.ts",
+        "electron/services/project-store.ts",
+        "src/core/equipment.ts",
+        "src/core/summary-quantity.ts",
+        "src/renderer/components/TeamConfigPanel.tsx",
+        "src/renderer/components/ProjectBusinessDialog.tsx",
+        "electron/services/source-file-operations.ts",
+        "eslint.config.js",
+        "package.json",
+        "scripts/preview.mjs",
+        "scripts/installer-ui/**",
+        "NOTICE.txt"
       ]
     },
     "P1": {
@@ -56,7 +103,10 @@
         "src/renderer/components/TeamConfigPanel.tsx",
         "electron/services/pdf-export.ts",
         "electron/main.ts",
-        "electron/services/project-store.ts"
+        "electron/services/project-store.ts",
+        "electron/preload.ts",
+        "src/renderer/components/WorkbenchHome.tsx",
+        "src/renderer/components/ProjectBusinessDialog.tsx"
       ]
     },
     "P2": {
@@ -71,8 +121,7 @@
         "M-01",
         "M-02",
         "M-03",
-        "M-04",
-        "M-05"
+        "M-04"
       ],
       "allow": [
         "electron/main.ts",
@@ -96,7 +145,9 @@
         "src/renderer/components/ExportLog.tsx",
         "src/renderer/components/CommandPalette.tsx",
         "src/renderer/components/HelpPopover.tsx",
-        "NOTICE.txt"
+        "NOTICE.txt",
+        "src/renderer/theme.tsx",
+        "src/renderer/components/WorkbenchHome.tsx"
       ]
     },
     "PI": {
@@ -136,7 +187,9 @@
         "build/installer-inkui.nsh",
         "build/xuyu-extract-progress.nsh",
         "scripts/installer-ui/**",
-        ".gitignore"
+        ".gitignore",
+        "scripts/preview.mjs",
+        "eslint.config.js"
       ]
     },
     "P3": {
@@ -181,11 +234,14 @@
         "src/core/keyboard-shortcuts.ts",
         "src/core/equipment.ts",
         "src/core/summary-quantity.ts",
-        "src/core/legend-layout.ts"
+        "src/core/legend-layout.ts",
+        "src/core/workspace-panels.ts",
+        "src/renderer/components/ToastNotice.tsx",
+        "src/renderer/components/ModuleRail.tsx"
       ]
     },
     "P4": {
-      "title": "主题：风格 × 模式 × 强调色、日出日落、圆形展开、纸面、对比度门槛、选择器",
+      "title": "主题：风格 × 模式 × 强调色、日出日落、圆形展开、纸面、对比度门槛、选择器；模块识别色和设备角色色（M-05，返工时从 P2 移来：它要用主题令牌）",
       "ids": [
         "T-01",
         "T-02",
@@ -196,7 +252,8 @@
         "T-07",
         "T-08",
         "T-09",
-        "T-10"
+        "T-10",
+        "M-05"
       ],
       "allow": [
         "src/renderer/theme.tsx",
@@ -212,7 +269,11 @@
         "src/renderer/components/ThemePicker.tsx",
         "src/renderer/App.tsx",
         "electron/main.ts",
-        "electron/preload.ts"
+        "electron/preload.ts",
+        "src/renderer/main.tsx",
+        "src/renderer/styles/**",
+        "src/renderer/components/TeamConfigPanel.tsx",
+        "src/renderer/components/WorkbenchHome.tsx"
       ]
     },
     "P5": {

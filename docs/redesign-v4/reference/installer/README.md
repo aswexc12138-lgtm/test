@@ -15,12 +15,12 @@
 | `installer.nsh` | 完整的安装器扩展脚本：默认位置、经典向导（I-01 – I-08）、水墨界面的接入点 | `build/installer.nsh` |
 | `installer-inkui.nsh` | 水墨界面的 NSIS 一侧：要不要用、解出宿主、写 `init.ini`、等决定、切静默、装好后等宿主退出 | `build/` |
 | `xuyu-extract-progress.nsh` | 编译期把模板的 `extractUsing7za` 换成会报真实字节数的版本（只多了 `;XUYU` 行） | `build/` |
-| `ui/` | 水墨界面（HTML / CSS / JS + 素材 + 字体子集）。浏览器直接打开 `index.html` 就有模拟宿主 | `scripts/installer-ui/ui/` |
-| `host/XuyuSetupUI.cs`、`host/app.manifest` | 宿主：无边框窗口 + WebView2，C# 5 | `scripts/installer-ui/` |
-| `host/build-host.cmd`、`host/fetch-webview2.ps1` | 用 Windows 自带的 csc 编译宿主，下载并校验 WebView2 SDK，输出到 `build/installer-ui/`（生成目录） | `scripts/installer-ui/` |
+| `ui/` | 水墨界面（HTML / CSS / JS + 素材 + 字体子集 + 字体许可 `OFL-LXGW-WenKai.txt`）。浏览器直接打开 `index.html` 就有模拟宿主 | `scripts/installer-ui/ui/` |
+| `host/XuyuSetupUI.cs`、`host/app.manifest` | 宿主：无边框窗口 + WebView2，C# 5 | `scripts/installer-ui/host/` |
+| `host/build-host.cmd`、`host/fetch-webview2.ps1` | 用 Windows 自带的 csc 编译宿主，下载并校验 WebView2 SDK，输出到 `build/installer-ui/`（生成目录） | `scripts/installer-ui/host/` |
 | `make-ui-assets.py` | 生成 `ui/` 里的笔触、纸纹、圆相和霞鹜文楷子集；`--check` 检查子集是否覆盖页面用到的字 | `scripts/installer-ui/` |
-| `tools/check-extract-template.mjs` | 检查 `xuyu-extract-progress.nsh` 和 electron-builder 模板一致 | `scripts/installer-ui/` |
-| `tools/protocol-test.mjs`、`tools/StubHost.cs`、`tools/FakeApp.cs` | 协议测试：假宿主 + 假胥宇 + 测试专用 appId，跑完自动清理 | `scripts/installer-ui/` |
+| `tools/check-extract-template.mjs` | 检查 `xuyu-extract-progress.nsh` 和 electron-builder 模板一致 | `scripts/installer-ui/tools/` |
+| `tools/protocol-test.mjs`、`tools/protocol-progress.mjs`（+ `.test.mjs`）、`tools/StubHost.cs`、`tools/FakeApp.cs` | 协议测试：假宿主 + 假胥宇 + 测试专用 appId，跑完自动清理 | `scripts/installer-ui/tools/` |
 | `art/`、`make-installer-art.py` | 经典向导的两张位图（1 倍 / 2 倍）和生成脚本 | `build/`（位图） |
 | `tools/wine-preview.sh` | 在 Linux + Wine 下运行安装包并截图（经典向导） | 不放 |
 
@@ -45,6 +45,13 @@ cd ui && python3 -m http.server 8765      # 遮罩图要同源加载，不能直
 - **真宿主**（`XuyuSetupUI.exe`，mcs 按 .NET Framework 4.8 引用程序集、C# 5 编译）在 Wine 里：读懂 UTF-16 的 `init.ini`，发现取不到 WebView2 运行时，写 `decision=classic`，日志写明原因，经典向导接手；退出几秒后它自己删掉了会话目录（I-26）。
 
 **编译**：宿主 0 警告；makensis 0 警告（electron-builder 把警告当错误）；`check-extract-template.mjs` 通过；`make-ui-assets.py --check` 通过。
+
+**2026-10-13 修了协议测试的两项判断**（第一轮 Codex 在 Windows 上跑出 28 过 / 2 败，两项都是测试本身的问题）：
+- 假胥宇的启动标记改写到安装目录（原来写 `%TEMP%`：经 Explorer 以普通用户身份启动的进程用的是用户自己的 TEMP，和跑测试的进程可能不是同一个目录），并最多等 10 秒；
+- “解压至少 3 次回调”改为按实际解压用时算（每 150 ms 一次，至少 1 次、至多要求 3 次），逻辑在 `tools/protocol-progress.mjs`，有单测；真机解压测试包不到 0.5 秒，原来的写法会误判。
+- 证据文件改为 `.txt`（`1.stub.txt`、`build.txt` 等），不会被 xuyu 的 `.gitignore`（`*.log`）挡住。
+
+改后在 Linux + Wine 下重跑：**32 项全过**（没带真宿主场景），解压用时 762 ms、记到 4 次真实字节数，假胥宇确实被启动。
 
 **没验证、必须真机看的**（规格 I-29 的人工清单）：WebView2 里水墨页面的真实渲染和动效、DPI 缩放、窗口拖动和圆角阴影、任务栏进度、选择文件夹对话框、路径检查的每种提示、“胥宇正在运行”的检查和关闭（Wine 下这项检查会误报，测试副本里只保留了取进程信息那一行，交付脚本里是完整的）。
 

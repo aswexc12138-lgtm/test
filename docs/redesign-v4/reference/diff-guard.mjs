@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * 改版防跑偏检查 · 参考实现（v4）
+ * 改版防跑偏检查 · 参考实现（v4；2026-10-13 加 G9，修 Windows 上不运行的问题）
  *
  * 只检查“本次改动新增的行”（git diff <base> -U0），不追究历史代码。
  * 接入方式：由 Codex 挂到现有入口（xuyu 的 lint / `project-handoff.mjs check` 或 `ui-audit`）里调用，
@@ -15,6 +15,7 @@
 import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const RULES = [
   {
@@ -76,6 +77,13 @@ const RULES = [
     title: '已撤销的设计不许回来（返工 / 设备布设工作台 / 任务模块）',
     files: /^(?:src|electron)\//,
     pattern: /返工|设备布设工作台|Site Planning Workbench|reworkUnlocked\s*:\s*true|['"]tasks['"]\s+as\s+const/,
+  },
+  {
+    id: 'G9',
+    title: '测试不许把源代码当文本读来查字符串（证明不了软件真的这么做）：要调用真函数、渲染真组件，或用 e2e 在软件里操作',
+    files: /^tests\/|\.test\.[cm]?[jt]sx?$|\.spec\.[cm]?[jt]sx?$/,
+    // 读 src/、electron/ 下的代码文件；样式只允许读主题目录（对比度测试要解析主题变量）
+    pattern: /\breadFile(?:Sync)?\s*\([^;]*['"`](?:\.{1,2}\/)*(?:src|electron)\/(?:(?!renderer\/themes\/)[^'"`]*\.css|[^'"`]*\.[cm]?[jt]sx?)['"`]|from\s+['"][^'"]*(?:src|electron)\/[^'"]*\?raw['"]/,
   },
 ];
 
@@ -216,4 +224,8 @@ function main() {
   process.exit(result.violations.length ? 1 : 0);
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) main();
+// 是否被直接运行：比较真实路径。不要写 import.meta.url === `file://${process.argv[1]}` ——
+// 在 Windows（D:\…）或路径里有中文、空格时永远不相等，脚本会什么都不做、静默退出 0（第一轮就是这样）。
+const invokedPath = process.argv[1] ? path.resolve(process.argv[1]) : '';
+const selfPath = fileURLToPath(import.meta.url);
+if (process.platform === 'win32' ? invokedPath.toLowerCase() === selfPath.toLowerCase() : invokedPath === selfPath) main();

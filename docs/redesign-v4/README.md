@@ -14,11 +14,14 @@
 | `04-代码与数据模型优化.md` | 用户 | 核对源码时发现的结构问题，哪些已纳入、哪些等你点头 |
 | `05-规则修订建议.md` | 用户 | 协调仓 AGENTS.md 需要改的三处文字（产品名、圆角、新增改版条款） |
 | `06-P0结论与连续执行.md` | Codex、用户 | P0 报告的处理结论；用户授权定下的事项；P1–P6 与 PI 连续执行的规则；最后交什么 |
+| `07-审计结论与返工.md` | Codex、用户 | **第一轮的审计结论**（每个阶段做到哪、哪里没做或做错，带文件:行号）；返工规则（什么叫做完、怎么证明、门禁由脚本生成）；R0 先修的 12 处退化；各阶段返工清单；最后交什么 |
 | `reference/summary-quantity.ts` | Codex | 设备汇总数量规则的样板实现（16 个测试） |
 | `reference/legend-layout.ts` | Codex | 图例排版与断行的样板实现（13 个测试，含 2 × 120 组随机形状） |
 | `reference/sun-times.ts` | Codex | 按日出日落切换白天 / 夜间（6 个测试） |
-| `reference/diff-guard.mjs` | Codex | 防跑偏检查：只查本次新增的行；G8 查每个阶段有没有改范围外的文件（5 个测试） |
-| `reference/trace-check.mjs` | Codex | “做完”检查：每个规格编号都要有真实的改动文件、真实存在的测试、界面截图（3 个测试） |
+| `reference/diff-guard.mjs` | Codex | 防跑偏检查：只查本次新增的行；G8 查每个阶段有没有改范围外的文件；G9 拦“读源码查字符串”的测试（6 个测试） |
+| `reference/wiring-check.mjs` | Codex | 接线检查：新增的文件、组件、函数、样式类、动画、preload 接口有没有被软件真正用到（7 个测试） |
+| `reference/run-gates.mjs` | Codex | 一条命令跑完一个阶段的全部门禁，原样存档输出和退出码，生成报告里要贴的 `summary.md` |
+| `reference/trace-check.mjs` | Codex | “做完”检查：每个规格编号都要有真实的改动文件、真实存在且带编号的测试、界面截图和 e2e（5 个测试） |
 | `reference/phase-scope.json` | Codex、用户 | 每个阶段允许改哪些文件、包含哪些规格编号 |
 | `reference/installer/` | Codex、用户 | **水墨安装界面**（页面、WebView2 宿主、NSIS 接入、真实进度、协议测试；效果见 `screenshots/ink-flow.mp4`、`ink-overview.jpg`）和**经典向导**（脚本、位图与生成脚本、改前改后截图 `compare.png`） |
 | `reference/themes/` | Codex | 从演示页原样提取的 9 套风格主题令牌和说明；第 10 套“水墨”的生成脚本、令牌、纸纹与墨块图、效果图（`previews/inkwash-overview.jpg`） |
@@ -29,12 +32,14 @@
 1. 把压缩包 `xuyu-redesign-v4.zip` 发给 Codex，同时发 `给Codex的开工指令.md` 方框里的那段话。它会让 Codex 解压到 xuyu 的 `docs/redesign-v4/`、单独提交一次、先读 `00-硬约束.md`、只做 P0。
 2. 有空看一下 `05-规则修订建议.md`，同意的话告诉 Codex 一起改进协调仓 AGENTS.md（你没说同意之前它不会改）。
 3. P0 已完成并过完（结论见 `06-P0结论与连续执行.md`）。把新压缩包和 `给Codex的开工指令.md` 第二段话发给 Codex，它会一口气做完 P1–P6 与安装器。
-4. 全部做完后，按 `reports/最终报告.md` 里的一次性验收清单验收（约 30 分钟）。
+4. 第一轮做完后 Claude 审计了 GitHub 上的代码，结论和返工要求在 `07-审计结论与返工.md`。把新压缩包和 `给Codex的开工指令.md` 第三段话发给 Codex 返工。
+5. 返工全部做完后，按 `reports/返工最终报告.md` 里的验收清单验收（只有真机才看得出来的那些项）。
 
 ## 已验证
 
-- 参考代码：43 个测试全部通过（Node 22.22）。运行方法见 `reference/README.md`。
-- 安装器：用与 xuyu 相同版本的 electron-builder（26.15.3）打出真实安装包，Linux + Wine（+ wine-mono）下跑通：经典向导逐页截图；水墨界面的协议测试 33 项全过（全新安装、升级、取消、经典 + 所有用户、宿主崩溃、宿主卡住、静默、`/classic`、没有 WebView2、真宿主兜底）；宿主按 .NET Framework 4.8 引用程序集、C# 5 编译 0 警告；makensis 0 警告。**WebView2 页面在 Windows 真机上的样子和交互没跑过**（Wine 没有 WebView2），页面效果是 Chromium 渲染的截图和录屏。
+- 参考代码：58 个测试全部通过（Node 22.22）。运行方法见 `reference/README.md`。
+- 2026-10-13：`wiring-check` 在第一轮代码（`origin/dev` `39a51db`）上查出 69 处没接上，和人工审计的结论一致；`diff-guard`、`trace-check` 修好了 Windows 上不运行的问题（见 07 第一节第 4 条）。
+- 安装器：用与 xuyu 相同版本的 electron-builder（26.15.3）打出真实安装包，Linux + Wine（+ wine-mono）下跑通：经典向导逐页截图；水墨界面的协议测试 33 项全过（全新安装、升级、取消、经典 + 所有用户、宿主崩溃、宿主卡住、静默、`/classic`、没有 WebView2、真宿主兜底）；2026-10-13 修了启动标记和解压回调两项判断后重跑 32 项全过（这次没带真宿主场景）；宿主按 .NET Framework 4.8 引用程序集、C# 5 编译 0 警告；makensis 0 警告。**WebView2 页面在 Windows 真机上的样子和交互没跑过**（Wine 没有 WebView2），页面效果是 Chromium 渲染的截图和录屏。
 - 水墨主题：3 个模式全部通过对比度和色差校验（生成脚本自带），注入演示页渲染了绘图、工作台、资料整理、主题浮层。
 - `diff-guard.mjs` 在 xuyu 当前代码上空跑通过；埋入的违规全部拦下；用它检查演示页自己的样式，报出的 3 处在 `reference/demo/README.md` 里写了处理办法。
 - 规格中的“现状”均对照 xuyu `checkpoint/desktop-o1a6epq`（Preview.26，`0a33e7c`）源码核实，标了文件和行号。
