@@ -1,5 +1,5 @@
 {
-  "$comment": "每个阶段允许改动的文件（xuyu 仓库内相对路径，glob）。diff-guard 的 G8 规则据此检查：本阶段改了范围外的文件就报错。要改范围外的文件：停下，在报告里写明原因，等用户同意后由用户（或 Claude）改这份文件，不许自己改。always 对所有阶段都允许。 同一个文件既在 always 里又在本阶段 deny 里时，以 deny 为准（例如 P0 只许写报告，不许动 tests、fixtures）。 2026-10-13 返工（07 文件）：新增 R0；M-05 从 P2 移到 P4；P1、P2、P3、P4、PI 补了返工要用的文件。",
+  "$comment": "每个阶段允许改动的文件（xuyu 仓库内相对路径，glob）。diff-guard 的 G8 规则据此检查：本阶段改了范围外的文件就报错。要改范围外的文件：停下，在报告里写明原因，等用户同意后由用户（或 Claude）改这份文件，不许自己改。always 对所有阶段都允许。 同一个文件既在 always 里又在本阶段 deny 里时，以 deny 为准（例如 P0 只许写报告，不许动 tests、fixtures）。 2026-10-13 返工（07 文件）：新增 R0；M-05 从 P2 移到 P4；P1、P2、P3、P4、PI 补了返工要用的文件。 2026-10-13 返工中（用户批准 Codex 的两份范围修订）：P2 加 14 个现有组件（只做 G-07 命令 id 与 M-04 通用对话框 / 反馈接线，不改布局和业务，CAD 不动）；PI 加 product.json、package-lock.json、CHANGELOG.md（只由正常 Preview 版本事务和本轮 CHANGELOG 记录改动）。",
   "always": [
     "tests/**",
     "fixtures/**",
@@ -147,7 +147,21 @@
         "src/renderer/components/HelpPopover.tsx",
         "NOTICE.txt",
         "src/renderer/theme.tsx",
-        "src/renderer/components/WorkbenchHome.tsx"
+        "src/renderer/components/WorkbenchHome.tsx",
+        "src/renderer/components/PagePanel.tsx",
+        "src/renderer/components/AnnotationTools.tsx",
+        "src/renderer/components/PdfOutputPreview.tsx",
+        "src/renderer/components/SourceLibraryPanel.tsx",
+        "src/renderer/components/SourceDocumentPreview.tsx",
+        "src/renderer/components/SourceFileOperationDialog.tsx",
+        "src/renderer/components/LegacyDeliveryDialog.tsx",
+        "src/renderer/components/TeamConfigPanel.tsx",
+        "src/renderer/components/PerformancePanel.tsx",
+        "src/renderer/components/SourceWorkflowSettings.tsx",
+        "src/renderer/components/AssetNormalizationEditor.tsx",
+        "src/renderer/components/ProjectBusinessDialog.tsx",
+        "src/renderer/components/SourceRootMappingDialog.tsx",
+        "src/renderer/components/ThemePicker.tsx"
       ]
     },
     "PI": {
@@ -189,7 +203,10 @@
         "scripts/installer-ui/**",
         ".gitignore",
         "scripts/preview.mjs",
-        "eslint.config.js"
+        "eslint.config.js",
+        "product.json",
+        "package-lock.json",
+        "CHANGELOG.md"
       ]
     },
     "P3": {
