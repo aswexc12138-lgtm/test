@@ -1,5 +1,5 @@
 {
-  "$comment": "每个阶段允许改动的文件（xuyu 仓库内相对路径，glob）。diff-guard 的 G8 规则据此检查：本阶段改了范围外的文件就报错。要改范围外的文件：停下，在报告里写明原因，等用户同意后由用户（或 Claude）改这份文件，不许自己改。always 对所有阶段都允许。 同一个文件既在 always 里又在本阶段 deny 里时，以 deny 为准（例如 P0 只许写报告，不许动 tests、fixtures）。 2026-10-13 返工（07 文件）：新增 R0；M-05 从 P2 移到 P4；P1、P2、P3、P4、PI 补了返工要用的文件。 2026-10-13 返工中（用户批准 Codex 的两份范围修订）：P2 加 14 个现有组件（只做 G-07 命令 id 与 M-04 通用对话框 / 反馈接线，不改布局和业务，CAD 不动）；PI 加 product.json、package-lock.json、CHANGELOG.md（只由正常 Preview 版本事务和本轮 CHANGELOG 记录改动）。",
+  "$comment": "每个阶段允许改动的文件（xuyu 仓库内相对路径，glob）。diff-guard 的 G8 规则据此检查：本阶段改了范围外的文件就报错。要改范围外的文件：停下，在报告里写明原因，等用户同意后由用户（或 Claude）改这份文件，不许自己改。always 对所有阶段都允许。 同一个文件既在 always 里又在本阶段 deny 里时，以 deny 为准（例如 P0 只许写报告，不许动 tests、fixtures）。 2026-10-13 返工（07 文件）：新增 R0；M-05 从 P2 移到 P4；P1、P2、P3、P4、PI 补了返工要用的文件。 2026-10-13 用户明确批准：P2新增14个非CAD组件，仅限命令id/注册及通用对话框/反馈接线，不改布局或业务；CAD仍冻结。PI新增product.json/package-lock.json/CHANGELOG.md，仅正常Preview版本事务及本轮CHANGELOG记录，不手改版本号。范围修订单独docs提交作为P2base；若P2前有用户授权的独立启动脚本修复，则base顺延至该修复提交；final仍从e099134比较。 2026-10-14 用户明确批准：P2增加electron/services/project-store.ts，仅修本机设置原子替换的有限重试，保留队列、一次备份、错误与数据语义，不改工程/CAD保存行为；本次范围修订单独docs提交同步，P2base仍a3bd104，final仍e099134。 2026-10-14 用户批准：P5 增加 pnpm-workspace.yaml，只加 packages: ['.']（单包仓库，停止 pnpm 运行前递归扫描整个仓库），保留 allowBuilds 和依赖检查，不改 pnpm 版本和锁文件；范围修订单独 docs 提交同步，P5 与 final 基线不变。",
   "always": [
     "tests/**",
     "fixtures/**",
@@ -161,7 +161,10 @@
         "src/renderer/components/AssetNormalizationEditor.tsx",
         "src/renderer/components/ProjectBusinessDialog.tsx",
         "src/renderer/components/SourceRootMappingDialog.tsx",
-        "src/renderer/components/ThemePicker.tsx"
+        "src/renderer/components/ThemePicker.tsx",
+        "src/renderer/components/ContinuousFloorPlanCanvas.tsx",
+        "docs/redesign-v4/reference/phase-scope.json",
+        "electron/services/project-store.ts"
       ]
     },
     "PI": {
@@ -230,6 +233,8 @@
         "S-11"
       ],
       "allow": [
+        "docs/redesign-v4/reference/phase-scope.json",
+        "scripts/verify-fixtures.ts",
         "src/renderer/App.tsx",
         "src/renderer/styles.css",
         "src/renderer/ab-ui.css",
@@ -310,7 +315,8 @@
         "electron/main.ts",
         "electron/preload.ts",
         "electron/services/source-library-service.ts",
-        "electron/services/work-index.ts"
+        "electron/services/work-index.ts",
+        "pnpm-workspace.yaml"
       ]
     },
     "P6": {
