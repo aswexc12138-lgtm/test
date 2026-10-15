@@ -8,7 +8,10 @@
  * 用法（xuyu 仓库根目录）：
  *   node docs/redesign-v4/reference/run-gates.mjs --phase P3 --base <本阶段起始提交> [--e2e <e2e 文件> ...] [--repeat 3] [--no-unit] [--no-integration]
  *   --phase final：最终验收前跑，trace-check 查全部阶段、wiring-check 查全部文件、e2e 全量。
- * 输出：docs/redesign-v4/reports/gates/<阶段>/<序号>-<名字>.txt（命令、退出码、完整输出）和 summary.md。
+ *   别的轮次（例如 CAD 轮 docs/cad-v1）复用本脚本：
+ *     --scope <范围文件> --trace <登记文件> --out <存档目录> --wiring-base <本轮开工提交>
+ *   不写这四个参数时就是 v4 的默认值，行为不变。
+ * 输出：<存档目录>/<阶段>/<序号>-<名字>.txt（命令、退出码、完整输出）和 summary.md。
  * 退出码：0 = 全部通过；1 = 有没过的。
  */
 import { spawnSync } from 'node:child_process';
@@ -27,8 +30,10 @@ if (!phase || !base) {
 }
 
 const REF = 'docs/redesign-v4/reference';
-const SCOPE = `${REF}/phase-scope.json`;
-const FIRST = '300cde1';   // 改版开工前的提交（P1 起始），wiring-check 从这里算“新增”
+const SCOPE = opt('--scope') ?? `${REF}/phase-scope.json`;
+const TRACE = opt('--trace');
+const OUT = opt('--out') ?? 'docs/redesign-v4/reports/gates';
+const FIRST = opt('--wiring-base') ?? '300cde1';   // 本轮开工前的提交（v4 是 P1 起始），wiring-check 从这里算“新增”
 const isFinal = phase === 'final';
 const gates = [
   ['typecheck', 'npm run typecheck'],
@@ -39,7 +44,7 @@ const gates = [
   ['reference-tests', `node --test ${REF}/diff-guard.test.mjs ${REF}/trace-check.test.mjs ${REF}/wiring-check.test.mjs`],
   ['diff-guard', `node ${REF}/diff-guard.mjs --base ${base}${isFinal ? '' : ` --phase ${phase} --scope ${SCOPE}`}`],
   ['wiring-check', `node ${REF}/wiring-check.mjs --base ${FIRST}${isFinal ? '' : ` --phase ${phase} --scope ${SCOPE}`}`],
-  ['trace-check', `node ${REF}/trace-check.mjs --repo . --phase ${isFinal ? 'all' : phase} --scope ${SCOPE}`],
+  ['trace-check', `node ${REF}/trace-check.mjs --repo . --phase ${isFinal ? 'all' : phase} --scope ${SCOPE}${TRACE ? ` --trace ${TRACE}` : ''}`],
 ];
 const e2eFiles = many('--e2e');
 if (isFinal) gates.push(['e2e-all', 'npm run test:e2e']);
@@ -49,7 +54,7 @@ for (let n = 1; e2eFiles.length && n <= repeat; n += 1) {
   gates.push([`e2e-run${n}`, `npx playwright test ${e2eFiles.join(' ')} --workers=1`]);
 }
 
-const out = path.join('docs/redesign-v4/reports/gates', phase);
+const out = path.join(OUT, phase);
 mkdirSync(out, { recursive: true });
 const rows = [];
 gates.forEach(([name, command], index) => {

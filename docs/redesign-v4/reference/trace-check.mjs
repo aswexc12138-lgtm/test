@@ -81,6 +81,8 @@ export function check(repo, scope, phase, trace) {
   const entry = scope.phases?.[phase];
   if (!entry) return { problems: [`phase-scope.json 里没有阶段 ${phase}`], unfinished };
   const records = trace?.[phase] ?? {};
+  // 范围文件里阶段的 ui 列表：别的轮次（例如 CAD 轮）用它标出界面类编号，不靠编号前缀
+  const ui = new Set(entry.ui ?? []);
   for (const id of entry.ids ?? []) {
     const r = records[id];
     if (!r) {
@@ -102,11 +104,11 @@ export function check(repo, scope, phase, trace) {
         const error = testExists(repo, ref, id);
         if (error) problems.push(`${id}：${error}`);
       }
-      if (needsE2E(id) && !(r.tests ?? []).some((ref) => ref.startsWith('tests/e2e/'))) {
+      if ((needsE2E(id) || ui.has(id)) && !(r.tests ?? []).some((ref) => ref.startsWith('tests/e2e/'))) {
         problems.push(`${id}：界面类编号要有 tests/e2e/ 的测试在软件里真的操作过（后台模式 CCTV_E2E_HEADLESS=1，不抢前台）`);
       }
     }
-    if ((r.status === 'done' || r.status === 'already') && needsScreenshot(id)) {
+    if ((r.status === 'done' || r.status === 'already') && (needsScreenshot(id) || ui.has(id))) {
       if (!r.screenshots?.length) problems.push(`${id}：界面类编号必须附截图`);
       for (const shot of r.screenshots ?? []) if (!existsSync(path.join(repo, shot))) problems.push(`${id}：截图不存在：${shot}`);
     }

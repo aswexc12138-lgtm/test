@@ -84,3 +84,20 @@ test('安装器编号用协议测试的检查项证明：不要求 e2e，也不�
   const trace = { PI: { 'I-25': { status: 'done', files: ['src/core/equipment.ts'], tests: ['scripts/installer-ui/tools/protocol-test.mjs > 进度：解压字节数只增不减'], screenshots: ['docs/redesign-v4/reports/P3/list.png'] } } };
   assert.deepEqual(check(dir, scope, 'PI', trace).problems, []);
 });
+
+test('范围文件的 ui 列表把非前缀编号也当界面类：要截图和 e2e', () => {
+  const dir = repo({ ...files, 'tests/unit/cad.test.ts': "test('CAD-10 块库导入列出静态块', () => {});" });
+  const cad = { phases: { C3: { ids: ['CAD-10', 'CAD-11'], ui: ['CAD-10'] } } };
+  const trace = {
+    C3: {
+      'CAD-10': { status: 'done', files: ['src/core/equipment.ts'], tests: ['tests/unit/cad.test.ts > CAD-10 块库导入列出静态块'] },
+      'CAD-11': { status: 'done', files: ['src/core/equipment.ts'], tests: ['tests/unit/cad.test.ts > CAD-10 块库导入列出静态块'] },
+    },
+  };
+  const { problems } = check(dir, cad, 'C3', trace);
+  assert.ok(problems.some((p) => p.startsWith('CAD-10：界面类编号要有 tests/e2e/')));
+  assert.ok(problems.some((p) => p.startsWith('CAD-10：界面类编号必须附截图')));
+  // CAD-11 不在 ui 列表：测试名不带 CAD-11 才报错，不要求截图
+  assert.ok(problems.some((p) => p.startsWith('CAD-11：测试名里要带编号')));
+  assert.ok(!problems.some((p) => p.startsWith('CAD-11：界面类')));
+});

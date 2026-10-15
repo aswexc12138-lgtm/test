@@ -1,0 +1,215 @@
+{
+ "$comment": "CAD 一期每张卡允许改动的文件（xuyu 仓库内相对路径，glob），格式同 v4 的 phase-scope.json，diff-guard G8 和 trace-check 直接读。ui 列出的编号是界面类：要截图、要有 tests/e2e 测试。和本卡主题相关的小范围补充由执行者自己加进 allow，并在卡报告里写一行原因；和 CAD 无关的文件要先问用户。deny 优先于 always 和 allow。",
+ "always": [
+  "tests/**",
+  "docs/cad-v1/reports/**",
+  "docs/cad-v1/traceability.json",
+  "docs/cad-v1/phase-scope.json"
+ ],
+ "phases": {
+  "C1": {
+   "title": "环境与样本基线",
+   "ids": [
+    "CAD-01",
+    "CAD-02",
+    "CAD-03"
+   ],
+   "ui": [],
+   "allow": [
+    "scripts/cad-sample-survey.mjs",
+    "scripts/make-cad-fixtures.py",
+    "package.json"
+   ],
+   "deny": [
+    "docs/redesign-v4/**",
+    "src/renderer/themes/**"
+   ]
+  },
+  "C2": {
+   "title": "和 PDF 一样的工作",
+   "ids": [
+    "CAD-04",
+    "CAD-05",
+    "CAD-06",
+    "CAD-07",
+    "CAD-08"
+   ],
+   "ui": [
+    "CAD-04",
+    "CAD-05"
+   ],
+   "allow": [
+    "electron/native-cad/**",
+    "electron/services/cad-*.ts",
+    "src/core/cad-*.ts",
+    "src/shared/cad.ts",
+    "src/renderer/components/Cad*.tsx",
+    "src/renderer/components/cad-*.css",
+    "electron/main.ts",
+    "electron/preload.ts",
+    "src/renderer/App.tsx",
+    "scripts/cad-*.mjs",
+    "scripts/prepare-cad-runtime.mjs",
+    "scripts/verify-cad-package.mjs",
+    "electron/services/pdf-export.ts",
+    "electron/services/export-transaction.ts",
+    "electron/services/source-library-service.ts",
+    "electron/services/result-library-service.ts",
+    "electron/services/performance-store.ts",
+    "src/renderer/components/SourceDocumentPreview.tsx",
+    "src/renderer/components/SourceLibraryPanel.tsx",
+    "src/renderer/components/FloorPlanCanvas.tsx"
+   ],
+   "deny": [
+    "docs/redesign-v4/**",
+    "src/renderer/themes/**"
+   ]
+  },
+  "C3": {
+   "title": "导出版本与接收端",
+   "ids": [
+    "CAD-09",
+    "CAD-10",
+    "CAD-11",
+    "CAD-12"
+   ],
+   "ui": [
+    "CAD-09"
+   ],
+   "allow": [
+    "electron/native-cad/**",
+    "electron/services/cad-*.ts",
+    "src/core/cad-*.ts",
+    "src/shared/cad.ts",
+    "src/renderer/components/Cad*.tsx",
+    "src/renderer/components/cad-*.css",
+    "electron/main.ts",
+    "electron/preload.ts",
+    "src/renderer/App.tsx",
+    "scripts/cad-*.mjs",
+    "scripts/prepare-cad-runtime.mjs",
+    "scripts/verify-cad-package.mjs",
+    "scripts/cad-verify/**"
+   ],
+   "deny": [
+    "docs/redesign-v4/**",
+    "src/renderer/themes/**"
+   ]
+  },
+  "C4": {
+   "title": "块库",
+   "ids": [
+    "CAD-13",
+    "CAD-14",
+    "CAD-15",
+    "CAD-16"
+   ],
+   "ui": [
+    "CAD-13",
+    "CAD-14"
+   ],
+   "allow": [
+    "electron/native-cad/**",
+    "electron/services/cad-*.ts",
+    "src/core/cad-*.ts",
+    "src/shared/cad.ts",
+    "src/renderer/components/Cad*.tsx",
+    "src/renderer/components/cad-*.css",
+    "electron/main.ts",
+    "electron/preload.ts",
+    "src/renderer/App.tsx",
+    "scripts/cad-*.mjs",
+    "scripts/prepare-cad-runtime.mjs",
+    "scripts/verify-cad-package.mjs",
+    "src/shared/models.ts",
+    "src/core/migrations.ts",
+    "src/core/drawing-schemes.ts",
+    "electron/services/team-config-service.ts",
+    "electron/services/scheme-library-service.ts",
+    "src/renderer/components/TeamConfigPanel.tsx",
+    "src/renderer/components/ConfigurationCenter.tsx",
+    "src/renderer/components/FloorPlanCanvas.tsx",
+    "src/core/cad-symbols.ts"
+   ],
+   "deny": [
+    "docs/redesign-v4/**",
+    "src/renderer/themes/**"
+   ]
+  },
+  "C5": {
+   "title": "天正与各种怪图",
+   "ids": [
+    "CAD-17",
+    "CAD-18",
+    "CAD-19"
+   ],
+   "ui": [
+    "CAD-17"
+   ],
+   "allow": [
+    "electron/native-cad/**",
+    "electron/services/cad-*.ts",
+    "src/core/cad-*.ts",
+    "src/shared/cad.ts",
+    "src/renderer/components/Cad*.tsx",
+    "src/renderer/components/cad-*.css",
+    "electron/main.ts",
+    "electron/preload.ts",
+    "src/renderer/App.tsx",
+    "scripts/cad-*.mjs",
+    "scripts/prepare-cad-runtime.mjs",
+    "scripts/verify-cad-package.mjs",
+    "electron/services/file-service.ts"
+   ],
+   "deny": [
+    "docs/redesign-v4/**",
+    "src/renderer/themes/**"
+   ]
+  },
+  "C6": {
+   "title": "陌生电脑能用",
+   "ids": [
+    "CAD-20",
+    "CAD-21",
+    "CAD-22",
+    "CAD-23",
+    "CAD-24",
+    "CAD-25",
+    "CAD-26"
+   ],
+   "ui": [
+    "CAD-21",
+    "CAD-24",
+    "CAD-25"
+   ],
+   "allow": [
+    "electron/native-cad/**",
+    "electron/services/cad-*.ts",
+    "src/core/cad-*.ts",
+    "src/shared/cad.ts",
+    "src/renderer/components/Cad*.tsx",
+    "src/renderer/components/cad-*.css",
+    "electron/main.ts",
+    "electron/preload.ts",
+    "src/renderer/App.tsx",
+    "scripts/cad-*.mjs",
+    "scripts/prepare-cad-runtime.mjs",
+    "scripts/verify-cad-package.mjs",
+    "electron/services/environment-check.ts",
+    "electron/services/diagnostic-package.ts",
+    "electron/services/font-service.ts",
+    "electron/services/team-config-service.ts",
+    "src/shared/models.ts",
+    "src/renderer/components/EnvironmentCheckPanel.tsx",
+    "src/renderer/components/environment-check.css",
+    "src/renderer/components/ConfigurationCenter.tsx",
+    "src/renderer/components/TeamConfigPanel.tsx",
+    "scripts/installer-ui/guide/**"
+   ],
+   "deny": [
+    "docs/redesign-v4/**",
+    "src/renderer/themes/**"
+   ]
+  }
+ }
+}
