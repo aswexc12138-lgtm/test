@@ -31,10 +31,10 @@ a{color:#2C4A66}
 .rail span{width:30px;height:30px;border-radius:5px;display:flex;align-items:center;justify-content:center;color:#5B574F}
 .rail span.on{background:#DCE3E8;color:#2C4A66}
 .col{position:absolute;top:10px;bottom:10px}
-.pn{position:absolute;left:0;right:0;display:flex;flex-direction:column;overflow:hidden;background:#F6F2EA;border:1px solid #DCD3C3;border-radius:8px;transition:height .3s ease,opacity .25s ease,box-shadow .2s}
-.pn.act{box-shadow:0 10px 30px rgba(30,29,26,.20)}
-.pn.dim{opacity:.55}
-.pn.dim:hover{opacity:.8}
+.pn{position:absolute;left:0;right:0;display:flex;flex-direction:column;overflow:hidden;background:#F6F2EA;border:1px solid #DCD3C3;border-radius:8px;box-sizing:border-box;transition:height .45s cubic-bezier(.2,.7,.2,1),padding .45s cubic-bezier(.2,.7,.2,1),opacity .4s ease,filter .4s ease}
+.pn.act{box-shadow:none}
+.pn.dim{opacity:.45;filter:saturate(.7)}
+.pn.dim:hover{opacity:.7}
 .ph{height:38px;flex:none;display:flex;align-items:center;gap:6px;padding:0 10px 0 12px;border-bottom:1px solid #E6DFD2}
 .ph b{font-size:13px}
 .ph .ic{margin-left:auto;display:flex;gap:6px;color:#8A8478}
@@ -178,8 +178,13 @@ class Component extends DCLogic {
     const done = this.props.fileDone ?? false;
     const tab = s.tab ?? (done ? 'files' : 'pages');
     const filesAct = s.active === 'files';
-    // The focused panel stretches over the other one; the other keeps its place and size underneath.
-    const box = (on, top) => (top ? 'top:0;' : 'bottom:0;') + 'height:' + (on ? '74%' : 'calc(50% - 5px)') + ';z-index:' + (on ? 2 : 1);
+    // The focused panel spreads over the other like ink: a solid body, then a soft band that fades into the panel behind it.
+    const BAND = 72;
+    const box = (on, top) => {
+      if (!on) return (top ? 'top:0;' : 'bottom:0;') + 'padding-top:0;padding-bottom:0;height:calc(50% - 5px);z-index:1';
+      const mask = 'linear-gradient(' + (top ? 'to bottom' : 'to top') + ',#000 calc(100% - ' + BAND + 'px),rgba(0,0,0,.35) calc(100% - ' + Math.round(BAND / 2) + 'px),transparent)';
+      return (top ? 'top:0;padding-top:0;padding-bottom:' : 'bottom:0;padding-bottom:0;padding-top:') + BAND + 'px;height:calc(72% + ' + BAND + 'px);z-index:2;-webkit-mask-image:' + mask + ';mask-image:' + mask;
+    };
     return {
       pageNo: s.page,
       prevPage: () => this.setState({ page: Math.max(1, s.page - 1) }),
