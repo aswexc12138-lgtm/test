@@ -43,8 +43,8 @@ a{color:#2C4A66}
 .pn.small{height:calc(28% - 5px);z-index:1}
 /* Belly bump: the clicked panel first breathes in (its edge pulls back and caves in), then its edge pops out
    as a round belly, bumps the other panel and knocks it away; the other one flies past and settles back. */
-.anim .pn.big{animation:bump 1.25s both}
-.anim .pn.small{animation:knocked 1.25s both}
+.anim .pn.big{animation:bump 1.2s both}
+.anim .pn.small{animation:knocked 1.2s both}
 @media (prefers-reduced-motion: reduce){.anim .pn.big,.anim .pn.small{animation:none}}
 /* The clicked panel: breathes in (edge pulls back, middle caves in), pops its edge out into a round belly that
    presses into the other panel, bounces back a little, then grows into the gap. The other panel: its edge is
@@ -54,10 +54,6 @@ a{color:#2C4A66}
    Both keyframe sets share the same stops and easings so the two edges never cross. */
 @keyframes bump{0%{height:calc(28% - 5px);--bite:0px;--belly:8px;--bellyW:8px;animation-timing-function:cubic-bezier(.45,0,.55,1)}25%{height:calc(28% - 27px);--bite:24px;--belly:8px;--bellyW:8px;animation-timing-function:cubic-bezier(.4,0,1,1)}35%{height:calc(28% + 18px);--bite:0px;--belly:28px;--bellyW:50%;animation-timing-function:cubic-bezier(0,0,.2,1)}42%{height:calc(28% + 24px);--bite:0px;--belly:34px;--bellyW:50%;animation-timing-function:cubic-bezier(0,0,.2,1)}55%{height:calc(28% - 2px);--bite:0px;--belly:12px;--bellyW:30%;animation-timing-function:cubic-bezier(.05,.7,.1,1)}72%{height:calc(72% - 16px);--belly:8px;--bellyW:8px;animation-timing-function:cubic-bezier(.45,0,.55,1)}86%{height:calc(72% - 3px);animation-timing-function:cubic-bezier(.45,0,.55,1)}100%{height:calc(72% - 5px);--bite:0px;--belly:8px;--bellyW:8px}}
 @keyframes knocked{0%{height:calc(72% - 5px);--bite:0px;transform:none;animation-timing-function:cubic-bezier(.45,0,.55,1)}25%{height:calc(72% - 5px);--bite:0px;transform:none;animation-timing-function:cubic-bezier(.4,0,1,1)}35%{height:calc(72% - 5px);--bite:14px;transform:none;animation-timing-function:cubic-bezier(0,0,.2,1)}42%{height:calc(72% - 5px);--bite:26px;transform:scaleY(.95);animation-timing-function:cubic-bezier(0,0,.2,1)}55%{height:calc(28% - 36px);--bite:0px;transform:none;animation-timing-function:cubic-bezier(.05,.7,.1,1)}72%{height:calc(28% + 2px);animation-timing-function:cubic-bezier(.45,0,.55,1)}86%{height:calc(28% - 9px);animation-timing-function:cubic-bezier(.45,0,.55,1)}100%{height:calc(28% - 5px);--bite:0px}}
-@keyframes suckF{0%{top:calc(28% - 27px);opacity:0;transform:scaleY(.2);clip-path:inset(0 0 50% 0)}6%{opacity:1}20%{top:calc(28% - 49px);opacity:1;transform:scaleY(1);clip-path:inset(0 0 50% 0)}28%{top:calc(28% - 26px);opacity:0;transform:scaleY(.2);clip-path:inset(0 0 50% 0)}100%{top:calc(28% - 26px);opacity:0;clip-path:inset(0 0 50% 0)}}
-@keyframes bellyF{0%{top:calc(28% - 29px);opacity:0;transform:scaleY(.3);clip-path:inset(50% 0 0 0)}26%{top:calc(28% - 29px);opacity:0;transform:scaleY(.3);clip-path:inset(50% 0 0 0)}30%{top:calc(28% - 21px);opacity:1;transform:scaleY(1);clip-path:inset(50% 0 0 0)}36%{top:calc(28% - 20px);opacity:1;transform:scale(1.08,1.15);clip-path:inset(50% 0 0 0)}46%{top:calc(28% - 28px);opacity:.6;transform:scaleY(.5);clip-path:inset(50% 0 0 0)}54%{top:calc(28% - 28px);opacity:0;transform:scaleY(.2);clip-path:inset(50% 0 0 0)}100%{top:calc(28% - 28px);opacity:0;clip-path:inset(50% 0 0 0)}}
-@keyframes suckD{0%{bottom:calc(28% - 27px);opacity:0;transform:scaleY(.2);clip-path:inset(50% 0 0 0)}6%{opacity:1}20%{bottom:calc(28% - 49px);opacity:1;transform:scaleY(1);clip-path:inset(50% 0 0 0)}28%{bottom:calc(28% - 26px);opacity:0;transform:scaleY(.2);clip-path:inset(50% 0 0 0)}100%{bottom:calc(28% - 26px);opacity:0;clip-path:inset(50% 0 0 0)}}
-@keyframes bellyD{0%{bottom:calc(28% - 29px);opacity:0;transform:scaleY(.3);clip-path:inset(0 0 50% 0)}26%{bottom:calc(28% - 29px);opacity:0;transform:scaleY(.3);clip-path:inset(0 0 50% 0)}30%{bottom:calc(28% - 21px);opacity:1;transform:scaleY(1);clip-path:inset(0 0 50% 0)}36%{bottom:calc(28% - 20px);opacity:1;transform:scale(1.08,1.15);clip-path:inset(0 0 50% 0)}46%{bottom:calc(28% - 28px);opacity:.6;transform:scaleY(.5);clip-path:inset(0 0 50% 0)}54%{bottom:calc(28% - 28px);opacity:0;transform:scaleY(.2);clip-path:inset(0 0 50% 0)}100%{bottom:calc(28% - 28px);opacity:0;clip-path:inset(0 0 50% 0)}}
 .pn.act{box-shadow:0 6px 18px rgba(30,29,26,.12)}
 .pn.dim{opacity:.5;filter:saturate(.7)}
 .pn.dim:hover{opacity:.7}
@@ -160,7 +156,7 @@ a{color:#2C4A66}
 </div>
 
 <div style="position: absolute; left: 330px; right: 310px; top: 10px; bottom: 10px; display: flex; align-items: center; justify-content: center">
-<div style="width: 92%; max-width: 560px; aspect-ratio: 0.72; background: #fff; box-shadow: 0 6px 24px rgba(30,29,26,.15)">
+<div style="height: 96%; max-width: 92%; aspect-ratio: 0.72; background: #fff; box-shadow: 0 6px 24px rgba(30,29,26,.15)">
 <svg width="100%" height="100%" viewBox="0 0 400 556" aria-hidden="true"><g fill="none" stroke="#9A9386" stroke-width="1.6"><rect x="30" y="40" width="340" height="470"></rect><path d="M30 220h160M190 40v190M190 290v220M280 40v150M280 260v250M280 380h90"></path></g><g fill="none" stroke="#2C4A66" stroke-width="2"><circle cx="110" cy="120" r="8"></circle><path d="M118 120h14m-5-5l5 5-5 5"></path><circle cx="240" cy="420" r="8"></circle><path d="M248 420h14m-5-5l5 5-5 5"></path></g><g font-size="11" font-weight="700" fill="#1E1D1A" text-anchor="middle"><text x="112" y="144">Cam1</text><text x="242" y="444">Cam2</text></g></svg>
 </div>
 <div style="position: absolute; right: 0; bottom: 0; display: flex; align-items: center; gap: 14px; background: #F6F2EA; border: 1px solid #DCD3C3; border-radius: 6px; padding: 4px 12px; font-size: 12px"><span>–</span><span>100%</span><span>+</span><span style="color: #8A8478">|</span><span>适配</span></div>
