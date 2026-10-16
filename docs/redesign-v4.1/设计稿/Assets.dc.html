@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>方案编辑器 · 设备素材</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&amp;family=Noto+Serif+SC:wght@600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#ECE6DB}
+a{color:#2C4A66}a:hover{color:#1D3348}
+.tb{height:40px;display:flex;align-items:center;gap:2px;padding:0 12px;border-bottom:1px solid #DCD3C3;background:#F1ECE3;flex-wrap:wrap}
+.logo{font-weight:700;margin-right:14px;display:flex;align-items:center;gap:8px;font-size:14px}
+.logo i{width:22px;height:22px;border-radius:5px;background:#1E1D1A;display:inline-block}
+.mod{padding:0 12px;height:40px;display:flex;align-items:center;color:#5B574F;text-decoration:none}
+.mod.on{color:#1E1D1A;font-weight:600;box-shadow:inset 0 -2px 0 #2C4A66}
+.tbr{margin-left:auto;color:#5B574F;font-size:12px}
+.nav{flex:0 0 176px;padding:16px 10px;box-sizing:border-box}
+.nav a{display:flex;align-items:center;gap:8px;height:34px;padding:0 10px;border-radius:4px;color:#3A372F;text-decoration:none}
+.nav a.on{background:#E2DACB;color:#1E1D1A;font-weight:600}
+.nav a.later{color:#9A9386}
+.main{flex:999 1 560px;min-width:0;padding:4px 24px 48px;box-sizing:border-box}
+.wrap{max-width:1200px}
+.hdr{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 0}
+.hdr h1{margin:0;font-size:18px;font-family:'Noto Serif SC',serif;font-weight:600}
+.back{display:inline-flex;align-items:center;gap:4px;color:#5B574F;text-decoration:none;font-size:13px}
+.dirty{color:#A15C1F;font-size:12px;display:inline-flex;align-items:center;gap:6px}
+.dirty::before{content:'';width:7px;height:7px;border-radius:50%;background:#C77A2E}
+.tabs{display:flex;gap:2px;margin:0 0 12px;border-bottom:1px solid #DCD3C3;flex-wrap:wrap}
+.tabs a{padding:8px 14px;color:#5B574F;text-decoration:none;border-bottom:2px solid transparent;margin-bottom:-1px}
+.tabs a.on{color:#1E1D1A;border-bottom-color:#2C4A66;font-weight:600}
+.card{background:#F6F2EA;border:1px solid #DCD3C3;border-radius:6px;padding:14px 16px}
+.row{display:flex;align-items:center;gap:10px 14px;flex-wrap:wrap}
+.lbl{color:#5B574F;font-size:12px}
+.in{height:30px;border:1px solid #CFC6B5;border-radius:4px;background:#FBF9F4;padding:0 8px;font:inherit;color:inherit;box-sizing:border-box}
+.in:focus{outline:2px solid #2C4A66;outline-offset:-1px}
+.btn{height:30px;padding:0 12px;border:1px solid #CFC6B5;border-radius:4px;background:#FBF9F4;font:inherit;color:#1E1D1A;cursor:pointer;display:inline-flex;align-items:center;gap:6px;text-decoration:none}
+.btn.pri{background:#1E1D1A;color:#F6F2EA;border-color:#1E1D1A}
+.btn.danger{color:#A33A2E;border-color:#D9B3AC}
+.seg{display:inline-flex;border:1px solid #CFC6B5;border-radius:4px;overflow:hidden;background:#FBF9F4}
+.seg button{height:28px;padding:0 10px;border:0;border-left:1px solid #E2DACB;background:transparent;font:inherit;color:#3A372F;cursor:pointer}
+.seg button:first-child{border-left:0}
+.seg button.on{background:#2C4A66;color:#fff}
+.step{display:inline-flex;align-items:center;border:1px solid #CFC6B5;border-radius:4px;background:#FBF9F4;height:30px;box-sizing:border-box}
+.step button{width:26px;height:28px;border:0;background:transparent;cursor:pointer;font:inherit;color:#3A372F}
+.step span{min-width:36px;text-align:center;font-variant-numeric:tabular-nums}
+.chip{display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:12px;background:#E3DBCC;color:#1E1D1A;font-size:12px}
+.tog{width:34px;height:20px;border-radius:10px;background:#CFC6B5;border:0;position:relative;cursor:pointer;padding:0;flex:none}
+.tog::after{content:'';position:absolute;left:2px;top:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:left .15s}
+.tog.on{background:#2C4A66}.tog.on::after{left:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
+.ac{background:#F6F2EA;border:1px solid #DCD3C3;border-radius:6px;padding:8px;text-align:left;font:inherit;color:inherit;cursor:pointer;display:flex;flex-direction:column;gap:6px}
+.ac:hover{border-color:#B8AE9C}
+.ac.sel{border-color:#2C4A66;box-shadow:0 0 0 1px #2C4A66}
+.thumb{height:96px;border-radius:4px;background:#EFE9DE;display:flex;align-items:center;justify-content:center;color:#3A372F}
+.role{font-size:11px;display:inline-flex;align-items:center;gap:4px}
+.role.point{color:#2C4A66}.role.sum{color:#6B4C7A}
+.tiny{display:inline-flex;align-items:center;height:20px;padding:0 7px;border-radius:10px;background:#E6DFD2;font-size:11px;color:#3A372F}
+.cat{height:26px;padding:0 10px;border-radius:13px;border:1px solid #CFC6B5;background:#FBF9F4;font:inherit;font-size:12px;color:#3A372F;cursor:pointer}
+.cat.on{background:#2C4A66;border-color:#2C4A66;color:#fff}
+.drawer{flex:0 0 340px;min-width:0;background:#F6F2EA;border:1px solid #DCD3C3;border-radius:6px;padding:14px 16px;box-sizing:border-box;display:flex;flex-direction:column;gap:14px}
+.fr{display:flex;align-items:center;gap:10px}
+.fr .lbl{width:64px;flex:none}
+</style>
+</helmet>
+<div style="font-family: 'Noto Sans SC', 'Microsoft YaHei', system-ui, sans-serif; color: #1E1D1A; font-size: 13px; line-height: 1.5; background: #ECE6DB; min-height: 900px">
+<header class="tb">
+<span class="logo"><i></i>胥宇</span>
+<a class="mod" href="#">工作台</a><a class="mod" href="#">资料整理</a><a class="mod" href="#">绘图</a><a class="mod" href="#">绩效</a><a class="mod on" href="#">配置</a>
+<span class="tbr">水墨 · 白天</span>
+</header>
+<div style="display: flex; flex-wrap: wrap">
+<nav class="nav" aria-label="配置中心">
+<a href="#">通用</a>
+<a href="Shortcuts.dc.html">快捷键</a>
+<a class="on" href="Overview.dc.html">绘图方案</a>
+<a href="#">资料与企业品牌</a>
+<a href="#">数据与备份</a>
+<a class="later" href="#">CAD 支持</a>
+</nav>
+<main class="main">
+<div class="wrap">
+<div class="hdr">
+<a class="back" href="Overview.dc.html">← 方案库</a>
+<span style="color: #B8AE9C">/</span>
+<h1>BIG（老店）</h1>
+<span class="chip">海外门店</span>
+<span class="chip" style="background: #DCE3E8; color: #2C4A66">默认方案</span>
+<span style="flex: 1"></span>
+<sc-if value="{{ dirty }}" hint-placeholder-val="{{ true }}"><span class="dirty">有未保存的修改</span></sc-if>
+<button class="btn" type="button">保存并设为默认</button>
+<button class="btn pri" type="button" onClick="{{ save }}">保存</button>
+</div>
+<nav class="tabs" aria-label="方案设置">
+<a href="Main.dc.html">基本与编号</a>
+<a href="Categories.dc.html">分类与汇总说明</a>
+<a class="on" href="Assets.dc.html">设备素材</a>
+<a href="Styles.dc.html">样式</a>
+<a href="Summary.dc.html">汇总与导出</a>
+</nav>
+
+<div class="row" style="margin-bottom: 12px">
+<button class="btn pri" type="button">＋ 上传图片</button>
+<button class="btn" type="button">重新自动裁边全部</button>
+<button class="btn" type="button">统一视觉中心</button>
+<span style="flex: 1"></span>
+<input class="in" style="width: 180px" placeholder="搜索素材" value="{{ query }}" aria-label="搜索素材" onChange="{{ setQuery }}">
+<span class="seg"><sc-for list="{{ filters }}" as="o" hint-placeholder-count="3"><button type="button" class="{{ o.cls }}" onClick="{{ o.pick }}">{{ o.label }}</button></sc-for></span>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-start">
+<div style="flex: 1 1 520px; min-width: 0">
+<div class="grid">
+<sc-for list="{{ shown }}" as="a" hint-placeholder-count="8">
+<button type="button" class="{{ a.cls }}" onClick="{{ a.pick }}">
+<span class="thumb"><sc-if value="{{ a.isDome }}" hint-placeholder-val="{{ true }}"><svg width="70" height="56" viewBox="0 0 70 56" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M8 26h54"></path><path d="M12 26a23 23 0 0 0 46 0"></path><circle cx="35" cy="34" r="8"></circle><circle cx="35" cy="34" r="3"></circle></svg></sc-if><sc-if value="{{ a.isBullet }}" hint-placeholder-val="{{ false }}"><svg width="76" height="52" viewBox="0 0 76 52" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="10" y="12" width="44" height="22" rx="4"></rect><path d="M54 16l12-4v22l-12-4"></path><path d="M24 34v10h16"></path></svg></sc-if><sc-if value="{{ a.isBox }}" hint-placeholder-val="{{ false }}"><svg width="80" height="46" viewBox="0 0 80 46" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="6" y="10" width="68" height="26" rx="3"></rect><circle cx="16" cy="23" r="2"></circle><circle cx="24" cy="23" r="2"></circle><path d="M40 18h6v10h-6zM50 18h6v10h-6zM60 18h6v10h-6z"></path></svg></sc-if><sc-if value="{{ a.isAudio }}" hint-placeholder-val="{{ false }}"><svg width="60" height="60" viewBox="0 0 60 60" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 24h10l14-10v32L24 36H14z"></path><path d="M44 22a10 10 0 0 1 0 16"></path></svg></sc-if></span>
+<span style="font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ a.name }}</span>
+<span class="row" style="gap: 4px"><span class="{{ a.roleCls }}">{{ a.roleText }}</span><sc-for list="{{ a.cats }}" as="t" hint-placeholder-count="1"><span class="tiny">{{ t.label }}</span></sc-for></span>
+</button>
+</sc-for>
+</div>
+<p class="lbl" style="margin: 10px 0 0">图标为示意，实际显示你上传的设备照片。</p>
+</div>
+
+<aside class="drawer" aria-label="素材详情">
+<div class="fr"><input class="in" style="flex: 1; font-weight: 600" value="{{ cur.name }}" aria-label="素材名称" onChange="{{ rename }}"></div>
+<div style="position: relative; height: 160px; border-radius: 4px; background: #EFE9DE; display: flex; align-items: center; justify-content: center">
+<span style="position: absolute; left: 22%; top: 14%; right: 22%; bottom: 14%; border: 1px dashed #2C4A66"></span>
+<span style="position: absolute; left: 50%; top: 50%; width: 14px; height: 14px; margin: -7px 0 0 -7px; border-left: 1px solid #C0392B; border-top: 1px solid #C0392B; transform: rotate(45deg)"></span>
+<span class="lbl" style="position: absolute; left: 8px; bottom: 6px">虚线：裁边　红叉：视觉中心</span>
+</div>
+<div class="row" style="gap: 8px"><button class="btn" type="button">调整裁边 / 中心</button><button class="btn" type="button">重新自动裁边</button></div>
+<div class="fr"><span class="lbl">用途</span><span class="seg"><sc-for list="{{ roles }}" as="o" hint-placeholder-count="2"><button type="button" class="{{ o.cls }}" onClick="{{ o.pick }}">{{ o.label }}</button></sc-for></span></div>
+<sc-if value="{{ isPoint }}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; gap: 14px">
+<div class="fr" style="align-items: flex-start"><span class="lbl" style="padding-top: 4px">业务分类</span><span class="row" style="gap: 6px"><sc-for list="{{ catOpts }}" as="c" hint-placeholder-count="5"><button type="button" class="{{ c.cls }}" onClick="{{ c.toggle }}">{{ c.label }}</button></sc-for></span></div>
+<div class="fr"><span class="lbl">显示倍率</span><span class="step"><button type="button" aria-label="缩小" onClick="{{ scaleDec }}">−</button><span>{{ scaleText }}</span><button type="button" aria-label="放大" onClick="{{ scaleInc }}">+</button></span><span class="lbl">× 统一尺寸</span></div>
+<div class="fr"><span class="lbl">默认红圈</span><button type="button" class="{{ ringCls }}" aria-label="放置后默认带重点红圈" onClick="{{ toggleRing }}"></button><span class="lbl">放置后自动带重点红圈</span></div>
+</div>
+</sc-if>
+<div class="fr"><span class="lbl">汇总单位</span><input class="in" style="width: 56px; text-align: center" value="{{ cur.unit }}" aria-label="汇总单位" onChange="{{ setUnit }}"></div>
+<div class="fr"><span class="lbl">DWG 符号</span><select class="in" style="width: 150px" aria-label="DWG 符号"><option>枪机 / 摄像机</option><option>球机 / 半球</option><option>设备 / 主机</option></select></div>
+<div style="border-top: 1px solid #DCD3C3; padding-top: 12px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap">
+<a href="Shortcuts.dc.html" style="font-size: 12px">连续放置快捷键在“快捷键”页设置 →</a>
+<span style="flex: 1"></span>
+<sc-if value="{{ moreOpen }}" hint-placeholder-val="{{ false }}"><button class="btn danger" type="button" onClick="{{ remove }}">移除素材</button></sc-if>
+<button class="btn" type="button" aria-label="更多操作" onClick="{{ toggleMore }}">⋯</button>
+</div>
+</aside>
+</div>
+</div>
+</main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = {
+      dirty: false, sel: 1, filter: 'all', query: '', moreOpen: false,
+      assets: [
+        { id: 1, name: 'D6PS-1 半球', kind: 'dome', role: 'point', cats: ['卖场监控'], scale: 1, ring: false, unit: '台' },
+        { id: 2, name: '点位摄像机', kind: 'dome', role: 'point', cats: ['客流'], scale: 1, ring: false, unit: '台' },
+        { id: 3, name: '枪机 BX-2', kind: 'bullet', role: 'point', cats: ['卖场监控', '隔间监控'], scale: 1.2, ring: true, unit: '台' },
+        { id: 4, name: '收银拾音器', kind: 'audio', role: 'point', cats: ['收银台拾音'], scale: 0.8, ring: false, unit: '个' },
+        { id: 5, name: '排队检测摄像机', kind: 'bullet', role: 'point', cats: ['收银台空岗/排队'], scale: 1, ring: false, unit: '台' },
+        { id: 6, name: '录像机 NVR', kind: 'box', role: 'sum', cats: [], scale: 1, ring: false, unit: '台' },
+        { id: 7, name: '8 口交换机', kind: 'box', role: 'sum', cats: [], scale: 1, ring: false, unit: '台' },
+        { id: 8, name: '音柱', kind: 'audio', role: 'sum', cats: [], scale: 1, ring: false, unit: '只' }
+      ]
+    };
+  }
+  renderVals() {
+    const s = this.state;
+    const set = (patch) => this.setState(Object.assign({ dirty: true }, patch));
+    const cur = s.assets.find((a) => a.id === s.sel) || s.assets[0];
+    const patchCur = (patch) => set({ assets: s.assets.map((a) => a.id === cur.id ? Object.assign({}, a, patch) : a) });
+    const allCats = ['客流', '收银台空岗/排队', '收银台拾音', '卖场监控', '隔间监控'];
+    const shown = s.assets.filter((a) => (s.filter === 'all' || a.role === s.filter) && (!s.query || a.name.indexOf(s.query) >= 0));
+    return {
+      dirty: s.dirty,
+      save: () => this.setState({ dirty: false }),
+      query: s.query,
+      setQuery: (e) => this.setState({ query: e.target.value }),
+      filters: [['all', '全部'], ['point', '点位设备'], ['sum', '汇总设备']].map(([v, label]) => ({ label, cls: s.filter === v ? 'on' : '', pick: () => this.setState({ filter: v }) })),
+      shown: shown.map((a) => ({
+        name: a.name,
+        cls: a.id === cur.id ? 'ac sel' : 'ac',
+        pick: () => this.setState({ sel: a.id, moreOpen: false }),
+        isDome: a.kind === 'dome', isBullet: a.kind === 'bullet', isBox: a.kind === 'box', isAudio: a.kind === 'audio',
+        roleCls: a.role === 'point' ? 'role point' : 'role sum',
+        roleText: a.role === 'point' ? '● 点位' : '■ 汇总',
+        cats: (a.cats.length > 2 ? a.cats.slice(0, 1).concat(['+' + (a.cats.length - 1)]) : a.cats).map((t) => ({ label: t }))
+      })),
+      cur: { name: cur.name, unit: cur.unit },
+      rename: (e) => patchCur({ name: e.target.value }),
+      setUnit: (e) => patchCur({ unit: e.target.value.slice(0, 2) }),
+      roles: [['point', '点位设备'], ['sum', '汇总设备']].map(([v, label]) => ({ label, cls: cur.role === v ? 'on' : '', pick: () => patchCur({ role: v }) })),
+      isPoint: cur.role === 'point',
+      catOpts: allCats.map((c) => ({ label: c, cls: cur.cats.indexOf(c) >= 0 ? 'cat on' : 'cat', toggle: () => patchCur({ cats: cur.cats.indexOf(c) >= 0 ? cur.cats.filter((x) => x !== c) : cur.cats.concat([c]) }) })),
+      scaleText: cur.scale.toFixed(1),
+      scaleInc: () => patchCur({ scale: Math.min(3, Math.round((cur.scale + 0.1) * 10) / 10) }),
+      scaleDec: () => patchCur({ scale: Math.max(0.5, Math.round((cur.scale - 0.1) * 10) / 10) }),
+      ringCls: cur.ring ? 'tog on' : 'tog',
+      toggleRing: () => patchCur({ ring: !cur.ring }),
+      moreOpen: s.moreOpen,
+      toggleMore: () => this.setState({ moreOpen: !s.moreOpen }),
+      remove: () => { const rest = s.assets.filter((a) => a.id !== cur.id); set({ assets: rest, sel: rest.length ? rest[0].id : 0, moreOpen: false }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>取色浮层</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+.lbl{color:#5B574F;font-size:12px}
+.in{height:28px;border:1px solid #CFC6B5;border-radius:4px;background:#FBF9F4;padding:0 6px;font:inherit;color:inherit;box-sizing:border-box}
+.btn{height:28px;padding:0 10px;border:1px solid #CFC6B5;border-radius:4px;background:#FBF9F4;font:inherit;color:#1E1D1A;cursor:pointer}
+.pop{width:248px;background:#FBF9F4;border:1px solid #CFC6B5;border-radius:6px;box-shadow:0 10px 28px rgba(30,29,26,.18);padding:12px;box-sizing:border-box}
+.pal{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.pal button{height:28px;border-radius:4px;border:1px solid rgba(0,0,0,.15);cursor:pointer;padding:0;position:relative}
+.pal button.on{box-shadow:0 0 0 2px #FBF9F4,0 0 0 4px #2C4A66}
+.sw{width:30px;height:24px;border-radius:4px;border:1px solid rgba(0,0,0,.18);padding:0;cursor:pointer}
+.more{background:none;border:0;padding:0;font:inherit;font-size:12px;color:#2C4A66;cursor:pointer}
+input[type=range]{width:100%;accent-color:#2C4A66}
+</style>
+</helmet>
+<div style="width: 760px; height: 560px; box-sizing: border-box; padding: 28px 32px; background: #ECE6DB; font-family: 'Noto Sans SC', 'Microsoft YaHei', system-ui, sans-serif; color: #1E1D1A; font-size: 13px; display: flex; gap: 40px">
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div class="lbl">平时：常用色一点就好</div>
+<div style="display: flex; align-items: center; gap: 10px"><span>点位编号 · 颜色</span><button type="button" class="sw" style="{{ curStyle }}" aria-label="当前颜色"></button><span class="lbl" style="font-family: Consolas, monospace">{{ cur }}</span></div>
+<div class="pop" role="dialog" aria-label="选择颜色">
+<div class="lbl" style="margin-bottom: 6px">图纸常用色</div>
+<div class="pal"><sc-for list="{{ palette }}" as="p" hint-placeholder-count="12"><button type="button" class="{{ p.cls }}" style="{{ p.style }}" aria-label="{{ p.name }}" title="{{ p.name }}" onClick="{{ p.pick }}"></button></sc-for></div>
+<div class="lbl" style="margin: 10px 0 6px">最近用过</div>
+<div class="pal"><sc-for list="{{ recent }}" as="p" hint-placeholder-count="4"><button type="button" class="{{ p.cls }}" style="{{ p.style }}" aria-label="{{ p.name }}" title="{{ p.name }}" onClick="{{ p.pick }}"></button></sc-for></div>
+<div style="display: flex; gap: 6px; margin-top: 10px; align-items: center"><input class="in" style="width: 92px; font-family: Consolas, monospace" value="{{ cur }}" aria-label="色值" onChange="{{ setHex }}"><button type="button" class="btn">吸管</button><span style="flex: 1"></span><button type="button" class="more" onClick="{{ toggleMore }}">{{ moreText }}</button></div>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div class="lbl">需要别的颜色：展开“更多颜色”</div>
+<div class="pop" style="width: 268px">
+<div style="{{ svStyle }}" aria-hidden="true"><span style="{{ dotStyle }}"></span></div>
+<div class="lbl" style="margin: 10px 0 4px">色相</div>
+<input type="range" min="0" max="359" value="{{ hue }}" aria-label="色相" onChange="{{ setHue }}">
+<div style="display: flex; gap: 6px; align-items: center; margin-top: 10px">
+<span style="{{ hueSwatch }}"></span>
+<input class="in" style="width: 92px; font-family: Consolas, monospace" value="{{ hueHex }}" aria-label="色值">
+<span style="flex: 1"></span>
+<button type="button" class="btn" style="background: #1E1D1A; color: #F6F2EA; border-color: #1E1D1A" onClick="{{ useHue }}">用这个颜色</button>
+</div>
+</div>
+<div class="lbl" style="max-width: 268px; line-height: 1.6">全软件只用这一个取色浮层：文字颜色、箭头、红圈、高亮都一样。不再弹出系统自带的取色窗口。</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":760,"height":560}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { cur: '#E53935', recent: ['#C0392B', '#1E2A3A', '#0E6E5C', '#283593'], hue: 200, more: true };
+  }
+  renderVals() {
+    const s = this.state;
+    const COLORS = [['#E53935', '红'], ['#C62828', '深红'], ['#F57C00', '橙'], ['#F9A825', '黄'], ['#2E7D32', '绿'], ['#00897B', '青'], ['#1E88E5', '蓝'], ['#283593', '靛'], ['#6A1B9A', '紫'], ['#1E1D1A', '黑'], ['#5B574F', '深灰'], ['#9E9E9E', '灰']];
+    const pick = (c) => this.setState({ cur: c, recent: [c].concat(s.recent.filter((x) => x !== c)).slice(0, 6) });
+    const hsl = (h) => {
+      const f = (n) => { const k = (n + h / 30) % 12; const a = 0.75 * Math.min(0.45, 1 - 0.45); const v = 0.45 - a * Math.max(-1, Math.min(k - 3, 9 - k, 1)); return Math.round(v * 255).toString(16).padStart(2, '0'); };
+      return ('#' + f(0) + f(8) + f(4)).toUpperCase();
+    };
+    const hueHex = hsl(s.hue);
+    return {
+      cur: s.cur,
+      curStyle: 'background:' + s.cur,
+      palette: COLORS.map(([c, name]) => ({ name, cls: c === s.cur ? 'on' : '', style: 'background:' + c, pick: () => pick(c) })),
+      recent: s.recent.map((c) => ({ name: c, cls: c === s.cur ? 'on' : '', style: 'background:' + c, pick: () => pick(c) })),
+      setHex: (e) => { const v = e.target.value.trim(); if (/^#[0-9a-fA-F]{6}$/.test(v)) pick(v.toUpperCase()); },
+      moreText: s.more ? '收起更多颜色' : '更多颜色 ▸',
+      toggleMore: () => this.setState({ more: !s.more }),
+      hue: s.hue,
+      setHue: (e) => this.setState({ hue: Number(e.target.value) }),
+      svStyle: 'position:relative;height:140px;border-radius:4px;background:linear-gradient(to top,#000,rgba(0,0,0,0)),linear-gradient(to right,#fff,hsl(' + s.hue + ',100%,50%))',
+      dotStyle: 'position:absolute;left:72%;top:30%;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.4)',
+      hueHex,
+      hueSwatch: 'display:inline-block;width:30px;height:24px;border-radius:4px;border:1px solid rgba(0,0,0,.18);background:' + hueHex,
+      useHue: () => pick(hueHex)
+    };
+  }
+}
+</script>
+</body>
+</html>

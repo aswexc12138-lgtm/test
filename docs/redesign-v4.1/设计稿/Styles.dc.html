@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>方案编辑器 · 样式</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&amp;family=Noto+Serif+SC:wght@600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#ECE6DB}
+a{color:#2C4A66}a:hover{color:#1D3348}
+.tb{height:40px;display:flex;align-items:center;gap:2px;padding:0 12px;border-bottom:1px solid #DCD3C3;background:#F1ECE3;flex-wrap:wrap}
+.logo{font-weight:700;margin-right:14px;display:flex;align-items:center;gap:8px;font-size:14px}
+.logo i{width:22px;height:22px;border-radius:5px;background:#1E1D1A;display:inline-block}
+.mod{padding:0 12px;height:40px;display:flex;align-items:center;color:#5B574F;text-decoration:none}
+.mod.on{color:#1E1D1A;font-weight:600;box-shadow:inset 0 -2px 0 #2C4A66}
+.tbr{margin-left:auto;color:#5B574F;font-size:12px}
+.nav{flex:0 0 176px;padding:16px 10px;box-sizing:border-box}
+.nav a{display:flex;align-items:center;gap:8px;height:34px;padding:0 10px;border-radius:4px;color:#3A372F;text-decoration:none}
+.nav a.on{background:#E2DACB;color:#1E1D1A;font-weight:600}
+.nav a.later{color:#9A9386}
+.main{flex:999 1 560px;min-width:0;padding:4px 24px 48px;box-sizing:border-box}
+.wrap{max-width:1200px}
+.hdr{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 0}
+.hdr h1{margin:0;font-size:18px;font-family:'Noto Serif SC',serif;font-weight:600}
+.back{display:inline-flex;align-items:center;gap:4px;color:#5B574F;text-decoration:none;font-size:13px}
+.dirty{color:#A15C1F;font-size:12px;display:inline-flex;align-items:center;gap:6px}
+.dirty::before{content:'';width:7px;height:7px;border-radius:50%;background:#C77A2E}
+.tabs{display:flex;gap:2px;margin:0 0 12px;border-bottom:1px solid #DCD3C3;flex-wrap:wrap}
+.tabs a{padding:8px 14px;color:#5B574F;text-decoration:none;border-bottom:2px solid transparent;margin-bottom:-1px}
+.tabs a.on{color:#1E1D1A;border-bottom-color:#2C4A66;font-weight:600}
+.card{background:#F6F2EA;border:1px solid #DCD3C3;border-radius:6px;padding:14px 16px}
+.card h3{margin:0 0 10px;font-size:14px;display:flex;align-items:center;gap:6px}
+.row{display:flex;align-items:center;gap:10px 14px;flex-wrap:wrap}
+.lbl{color:#5B574F;font-size:12px}
+.in{height:28px;border:1px solid #CFC6B5;border-radius:4px;background:#FBF9F4;padding:0 6px;font:inherit;color:inherit;box-sizing:border-box}
+.btn{height:30px;padding:0 12px;border:1px solid #CFC6B5;border-radius:4px;background:#FBF9F4;font:inherit;color:#1E1D1A;cursor:pointer;display:inline-flex;align-items:center;gap:6px;text-decoration:none}
+.btn.pri{background:#1E1D1A;color:#F6F2EA;border-color:#1E1D1A}
+.seg{display:inline-flex;border:1px solid #CFC6B5;border-radius:4px;overflow:hidden;background:#FBF9F4}
+.seg button{height:26px;padding:0 8px;border:0;border-left:1px solid #E2DACB;background:transparent;font:inherit;font-size:12px;color:#3A372F;cursor:pointer}
+.seg button:first-child{border-left:0}
+.seg button.on{background:#2C4A66;color:#fff}
+.step{display:inline-flex;align-items:center;border:1px solid #CFC6B5;border-radius:4px;background:#FBF9F4;height:28px;box-sizing:border-box}
+.step button{width:22px;height:26px;border:0;background:transparent;cursor:pointer;font:inherit;color:#3A372F}
+.step span{min-width:32px;text-align:center;font-variant-numeric:tabular-nums;font-size:12px}
+.q{display:inline-flex;width:15px;height:15px;border-radius:50%;border:1px solid #B8AE9C;color:#8A8478;font-size:10px;align-items:center;justify-content:center;cursor:help;font-weight:400}
+.chip{display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:12px;background:#E3DBCC;color:#1E1D1A;font-size:12px}
+.tog{width:34px;height:20px;border-radius:10px;background:#CFC6B5;border:0;position:relative;cursor:pointer;padding:0;flex:none}
+.tog::after{content:'';position:absolute;left:2px;top:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:left .15s}
+.tog.on{background:#2C4A66}.tog.on::after{left:16px}
+.sw{width:28px;height:24px;border-radius:4px;border:1px solid rgba(0,0,0,.18);cursor:pointer;padding:0;display:block}
+.bold{width:28px;height:26px;border:1px solid #CFC6B5;border-radius:4px;background:#FBF9F4;font:inherit;font-weight:700;cursor:pointer;color:#3A372F}
+.bold.on{background:#2C4A66;border-color:#2C4A66;color:#fff}
+.tt{width:100%;border-collapse:collapse}
+.tt th{text-align:left;font-weight:400;color:#8A8478;font-size:12px;padding:0 8px 6px 0;border-bottom:1px solid #DCD3C3;white-space:nowrap}
+.tt td{padding:6px 8px 6px 0;border-bottom:1px solid #E6DFD2;vertical-align:middle;white-space:nowrap}
+.tt tr.all td{background:#EFE9DE}
+.pop{position:absolute;z-index:5;top:30px;left:0;width:248px;background:#FBF9F4;border:1px solid #CFC6B5;border-radius:6px;box-shadow:0 8px 24px rgba(30,29,26,.18);padding:12px;white-space:normal}
+.pal{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.pal button{height:28px;border-radius:4px;border:1px solid rgba(0,0,0,.15);cursor:pointer;padding:0}
+.gc{flex:1 1 300px;min-width:0}
+.pv{height:120px;background:#fff;border:1px solid #DCD3C3;border-radius:4px;display:flex;align-items:center;justify-content:center;margin-top:10px;position:relative}
+.fr{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.fr .lbl{width:84px;flex:none}
+</style>
+</helmet>
+<div style="font-family: 'Noto Sans SC', 'Microsoft YaHei', system-ui, sans-serif; color: #1E1D1A; font-size: 13px; line-height: 1.5; background: #ECE6DB; min-height: 1040px">
+<header class="tb">
+<span class="logo"><i></i>胥宇</span>
+<a class="mod" href="#">工作台</a><a class="mod" href="#">资料整理</a><a class="mod" href="#">绘图</a><a class="mod" href="#">绩效</a><a class="mod on" href="#">配置</a>
+<span class="tbr">水墨 · 白天</span>
+</header>
+<div style="display: flex; flex-wrap: wrap">
+<nav class="nav" aria-label="配置中心">
+<a href="#">通用</a>
+<a href="Shortcuts.dc.html">快捷键</a>
+<a class="on" href="Overview.dc.html">绘图方案</a>
+<a href="#">资料与企业品牌</a>
+<a href="#">数据与备份</a>
+<a class="later" href="#">CAD 支持</a>
+</nav>
+<main class="main">
+<div class="wrap">
+<div class="hdr">
+<a class="back" href="Overview.dc.html">← 方案库</a>
+<span style="color: #B8AE9C">/</span>
+<h1>BIG（老店）</h1>
+<span class="chip">海外门店</span>
+<span class="chip" style="background: #DCE3E8; color: #2C4A66">默认方案</span>
+<span style="flex: 1"></span>
+<sc-if value="{{ dirty }}" hint-placeholder-val="{{ true }}"><span class="dirty">有未保存的修改</span></sc-if>
+<button class="btn" type="button">保存并设为默认</button>
+<button class="btn pri" type="button" onClick="{{ save }}">保存</button>
+</div>
+<nav class="tabs" aria-label="方案设置">
+<a href="Main.dc.html">基本与编号</a>
+<a href="Categories.dc.html">分类与汇总说明</a>
+<a href="Assets.dc.html">设备素材</a>
+<a class="on" href="Styles.dc.html">样式</a>
+<a href="Summary.dc.html">汇总与导出</a>
+</nav>
+<p class="lbl" style="margin: 0 0 12px">这里是方案的默认样式。单个文件要特殊处理，在绘图里点“本文件样式”，用的是同一套控件。</p>
+
+<section class="card" style="margin-bottom: 12px">
+<h3>文字</h3>
+<div style="overflow-x: auto">
+<table class="tt">
+<thead><tr><th style="width: 110px">类型</th><th>字体</th><th>字号</th><th>颜色</th><th>粗体</th><th>对齐</th><th>行距</th><th style="width: 100%">样例</th></tr></thead>
+<tbody>
+<sc-for list="{{ rows }}" as="r" hint-placeholder-count="7">
+<tr class="{{ r.trCls }}">
+<td style="font-weight: 600">{{ r.label }}</td>
+<td><select class="in" style="width: 104px" aria-label="字体"><option>{{ r.font }}</option><option>黑体</option><option>宋体</option><option>仿宋</option><option>楷体</option></select></td>
+<td><span class="step"><button type="button" aria-label="字号减小" onClick="{{ r.sizeDec }}">−</button><span>{{ r.sizeText }}</span><button type="button" aria-label="字号增大" onClick="{{ r.sizeInc }}">+</button></span></td>
+<td><div style="position: relative"><button type="button" class="sw" style="{{ r.swStyle }}" aria-label="选择颜色" onClick="{{ r.openColor }}"></button>
+<sc-if value="{{ r.open }}" hint-placeholder-val="{{ false }}">
+<div class="pop" role="dialog" aria-label="选择颜色">
+<div class="lbl" style="margin-bottom: 6px">图纸常用色</div>
+<div class="pal"><sc-for list="{{ r.palette }}" as="p" hint-placeholder-count="12"><button type="button" style="{{ p.style }}" aria-label="{{ p.name }}" title="{{ p.name }}" onClick="{{ p.pick }}"></button></sc-for></div>
+<div class="lbl" style="margin: 10px 0 6px">最近用过</div>
+<div class="pal"><sc-for list="{{ r.recent }}" as="p" hint-placeholder-count="4"><button type="button" style="{{ p.style }}" aria-label="{{ p.name }}" title="{{ p.name }}" onClick="{{ p.pick }}"></button></sc-for></div>
+<div style="display: flex; gap: 6px; margin-top: 10px; align-items: center"><input class="in" style="width: 96px; font-family: Consolas, monospace" value="{{ r.hex }}" aria-label="色值"><button type="button" class="btn" style="height: 28px; padding: 0 8px">吸管</button><span style="flex: 1"></span><button type="button" class="btn" style="height: 28px; padding: 0 8px" onClick="{{ closeColor }}">完成</button></div>
+</div>
+</sc-if>
+</div></td>
+<td><button type="button" class="{{ r.boldCls }}" aria-label="粗体" onClick="{{ r.toggleBold }}">B</button></td>
+<td><span class="seg"><sc-for list="{{ r.aligns }}" as="a" hint-placeholder-count="3"><button type="button" class="{{ a.cls }}" onClick="{{ a.pick }}">{{ a.label }}</button></sc-for></span></td>
+<td><span class="step"><button type="button" aria-label="行距减小" onClick="{{ r.lhDec }}">−</button><span>{{ r.lhText }}</span><button type="button" aria-label="行距增大" onClick="{{ r.lhInc }}">+</button></span></td>
+<td><div style="{{ r.sampleStyle }}">{{ r.sample }}</div></td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+</section>
+
+<div style="display: flex; flex-wrap: wrap; gap: 12px">
+<section class="card gc">
+<h3>箭头</h3>
+<div class="fr"><span class="lbl">箭头大小</span><span class="step"><button type="button" aria-label="变小" onClick="{{ arrowSizeDec }}">−</button><span>{{ arrowSize }}</span><button type="button" aria-label="变大" onClick="{{ arrowSizeInc }}">+</button></span></div>
+<div class="fr"><span class="lbl">线条粗细</span><span class="step"><button type="button" aria-label="变细" onClick="{{ arrowWDec }}">−</button><span>{{ arrowW }}</span><button type="button" aria-label="变粗" onClick="{{ arrowWInc }}">+</button></span></div>
+<div class="fr"><span class="lbl">颜色</span><div style="position: relative"><button type="button" class="sw" style="{{ arrowSw }}" aria-label="箭头颜色" onClick="{{ openArrowColor }}"></button>
+<sc-if value="{{ arrowOpen }}" hint-placeholder-val="{{ false }}">
+<div class="pop" role="dialog" aria-label="选择颜色">
+<div class="lbl" style="margin-bottom: 6px">图纸常用色</div>
+<div class="pal"><sc-for list="{{ palette }}" as="p" hint-placeholder-count="12"><button type="button" style="{{ p.style }}" aria-label="{{ p.name }}" title="{{ p.name }}" onClick="{{ p.pick }}"></button></sc-for></div>
+<div style="display: flex; gap: 6px; margin-top: 10px; align-items: center"><input class="in" style="width: 96px; font-family: Consolas, monospace" value="{{ arrowHex }}" aria-label="色值"><span style="flex: 1"></span><button type="button" class="btn" style="height: 28px; padding: 0 8px" onClick="{{ closeColor }}">完成</button></div>
+</div>
+</sc-if>
+</div></div>
+<div class="pv"><svg width="220" height="60" viewBox="0 0 220 60" aria-hidden="true"><line x1="16" y1="44" x2="{{ arrowX2 }}" y2="16" stroke="{{ arrowColor }}" stroke-width="{{ arrowW }}" stroke-linecap="round"></line><polygon points="{{ arrowHead }}" fill="{{ arrowColor }}"></polygon></svg></div>
+</section>
+
+<section class="card gc">
+<h3>重点红圈</h3>
+<div class="fr"><span class="lbl">新点位默认带</span><button type="button" class="{{ ringOnCls }}" aria-label="新点位默认显示红圈" onClick="{{ toggleRingOn }}"></button></div>
+<div class="fr"><span class="lbl">外扩间距</span><span class="step"><button type="button" aria-label="减小" onClick="{{ ringPadDec }}">−</button><span>{{ ringPad }}</span><button type="button" aria-label="增大" onClick="{{ ringPadInc }}">+</button></span></div>
+<div class="fr"><span class="lbl">线宽</span><span class="step"><button type="button" aria-label="变细" onClick="{{ ringWDec }}">−</button><span>{{ ringW }}</span><button type="button" aria-label="变粗" onClick="{{ ringWInc }}">+</button></span><span class="lbl" style="width: auto">颜色</span><button type="button" class="sw" style="background: #E53935" aria-label="红圈颜色"></button></div>
+<div class="pv"><svg width="160" height="110" viewBox="0 0 160 110" aria-hidden="true"><circle cx="80" cy="52" r="{{ ringR }}" fill="none" stroke="#E53935" stroke-width="{{ ringW }}"></circle><path d="M64 46h32" stroke="#1E1D1A" stroke-width="2"></path><path d="M67 46a13 13 0 0 0 26 0" fill="none" stroke="#1E1D1A" stroke-width="2"></path><circle cx="80" cy="52" r="4" fill="none" stroke="#1E1D1A" stroke-width="2"></circle><text x="80" y="104" text-anchor="middle" font-size="11" font-weight="700" fill="#1E1D1A">Cam3</text></svg></div>
+</section>
+
+<section class="card gc">
+<h3>设备图片尺寸 <span class="q" title="全部监控点位一起调，全部汇总设备一起调；图片始终保持原始宽高比">?</span></h3>
+<div class="fr"><span class="lbl">点位最长边</span><span class="step"><button type="button" aria-label="减小" onClick="{{ pointDec }}">−</button><span>{{ point }}</span><button type="button" aria-label="增大" onClick="{{ pointInc }}">+</button></span><span class="lbl" style="width: auto">图片与编号</span><span class="step"><button type="button" aria-label="减小" onClick="{{ gapDec }}">−</button><span>{{ gap }}</span><button type="button" aria-label="增大" onClick="{{ gapInc }}">+</button></span></div>
+<div class="fr"><span class="lbl">汇总最长边</span><span class="step"><button type="button" aria-label="减小" onClick="{{ sumDec }}">−</button><span>{{ sum }}</span><button type="button" aria-label="增大" onClick="{{ sumInc }}">+</button></span><span class="lbl" style="width: auto">按图幅自动调</span><button type="button" class="{{ autoCls }}" aria-label="按页面图幅自动调整设备图片（试验）" onClick="{{ toggleAuto }}"></button></div>
+<div class="pv" style="gap: 28px; align-items: flex-end; padding-bottom: 14px">
+<div style="display: flex; flex-direction: column; align-items: center"><span style="{{ pointBox }}"></span><span style="{{ pointLabel }}">Cam1</span></div>
+<div style="display: flex; flex-direction: column; align-items: center"><span style="{{ sumBox }}"></span><span style="font-size: 11px; font-weight: 700; margin-top: 4px">录像机 × 1台</span></div>
+</div>
+</section>
+</div>
+</div>
+</main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1040}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = {
+      dirty: false, open: null, recent: ['#C0392B', '#1E2A3A', '#0E6E5C', '#283593'],
+      rows: [
+        { label: '普通文字', size: 16, color: '#1E2A3A', bold: false, align: 'left', lh: 1.25 },
+        { label: '点位编号', size: 13, color: '#1E2A3A', bold: true, align: 'center', lh: 1.25 },
+        { label: '汇总设备标注', size: 14, color: '#1E2A3A', bold: true, align: 'center', lh: 1.25 },
+        { label: '分类说明', size: 14, color: '#1E2A3A', bold: false, align: 'left', lh: 1.35 },
+        { label: '测量文字', size: 12, color: '#0E6E5C', bold: false, align: 'left', lh: 1.25 },
+        { label: '箭头标注', size: 14, color: '#C0392B', bold: false, align: 'left', lh: 1.25 }
+      ],
+      arrow: { size: 10, w: 2, color: '#C0392B' },
+      ring: { on: false, pad: 10, w: 3 },
+      point: 42, sum: 64, gap: 5, auto: false
+    };
+  }
+  renderVals() {
+    const s = this.state;
+    const set = (patch) => this.setState(Object.assign({ dirty: true }, patch));
+    const COLORS = [['#E53935', '红'], ['#C62828', '深红'], ['#F57C00', '橙'], ['#F9A825', '黄'], ['#2E7D32', '绿'], ['#00897B', '青'], ['#1E88E5', '蓝'], ['#283593', '靛'], ['#6A1B9A', '紫'], ['#1E1D1A', '黑'], ['#5B574F', '深灰'], ['#9E9E9E', '灰']];
+    const apply = (c) => {
+      const recent = [c].concat(s.recent.filter((x) => x !== c)).slice(0, 6);
+      if (s.open === 'arrow') { set({ arrow: Object.assign({}, s.arrow, { color: c }), recent, open: null }); return; }
+      const idx = typeof s.open === 'number' ? s.open : -1;
+      if (idx === -1) { set({ rows: s.rows.map((r) => Object.assign({}, r, { color: c })), recent, open: null }); return; }
+      set({ rows: s.rows.map((r, i) => i === idx ? Object.assign({}, r, { color: c }) : r), recent, open: null });
+    };
+    const palette = COLORS.map(([c, name]) => ({ name, style: 'background:' + c, pick: () => apply(c) }));
+    const recent = s.recent.map((c) => ({ name: c, style: 'background:' + c, pick: () => apply(c) }));
+    const patchRow = (i, fn) => {
+      if (i === -1) set({ rows: s.rows.map((r) => Object.assign({}, r, fn(r))) });
+      else set({ rows: s.rows.map((r, j) => j === i ? Object.assign({}, r, fn(r)) : r) });
+    };
+    const same = (k) => s.rows.every((r) => r[k] === s.rows[0][k]);
+    const all = { label: '全部统一', size: same('size') ? s.rows[0].size : null, color: same('color') ? s.rows[0].color : null, bold: same('bold') ? s.rows[0].bold : null, align: same('align') ? s.rows[0].align : null, lh: same('lh') ? s.rows[0].lh : null };
+    const mk = (r, i, isAll) => {
+      const key = isAll ? 'all' : i;
+      const size = r.size ?? 14, lh = r.lh ?? 1.25;
+      return {
+        label: r.label, font: isAll ? '多种' : '微软雅黑', trCls: isAll ? 'all' : '',
+        sizeText: r.size == null ? '多种' : String(r.size),
+        sizeInc: () => patchRow(isAll ? -1 : i, (x) => ({ size: Math.min(48, (isAll ? size : x.size) + 1) })),
+        sizeDec: () => patchRow(isAll ? -1 : i, (x) => ({ size: Math.max(8, (isAll ? size : x.size) - 1) })),
+        swStyle: r.color ? 'background:' + r.color : 'background:repeating-linear-gradient(45deg,#ddd 0 4px,#fff 4px 8px)',
+        hex: r.color || '多种',
+        open: s.open === key,
+        openColor: () => this.setState({ open: s.open === key ? null : key }),
+        palette, recent,
+        boldCls: r.bold ? 'bold on' : 'bold',
+        toggleBold: () => patchRow(isAll ? -1 : i, (x) => ({ bold: isAll ? !r.bold : !x.bold })),
+        aligns: [['left', '左'], ['center', '中'], ['right', '右']].map(([v, label]) => ({ label, cls: r.align === v ? 'on' : '', pick: () => patchRow(isAll ? -1 : i, () => ({ align: v })) })),
+        lhText: r.lh == null ? '多种' : r.lh.toFixed(2),
+        lhInc: () => patchRow(isAll ? -1 : i, (x) => ({ lh: Math.min(2, Math.round(((isAll ? lh : x.lh) + 0.05) * 100) / 100) })),
+        lhDec: () => patchRow(isAll ? -1 : i, (x) => ({ lh: Math.max(1, Math.round(((isAll ? lh : x.lh) - 0.05) * 100) / 100) })),
+        sample: isAll ? '修改这一行会同时改下面 6 类' : 'Cam1 / 录像机 × 2台 / 12.5m',
+        sampleStyle: isAll ? 'color:#8A8478;font-size:12px' : 'font-size:' + Math.round(size * 0.85) + 'px;line-height:' + lh + ';color:' + r.color + ';font-weight:' + (r.bold ? 700 : 400) + ';text-align:' + r.align + ';min-width:220px'
+      };
+    };
+    const a = s.arrow;
+    const x2 = 200;
+    const ang = Math.atan2(16 - 44, x2 - 16);
+    const hl = 6 + a.size, hw = (4 + a.size * 0.6);
+    const bx = x2 - Math.cos(ang) * hl, by = 16 - Math.sin(ang) * hl;
+    const head = [x2 + ',' + 16, (bx + Math.sin(ang) * hw).toFixed(1) + ',' + (by - Math.cos(ang) * hw).toFixed(1), (bx - Math.sin(ang) * hw).toFixed(1) + ',' + (by + Math.cos(ang) * hw).toFixed(1)].join(' ');
+    return {
+      dirty: s.dirty,
+      save: () => this.setState({ dirty: false }),
+      closeColor: () => this.setState({ open: null }),
+      rows: [mk(all, -1, true)].concat(s.rows.map((r, i) => mk(r, i, false))),
+      palette,
+      arrowSize: a.size, arrowW: a.w, arrowColor: a.color, arrowHex: a.color, arrowSw: 'background:' + a.color,
+      arrowX2: (bx).toFixed(1), arrowHead: head,
+      arrowOpen: s.open === 'arrow',
+      openArrowColor: () => this.setState({ open: s.open === 'arrow' ? null : 'arrow' }),
+      arrowSizeInc: () => set({ arrow: Object.assign({}, a, { size: Math.min(30, a.size + 1) }) }),
+      arrowSizeDec: () => set({ arrow: Object.assign({}, a, { size: Math.max(4, a.size - 1) }) }),
+      arrowWInc: () => set({ arrow: Object.assign({}, a, { w: Math.min(8, a.w + 1) }) }),
+      arrowWDec: () => set({ arrow: Object.assign({}, a, { w: Math.max(1, a.w - 1) }) }),
+      ringOnCls: s.ring.on ? 'tog on' : 'tog',
+      toggleRingOn: () => set({ ring: Object.assign({}, s.ring, { on: !s.ring.on }) }),
+      ringPad: s.ring.pad, ringW: s.ring.w, ringR: 20 + s.ring.pad * 1.2,
+      ringPadInc: () => set({ ring: Object.assign({}, s.ring, { pad: Math.min(24, s.ring.pad + 1) }) }),
+      ringPadDec: () => set({ ring: Object.assign({}, s.ring, { pad: Math.max(0, s.ring.pad - 1) }) }),
+      ringWInc: () => set({ ring: Object.assign({}, s.ring, { w: Math.min(8, s.ring.w + 1) }) }),
+      ringWDec: () => set({ ring: Object.assign({}, s.ring, { w: Math.max(1, s.ring.w - 1) }) }),
+      point: s.point, sum: s.sum, gap: s.gap,
+      pointInc: () => set({ point: Math.min(80, s.point + 2) }), pointDec: () => set({ point: Math.max(20, s.point - 2) }),
+      sumInc: () => set({ sum: Math.min(96, s.sum + 2) }), sumDec: () => set({ sum: Math.max(24, s.sum - 2) }),
+      gapInc: () => set({ gap: Math.min(20, s.gap + 1) }), gapDec: () => set({ gap: Math.max(0, s.gap - 1) }),
+      autoCls: s.auto ? 'tog on' : 'tog',
+      toggleAuto: () => set({ auto: !s.auto }),
+      pointBox: 'display:block;width:' + s.point + 'px;height:' + Math.round(s.point * 0.75) + 'px;border-radius:4px;background:#D9D2C4;border:1px solid #B8AE9C',
+      pointLabel: 'font-size:11px;font-weight:700;margin-top:' + s.gap + 'px',
+      sumBox: 'display:block;width:' + s.sum + 'px;height:' + Math.round(s.sum * 0.6) + 'px;border-radius:4px;background:#D9D2C4;border:1px solid #B8AE9C'
+    };
+  }
+}
+</script>
+</body>
+</html>

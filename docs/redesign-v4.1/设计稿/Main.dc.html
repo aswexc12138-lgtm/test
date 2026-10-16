@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>方案编辑器 · 基本与编号</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&amp;family=Noto+Serif+SC:wght@600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#ECE6DB}
+a{color:#2C4A66}a:hover{color:#1D3348}
+.tb{height:40px;display:flex;align-items:center;gap:2px;padding:0 12px;border-bottom:1px solid #DCD3C3;background:#F1ECE3;flex-wrap:wrap}
+.logo{font-weight:700;margin-right:14px;display:flex;align-items:center;gap:8px;font-size:14px}
+.logo i{width:22px;height:22px;border-radius:5px;background:#1E1D1A;display:inline-block}
+.mod{padding:0 12px;height:40px;display:flex;align-items:center;color:#5B574F;text-decoration:none}
+.mod.on{color:#1E1D1A;font-weight:600;box-shadow:inset 0 -2px 0 #2C4A66}
+.tbr{margin-left:auto;color:#5B574F;font-size:12px}
+.nav{flex:0 0 176px;padding:16px 10px;box-sizing:border-box}
+.nav a{display:flex;align-items:center;gap:8px;height:34px;padding:0 10px;border-radius:4px;color:#3A372F;text-decoration:none}
+.nav a.on{background:#E2DACB;color:#1E1D1A;font-weight:600}
+.nav a.later{color:#9A9386}
+.main{flex:999 1 560px;min-width:0;padding:4px 24px 48px;box-sizing:border-box}
+.wrap{max-width:1200px}
+.hdr{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 0}
+.hdr h1{margin:0;font-size:18px;font-family:'Noto Serif SC',serif;font-weight:600}
+.back{display:inline-flex;align-items:center;gap:4px;color:#5B574F;text-decoration:none;font-size:13px}
+.dirty{color:#A15C1F;font-size:12px;display:inline-flex;align-items:center;gap:6px}
+.dirty::before{content:'';width:7px;height:7px;border-radius:50%;background:#C77A2E}
+.tabs{display:flex;gap:2px;margin:0 0 16px;border-bottom:1px solid #DCD3C3;flex-wrap:wrap}
+.tabs a{padding:8px 14px;color:#5B574F;text-decoration:none;border-bottom:2px solid transparent;margin-bottom:-1px}
+.tabs a.on{color:#1E1D1A;border-bottom-color:#2C4A66;font-weight:600}
+.card{background:#F6F2EA;border:1px solid #DCD3C3;border-radius:6px;padding:14px 16px;margin-bottom:12px}
+.card h3{margin:0 0 12px;font-size:14px;display:flex;align-items:center;gap:6px}
+.row{display:flex;align-items:center;gap:10px 18px;flex-wrap:wrap}
+.f{display:inline-flex;align-items:center;gap:8px}
+.lbl{color:#5B574F;font-size:12px}
+.in{height:30px;border:1px solid #CFC6B5;border-radius:4px;background:#FBF9F4;padding:0 8px;font:inherit;color:inherit;box-sizing:border-box}
+.in:focus{outline:2px solid #2C4A66;outline-offset:-1px}
+.mono{font-family:Consolas,'SFMono-Regular',monospace;font-size:12px}
+.btn{height:30px;padding:0 12px;border:1px solid #CFC6B5;border-radius:4px;background:#FBF9F4;font:inherit;color:#1E1D1A;cursor:pointer;display:inline-flex;align-items:center;gap:6px;text-decoration:none}
+.btn.pri{background:#1E1D1A;color:#F6F2EA;border-color:#1E1D1A}
+.seg{display:inline-flex;border:1px solid #CFC6B5;border-radius:4px;overflow:hidden;background:#FBF9F4}
+.seg button{height:28px;padding:0 10px;border:0;border-left:1px solid #E2DACB;background:transparent;font:inherit;color:#3A372F;cursor:pointer}
+.seg button:first-child{border-left:0}
+.seg button.on{background:#2C4A66;color:#fff}
+.step{display:inline-flex;align-items:center;border:1px solid #CFC6B5;border-radius:4px;background:#FBF9F4;height:30px;box-sizing:border-box}
+.step button{width:26px;height:28px;border:0;background:transparent;cursor:pointer;font:inherit;color:#3A372F}
+.step span{min-width:30px;text-align:center;font-variant-numeric:tabular-nums}
+.q{display:inline-flex;width:15px;height:15px;border-radius:50%;border:1px solid #B8AE9C;color:#8A8478;font-size:10px;align-items:center;justify-content:center;cursor:help;font-weight:400}
+.chip{display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:12px;background:#E3DBCC;color:#1E1D1A;font-size:12px;font-variant-numeric:tabular-nums}
+.tog{width:34px;height:20px;border-radius:10px;background:#CFC6B5;border:0;position:relative;cursor:pointer;padding:0;flex:none}
+.tog::after{content:'';position:absolute;left:2px;top:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:left .15s}
+.tog.on{background:#2C4A66}.tog.on::after{left:16px}
+.sep{width:1px;height:22px;background:#DCD3C3}
+.ok{color:#3F6B4F}.no{color:#A33A2E}
+.adv{display:flex;align-items:center;gap:6px;background:none;border:0;padding:0;font:inherit;font-weight:600;font-size:14px;color:#1E1D1A;cursor:pointer}
+</style>
+</helmet>
+<div style="font-family: 'Noto Sans SC', 'Microsoft YaHei', system-ui, sans-serif; color: #1E1D1A; font-size: 13px; line-height: 1.5; background: #ECE6DB; min-height: 860px">
+<header class="tb">
+<span class="logo"><i></i>胥宇</span>
+<a class="mod" href="#">工作台</a><a class="mod" href="#">资料整理</a><a class="mod" href="#">绘图</a><a class="mod" href="#">绩效</a><a class="mod on" href="#">配置</a>
+<span class="tbr">水墨 · 白天</span>
+</header>
+<div style="display: flex; flex-wrap: wrap">
+<nav class="nav" aria-label="配置中心">
+<a href="#">通用</a>
+<a href="Shortcuts.dc.html">快捷键</a>
+<a class="on" href="Overview.dc.html">绘图方案</a>
+<a href="#">资料与企业品牌</a>
+<a href="#">数据与备份</a>
+<a class="later" href="#">CAD 支持</a>
+</nav>
+<main class="main">
+<div class="wrap">
+<div class="hdr">
+<a class="back" href="Overview.dc.html">← 方案库</a>
+<span style="color: #B8AE9C">/</span>
+<h1>BIG（老店）</h1>
+<span class="chip">海外门店</span>
+<span class="chip" style="background: #DCE3E8; color: #2C4A66">默认方案</span>
+<span style="flex: 1"></span>
+<sc-if value="{{ dirty }}" hint-placeholder-val="{{ true }}"><span class="dirty">有未保存的修改</span></sc-if>
+<button class="btn" type="button">保存并设为默认</button>
+<button class="btn pri" type="button" onClick="{{ save }}">保存</button>
+</div>
+<nav class="tabs" aria-label="方案设置">
+<a class="on" href="Main.dc.html">基本与编号</a>
+<a href="Categories.dc.html">分类与汇总说明</a>
+<a href="Assets.dc.html">设备素材</a>
+<a href="Styles.dc.html">样式</a>
+<a href="Summary.dc.html">汇总与导出</a>
+</nav>
+
+<section class="card">
+<h3>方案</h3>
+<div class="row">
+<label class="f"><span class="lbl">方案名称</span><input class="in" style="width: 280px" defaultValue="BIG（老店）" onChange="{{ touch }}"></label>
+<label class="f"><span class="lbl">适用范围</span><input class="in" style="width: 200px" defaultValue="海外门店" onChange="{{ touch }}"></label>
+</div>
+</section>
+
+<section class="card">
+<h3>点位编号 <span class="q" title="放置监控点位时自动生成的编号规则">?</span></h3>
+<div class="row" style="margin-bottom: 14px">
+<span class="f"><span class="lbl">编号方式</span>
+<span class="seg"><sc-for list="{{ modes }}" as="m" hint-placeholder-count="2"><button type="button" class="{{ m.cls }}" onClick="{{ m.pick }}">{{ m.label }}</button></sc-for></span></span>
+<span class="f"><span class="lbl">起始</span><span class="step"><button type="button" aria-label="起始减一" onClick="{{ startDec }}">−</button><span>{{ start }}</span><button type="button" aria-label="起始加一" onClick="{{ startInc }}">+</button></span></span>
+<span class="f"><span class="lbl">位数</span><span class="step"><button type="button" aria-label="位数减一" onClick="{{ digitsDec }}">−</button><span>{{ digits }}</span><button type="button" aria-label="位数加一" onClick="{{ digitsInc }}">+</button></span></span>
+<label class="f"><span class="lbl">连接符</span><input class="in mono" style="width: 52px; text-align: center" value="{{ joiner }}" placeholder="无" onChange="{{ setJoiner }}"></label>
+<span class="f"><span class="lbl">大小写</span>
+<span class="seg"><sc-for list="{{ cases }}" as="c" hint-placeholder-count="3"><button type="button" class="{{ c.cls }}" onClick="{{ c.pick }}">{{ c.label }}</button></sc-for></span></span>
+</div>
+<div class="row" style="padding: 10px 12px; background: #EFE9DE; border-radius: 4px; margin-bottom: 14px">
+<span class="lbl">效果</span>
+<sc-for list="{{ example }}" as="e" hint-placeholder-count="4"><span class="chip" style="background: #FBF9F4; border: 1px solid #DCD3C3">{{ e.text }}</span></sc-for>
+<span class="lbl" style="margin-left: auto">示例：客流 2 个、监控 1 个、楼梯客流 1 个</span>
+</div>
+<div class="row">
+<span class="f"><button type="button" class="{{ showNoCls }}" aria-label="图上显示点位编号" onClick="{{ toggleNo }}"></button>图上显示点位编号 <span class="q" title="关闭后只显示设备图片；编号仍参与统计">?</span></span>
+<span class="sep"></span>
+<span class="f"><button type="button" class="{{ showSumCls }}" aria-label="汇总显示设备名称与数量" onClick="{{ toggleSum }}"></button>汇总显示“设备名称 × 数量 + 单位” <span class="q" title="不影响设备图片本身">?</span></span>
+</div>
+</section>
+
+<section class="card">
+<button type="button" class="adv" onClick="{{ toggleAdv }}">{{ advArrow }} 高级：绩效识别规则 <span class="q" title="绩效统计时，用这条规则从点位文字里认出分类和序号">?</span></button>
+<sc-if value="{{ advOpen }}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; gap: 10px; margin-top: 12px">
+<label class="f"><span class="lbl" style="width: 56px">规则</span><input class="in mono" style="width: 560px; max-width: 100%" defaultValue="(?:楼梯客流|监控|客流|枪机|喇叭|音柱)\s*0*(\d+)" onChange="{{ setRule }}"></label>
+<div class="row">
+<label class="f"><span class="lbl" style="width: 56px">试一试</span><input class="in" style="width: 200px" value="{{ test }}" onChange="{{ setTest }}"></label>
+<span class="{{ testCls }}">{{ testResult }}</span>
+</div>
+</div>
+</sc-if>
+</section>
+</div>
+</main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":860}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { mode: 'cat', start: 1, digits: 1, joiner: '', caseMode: 'keep', showNo: true, showSum: true, advOpen: true, rule: '(?:楼梯客流|监控|客流|枪机|喇叭|音柱)\\s*0*(\\d+)', test: '楼梯客流 03', dirty: false };
+  }
+  renderVals() {
+    const s = this.state;
+    const set = (patch) => this.setState(Object.assign({ dirty: true }, patch));
+    const pad = (n) => String(n).padStart(s.digits, '0');
+    const casing = (t) => s.caseMode === 'upper' ? t.toUpperCase() : s.caseMode === 'lower' ? t.toLowerCase() : t;
+    const items = ['Cam', 'Cam', '监控', '楼梯客流'];
+    const counters = {};
+    const example = items.map((name, i) => {
+      let n;
+      if (s.mode === 'cat') { counters[name] = (counters[name] ?? s.start - 1) + 1; n = counters[name]; }
+      else n = s.start + i;
+      return { text: casing(name) + s.joiner + pad(n) };
+    });
+    let testResult = '没有认出来';
+    let testCls = 'no';
+    try {
+      const m = new RegExp(s.rule).exec(s.test);
+      if (m) { testResult = '认出：' + m[0].replace(/\s*0*\d+$/, '').trim() + ' · 序号 ' + Number(m[1]); testCls = 'ok'; }
+    } catch (e) { testResult = '规则写法有误'; }
+    return {
+      dirty: s.dirty,
+      save: () => this.setState({ dirty: false }),
+      touch: () => this.setState({ dirty: true }),
+      modes: [['cat', '分类独立'], ['global', '全局连续']].map(([v, label]) => ({ label, cls: s.mode === v ? 'on' : '', pick: () => set({ mode: v }) })),
+      cases: [['keep', '保持'], ['upper', '大写'], ['lower', '小写']].map(([v, label]) => ({ label, cls: s.caseMode === v ? 'on' : '', pick: () => set({ caseMode: v }) })),
+      start: s.start, digits: s.digits, joiner: s.joiner,
+      startInc: () => set({ start: s.start + 1 }),
+      startDec: () => set({ start: Math.max(0, s.start - 1) }),
+      digitsInc: () => set({ digits: Math.min(4, s.digits + 1) }),
+      digitsDec: () => set({ digits: Math.max(1, s.digits - 1) }),
+      setJoiner: (e) => set({ joiner: e.target.value.slice(0, 3) }),
+      example,
+      showNoCls: s.showNo ? 'tog on' : 'tog',
+      showSumCls: s.showSum ? 'tog on' : 'tog',
+      toggleNo: () => set({ showNo: !s.showNo }),
+      toggleSum: () => set({ showSum: !s.showSum }),
+      advOpen: s.advOpen,
+      advArrow: s.advOpen ? '▾' : '▸',
+      toggleAdv: () => this.setState({ advOpen: !s.advOpen }),
+      setRule: (e) => set({ rule: e.target.value }),
+      test: s.test,
+      setTest: (e) => this.setState({ test: e.target.value }),
+      testResult, testCls
+    };
+  }
+}
+</script>
+</body>
+</html>

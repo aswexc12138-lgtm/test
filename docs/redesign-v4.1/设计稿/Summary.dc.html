@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>方案编辑器 · 汇总与导出</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&amp;family=Noto+Serif+SC:wght@600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#ECE6DB}
+a{color:#2C4A66}a:hover{color:#1D3348}
+.tb{height:40px;display:flex;align-items:center;gap:2px;padding:0 12px;border-bottom:1px solid #DCD3C3;background:#F1ECE3;flex-wrap:wrap}
+.logo{font-weight:700;margin-right:14px;display:flex;align-items:center;gap:8px;font-size:14px}
+.logo i{width:22px;height:22px;border-radius:5px;background:#1E1D1A;display:inline-block}
+.mod{padding:0 12px;height:40px;display:flex;align-items:center;color:#5B574F;text-decoration:none}
+.mod.on{color:#1E1D1A;font-weight:600;box-shadow:inset 0 -2px 0 #2C4A66}
+.tbr{margin-left:auto;color:#5B574F;font-size:12px}
+.nav{flex:0 0 176px;padding:16px 10px;box-sizing:border-box}
+.nav a{display:flex;align-items:center;gap:8px;height:34px;padding:0 10px;border-radius:4px;color:#3A372F;text-decoration:none}
+.nav a.on{background:#E2DACB;color:#1E1D1A;font-weight:600}
+.nav a.later{color:#9A9386}
+.main{flex:999 1 560px;min-width:0;padding:4px 24px 48px;box-sizing:border-box}
+.wrap{max-width:1200px}
+.hdr{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 0}
+.hdr h1{margin:0;font-size:18px;font-family:'Noto Serif SC',serif;font-weight:600}
+.back{display:inline-flex;align-items:center;gap:4px;color:#5B574F;text-decoration:none;font-size:13px}
+.dirty{color:#A15C1F;font-size:12px;display:inline-flex;align-items:center;gap:6px}
+.dirty::before{content:'';width:7px;height:7px;border-radius:50%;background:#C77A2E}
+.tabs{display:flex;gap:2px;margin:0 0 16px;border-bottom:1px solid #DCD3C3;flex-wrap:wrap}
+.tabs a{padding:8px 14px;color:#5B574F;text-decoration:none;border-bottom:2px solid transparent;margin-bottom:-1px}
+.tabs a.on{color:#1E1D1A;border-bottom-color:#2C4A66;font-weight:600}
+.card{background:#F6F2EA;border:1px solid #DCD3C3;border-radius:6px;padding:14px 16px}
+.card h3{margin:0 0 12px;font-size:14px;display:flex;align-items:center;gap:6px}
+.row{display:flex;align-items:center;gap:10px 14px;flex-wrap:wrap}
+.lbl{color:#5B574F;font-size:12px}
+.in{height:30px;border:1px solid #CFC6B5;border-radius:4px;background:#FBF9F4;padding:0 8px;font:inherit;color:inherit;box-sizing:border-box}
+.btn{height:30px;padding:0 12px;border:1px solid #CFC6B5;border-radius:4px;background:#FBF9F4;font:inherit;color:#1E1D1A;cursor:pointer;display:inline-flex;align-items:center;gap:6px;text-decoration:none}
+.btn.pri{background:#1E1D1A;color:#F6F2EA;border-color:#1E1D1A}
+.seg{display:inline-flex;border:1px solid #CFC6B5;border-radius:4px;overflow:hidden;background:#FBF9F4}
+.seg button{height:28px;padding:0 10px;border:0;border-left:1px solid #E2DACB;background:transparent;font:inherit;color:#3A372F;cursor:pointer}
+.seg button:first-child{border-left:0}
+.seg button.on{background:#2C4A66;color:#fff}
+.step{display:inline-flex;align-items:center;border:1px solid #CFC6B5;border-radius:4px;background:#FBF9F4;height:30px;box-sizing:border-box}
+.step button{width:26px;height:28px;border:0;background:transparent;cursor:pointer;font:inherit;color:#3A372F}
+.step span{min-width:30px;text-align:center;font-variant-numeric:tabular-nums}
+.q{display:inline-flex;width:15px;height:15px;border-radius:50%;border:1px solid #B8AE9C;color:#8A8478;font-size:10px;align-items:center;justify-content:center;cursor:help;font-weight:400}
+.chip{display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:12px;background:#E3DBCC;color:#1E1D1A;font-size:12px}
+.tog{width:34px;height:20px;border-radius:10px;background:#CFC6B5;border:0;position:relative;cursor:pointer;padding:0;flex:none}
+.tog::after{content:'';position:absolute;left:2px;top:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:left .15s}
+.tog.on{background:#2C4A66}.tog.on::after{left:16px}
+.opt{display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 14px;border:1px solid #CFC6B5;border-radius:6px;background:#FBF9F4;cursor:pointer;font:inherit;color:#3A372F}
+.opt.on{border-color:#2C4A66;box-shadow:0 0 0 1px #2C4A66;color:#1E1D1A}
+.mini{display:flex;gap:3px}
+.mini i{display:block;width:16px;height:10px;background:#B8AE9C;border-radius:2px}
+.ib{width:28px;height:28px;border:0;border-radius:4px;background:transparent;color:#5B574F;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
+.ib:hover{background:#E6DFD2;color:#A33A2E}
+.trow{display:flex;align-items:center;gap:10px;padding:5px 0;border-bottom:1px solid #E6DFD2}
+.fr{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #E6DFD2;flex-wrap:wrap}
+.fr:last-child{border-bottom:0}
+.fr>.lbl{width:96px;flex:none;color:#3A372F;font-size:13px}
+.tile{display:flex;align-items:center;gap:8px;padding:6px 10px;border:1px solid #E6DFD2;border-radius:4px;background:#fff}
+.tile i{display:block;width:30px;height:20px;border-radius:3px;background:#D9D2C4;border:1px solid #B8AE9C}
+</style>
+</helmet>
+<div style="font-family: 'Noto Sans SC', 'Microsoft YaHei', system-ui, sans-serif; color: #1E1D1A; font-size: 13px; line-height: 1.5; background: #ECE6DB; min-height: 860px">
+<header class="tb">
+<span class="logo"><i></i>胥宇</span>
+<a class="mod" href="#">工作台</a><a class="mod" href="#">资料整理</a><a class="mod" href="#">绘图</a><a class="mod" href="#">绩效</a><a class="mod on" href="#">配置</a>
+<span class="tbr">水墨 · 白天</span>
+</header>
+<div style="display: flex; flex-wrap: wrap">
+<nav class="nav" aria-label="配置中心">
+<a href="#">通用</a>
+<a href="Shortcuts.dc.html">快捷键</a>
+<a class="on" href="Overview.dc.html">绘图方案</a>
+<a href="#">资料与企业品牌</a>
+<a href="#">数据与备份</a>
+<a class="later" href="#">CAD 支持</a>
+</nav>
+<main class="main">
+<div class="wrap">
+<div class="hdr">
+<a class="back" href="Overview.dc.html">← 方案库</a>
+<span style="color: #B8AE9C">/</span>
+<h1>BIG（老店）</h1>
+<span class="chip">海外门店</span>
+<span class="chip" style="background: #DCE3E8; color: #2C4A66">默认方案</span>
+<span style="flex: 1"></span>
+<sc-if value="{{ dirty }}" hint-placeholder-val="{{ true }}"><span class="dirty">有未保存的修改</span></sc-if>
+<button class="btn" type="button">保存并设为默认</button>
+<button class="btn pri" type="button" onClick="{{ save }}">保存</button>
+</div>
+<nav class="tabs" aria-label="方案设置">
+<a href="Main.dc.html">基本与编号</a>
+<a href="Categories.dc.html">分类与汇总说明</a>
+<a href="Assets.dc.html">设备素材</a>
+<a href="Styles.dc.html">样式</a>
+<a class="on" href="Summary.dc.html">汇总与导出</a>
+</nav>
+
+<div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-start">
+<section class="card" style="flex: 1 1 560px; min-width: 0">
+<h3>设备汇总图例</h3>
+<div class="row" style="margin-bottom: 14px; align-items: stretch">
+<span class="lbl" style="align-self: center; width: 56px">排列</span>
+<button type="button" class="{{ rowCls }}" onClick="{{ pickRow }}"><span class="mini"><i></i><i></i><i></i></span>横排</button>
+<button type="button" class="{{ colCls }}" onClick="{{ pickCol }}"><span class="mini" style="flex-direction: column"><i></i><i></i><i></i></span>竖排</button>
+</div>
+<div class="lbl" style="margin-bottom: 4px">固定汇总设备 <span class="q" title="每张图都会自动带上的汇总设备，比如录像机；数量之后在图上还能改">?</span></div>
+<sc-for list="{{ fixed }}" as="d" hint-placeholder-count="2">
+<div class="trow">
+<select class="in" style="width: 200px" aria-label="设备"><option>{{ d.name }}</option><option>录像机 NVR</option><option>8 口交换机</option><option>音柱</option></select>
+<span class="step"><button type="button" aria-label="减少" onClick="{{ d.dec }}">−</button><span>{{ d.qty }}</span><button type="button" aria-label="增加" onClick="{{ d.inc }}">+</button></span>
+<input class="in" style="width: 52px; text-align: center" value="{{ d.unit }}" aria-label="单位" onChange="{{ d.setUnit }}">
+<span style="flex: 1"></span>
+<button type="button" class="ib" aria-label="移除" onClick="{{ d.del }}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"></path></svg></button>
+</div>
+</sc-for>
+<button type="button" class="btn" style="margin-top: 10px" onClick="{{ addFixed }}">＋ 添加固定设备</button>
+<div class="lbl" style="margin: 16px 0 6px">预览</div>
+<div style="background: #fff; border: 1px solid #DCD3C3; border-radius: 4px; padding: 14px">
+<div style="{{ legendStyle }}">
+<sc-for list="{{ legend }}" as="t" hint-placeholder-count="4"><span class="tile"><i></i><span style="font-size: 12px; font-weight: 600">{{ t.text }}</span></span></sc-for>
+</div>
+</div>
+</section>
+
+<section class="card" style="flex: 1 1 420px; min-width: 0">
+<h3>导出</h3>
+<div class="fr"><span class="lbl">PDF 存到</span>
+<div style="flex: 1; min-width: 0">
+<div>{{ dirText }}</div>
+<div class="lbl">{{ dirHint }}</div>
+</div>
+<button type="button" class="btn" onClick="{{ toggleDir }}">{{ dirBtn }}</button></div>
+<div class="fr"><span class="lbl">文件重名时</span><span class="seg"><sc-for list="{{ conflicts }}" as="o" hint-placeholder-count="3"><button type="button" class="{{ o.cls }}" onClick="{{ o.pick }}">{{ o.label }}</button></sc-for></span></div>
+<div class="fr"><span class="lbl">保留矢量底图</span><button type="button" class="{{ vecCls }}" aria-label="保留矢量底图" onClick="{{ toggleVec }}"></button><span class="lbl" style="width: auto; color: #5B574F; font-size: 12px">客户目录只放 PDF，可编辑图纸另存在成果库 <span class="q" title="关闭后底图会转成图片，文件更小但放大会糊">?</span></span></div>
+</section>
+</div>
+</div>
+</main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":860}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { dirty: false, dir: 'col', fixed: [{ id: 1, name: '录像机 NVR', qty: 1, unit: '台' }], ownDir: false, conflict: 'ask', vec: true };
+  }
+  renderVals() {
+    const s = this.state;
+    const set = (patch) => this.setState(Object.assign({ dirty: true }, patch));
+    const patchFixed = (i, patch) => set({ fixed: s.fixed.map((d, j) => j === i ? Object.assign({}, d, patch) : d) });
+    const legend = [{ text: '点位摄像机 × 6台' }, { text: '枪机 BX-2 × 2台' }].concat(s.fixed.map((d) => ({ text: d.name + ' × ' + d.qty + d.unit })));
+    return {
+      dirty: s.dirty,
+      save: () => this.setState({ dirty: false }),
+      rowCls: s.dir === 'row' ? 'opt on' : 'opt',
+      colCls: s.dir === 'col' ? 'opt on' : 'opt',
+      pickRow: () => set({ dir: 'row' }),
+      pickCol: () => set({ dir: 'col' }),
+      fixed: s.fixed.map((d, i) => ({
+        name: d.name, qty: d.qty, unit: d.unit,
+        inc: () => patchFixed(i, { qty: d.qty + 1 }),
+        dec: () => patchFixed(i, { qty: Math.max(1, d.qty - 1) }),
+        setUnit: (e) => patchFixed(i, { unit: e.target.value.slice(0, 2) }),
+        del: () => set({ fixed: s.fixed.filter((_, j) => j !== i) })
+      })),
+      addFixed: () => set({ fixed: s.fixed.concat([{ id: Date.now(), name: '8 口交换机', qty: 1, unit: '台' }]) }),
+      legend,
+      legendStyle: s.dir === 'row' ? 'display:flex;flex-wrap:wrap;gap:8px' : 'display:flex;flex-direction:column;gap:6px;align-items:flex-start',
+      dirText: s.ownDir ? 'D:\\交付\\BIG老店\\PDF' : '跟随“资料与企业品牌 → 导出成果根目录”',
+      dirHint: s.ownDir ? '只有这个方案导出到这里；其他方案不受影响' : '当前是 D:\\项目\\完成，按季度 / 企业 / 品牌分文件夹',
+      dirBtn: s.ownDir ? '改回跟随' : '单独指定…',
+      toggleDir: () => set({ ownDir: !s.ownDir }),
+      conflicts: [['ask', '每次询问'], ['overwrite', '覆盖'], ['keep', '保留两份']].map(([v, label]) => ({ label, cls: s.conflict === v ? 'on' : '', pick: () => set({ conflict: v }) })),
+      vecCls: s.vec ? 'tog on' : 'tog',
+      toggleVec: () => set({ vec: !s.vec })
+    };
+  }
+}
+</script>
+</body>
+</html>

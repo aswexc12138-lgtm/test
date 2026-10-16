@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>配置中心 · 方案总览</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&amp;family=Noto+Serif+SC:wght@600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#ECE6DB}
+a{color:#2C4A66}a:hover{color:#1D3348}
+.tb{height:40px;display:flex;align-items:center;gap:2px;padding:0 12px;border-bottom:1px solid #DCD3C3;background:#F1ECE3;flex-wrap:wrap}
+.logo{font-weight:700;margin-right:14px;display:flex;align-items:center;gap:8px;font-size:14px}
+.logo i{width:22px;height:22px;border-radius:5px;background:#1E1D1A;display:inline-block}
+.mod{padding:0 12px;height:40px;display:flex;align-items:center;color:#5B574F;text-decoration:none}
+.mod.on{color:#1E1D1A;font-weight:600;box-shadow:inset 0 -2px 0 #2C4A66}
+.tbr{margin-left:auto;color:#5B574F;font-size:12px}
+.nav{flex:0 0 176px;padding:16px 10px;box-sizing:border-box}
+.nav a{display:flex;align-items:center;gap:8px;height:34px;padding:0 10px;border-radius:4px;color:#3A372F;text-decoration:none}
+.nav a.on{background:#E2DACB;color:#1E1D1A;font-weight:600}
+.nav a.later{color:#9A9386}
+.main{flex:999 1 560px;min-width:0;padding:4px 24px 48px;box-sizing:border-box}
+.wrap{max-width:1200px}
+.hdr{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:14px 0 14px}
+.hdr h1{margin:0;font-size:18px;font-family:'Noto Serif SC',serif;font-weight:600}
+.lbl{color:#5B574F;font-size:12px}
+.q{display:inline-flex;width:15px;height:15px;border-radius:50%;border:1px solid #B8AE9C;color:#8A8478;font-size:10px;align-items:center;justify-content:center;cursor:help}
+.btn{height:30px;padding:0 12px;border:1px solid #CFC6B5;border-radius:4px;background:#FBF9F4;font:inherit;color:#1E1D1A;cursor:pointer;display:inline-flex;align-items:center;gap:6px;text-decoration:none}
+.btn:hover{color:#1E1D1A}
+.btn.pri{background:#1E1D1A;color:#F6F2EA;border-color:#1E1D1A}
+.btn.pri:hover{color:#F6F2EA}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.sc{background:#F6F2EA;border:1px solid #DCD3C3;border-radius:6px;padding:14px 16px;display:flex;flex-direction:column;gap:8px;position:relative}
+.sc.def{border-color:#2C4A66;box-shadow:0 0 0 1px #2C4A66}
+.sc h3{margin:0;font-size:15px;display:flex;align-items:center;gap:8px}
+.badge{font-size:11px;font-weight:500;color:#2C4A66;background:#DCE3E8;border-radius:10px;padding:1px 8px}
+.tiny{display:inline-flex;align-items:center;height:20px;padding:0 7px;border-radius:10px;background:#E6DFD2;font-size:11px;color:#3A372F}
+.ft{display:flex;align-items:center;gap:8px;margin-top:4px;padding-top:10px;border-top:1px solid #E6DFD2}
+.ib{width:30px;height:30px;border:0;border-radius:4px;background:transparent;color:#5B574F;cursor:pointer;font:inherit}
+.ib:hover{background:#E6DFD2}
+.menu{position:absolute;right:12px;bottom:46px;z-index:5;background:#FBF9F4;border:1px solid #CFC6B5;border-radius:6px;box-shadow:0 8px 20px rgba(30,29,26,.16);padding:4px;display:flex;flex-direction:column;min-width:128px}
+.menu button{height:30px;border:0;background:transparent;text-align:left;padding:0 10px;font:inherit;cursor:pointer;border-radius:4px}
+.menu button:hover{background:#ECE6DB}
+.menu .danger{color:#A33A2E}
+.newc{border:1px dashed #B8AE9C;border-radius:6px;background:transparent;font:inherit;color:#5B574F;cursor:pointer;min-height:150px}
+.newc:hover{background:#F1ECE3;color:#1E1D1A}
+</style>
+</helmet>
+<div style="font-family: 'Noto Sans SC', 'Microsoft YaHei', system-ui, sans-serif; color: #1E1D1A; font-size: 13px; line-height: 1.5; background: #ECE6DB; min-height: 760px">
+<header class="tb">
+<span class="logo"><i></i>胥宇</span>
+<a class="mod" href="#">工作台</a><a class="mod" href="#">资料整理</a><a class="mod" href="#">绘图</a><a class="mod" href="#">绩效</a><a class="mod on" href="#">配置</a>
+<span class="tbr">水墨 · 白天</span>
+</header>
+<div style="display: flex; flex-wrap: wrap">
+<nav class="nav" aria-label="配置中心">
+<a href="#">通用</a>
+<a href="Shortcuts.dc.html">快捷键</a>
+<a class="on" href="Overview.dc.html">绘图方案</a>
+<a href="#">资料与企业品牌</a>
+<a href="#">数据与备份</a>
+<a class="later" href="#">CAD 支持</a>
+</nav>
+<main class="main">
+<div class="wrap">
+<div class="hdr">
+<h1>绘图方案</h1>
+<span class="q" title="导入的方案、默认方案和设备素材都存在本机，软件升级后照样保留">?</span>
+<span class="lbl">{{ countText }}</span>
+<span style="flex: 1"></span>
+<button type="button" class="btn">导入方案</button>
+<button type="button" class="btn">导出方案</button>
+<button type="button" class="btn pri" onClick="{{ add }}">＋ 新建方案</button>
+</div>
+<div class="cards">
+<sc-for list="{{ schemes }}" as="c" hint-placeholder-count="3">
+<article class="{{ c.cls }}">
+<h3>{{ c.name }}<sc-if value="{{ c.isDef }}" hint-placeholder-val="{{ false }}"><span class="badge">默认</span></sc-if></h3>
+<div class="lbl">{{ c.scope }} · {{ c.meta }}</div>
+<div style="display: flex; flex-wrap: wrap; gap: 4px"><sc-for list="{{ c.tags }}" as="t" hint-placeholder-count="4"><span class="tiny">{{ t.label }}</span></sc-for></div>
+<div class="ft">
+<a class="btn" href="Main.dc.html">编辑</a>
+<sc-if value="{{ c.notDef }}" hint-placeholder-val="{{ true }}"><button type="button" class="btn" onClick="{{ c.makeDef }}">设为默认</button></sc-if>
+<span style="flex: 1"></span>
+<button type="button" class="ib" aria-label="更多操作" onClick="{{ c.toggleMenu }}">⋯</button>
+</div>
+<sc-if value="{{ c.menu }}" hint-placeholder-val="{{ false }}"><div class="menu"><button type="button">复制一份</button><button type="button">导出这个方案</button><button type="button" class="danger" onClick="{{ c.del }}">删除方案</button></div></sc-if>
+</article>
+</sc-for>
+<button type="button" class="newc" onClick="{{ add }}">＋ 新建方案</button>
+</div>
+</div>
+</main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":760}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = {
+      def: 1, menu: null,
+      schemes: [
+        { id: 1, name: 'BIG（老店）', scope: '海外门店', cats: 5, assets: 8, tags: ['客流', '收银台空岗/排队', '收银台拾音', '卖场监控', '隔间监控'] },
+        { id: 2, name: '屈臣氏 2026', scope: '国内门店', cats: 4, assets: 12, tags: ['客流', '卖场监控', '仓库', '收银'] },
+        { id: 3, name: '写字楼通用', scope: '自定义', cats: 3, assets: 6, tags: ['出入口', '电梯', '走廊'] }
+      ]
+    };
+  }
+  renderVals() {
+    const s = this.state;
+    return {
+      countText: s.schemes.length + ' 个方案',
+      add: () => this.setState({ schemes: s.schemes.concat([{ id: Date.now(), name: '新方案', scope: '自定义', cats: 0, assets: 0, tags: [] }]) }),
+      schemes: s.schemes.map((c) => ({
+        name: c.name, scope: c.scope, meta: c.cats + ' 个分类 · ' + c.assets + ' 个素材',
+        tags: (c.tags.length > 4 ? c.tags.slice(0, 3).concat(['+' + (c.tags.length - 3)]) : c.tags).map((label) => ({ label })),
+        isDef: s.def === c.id, notDef: s.def !== c.id,
+        cls: s.def === c.id ? 'sc def' : 'sc',
+        makeDef: () => this.setState({ def: c.id }),
+        menu: s.menu === c.id,
+        toggleMenu: () => this.setState({ menu: s.menu === c.id ? null : c.id }),
+        del: () => this.setState({ schemes: s.schemes.filter((x) => x.id !== c.id), menu: null })
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>

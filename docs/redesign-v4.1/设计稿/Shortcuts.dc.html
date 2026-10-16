@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>配置中心 · 快捷键</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&amp;family=Noto+Serif+SC:wght@600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#ECE6DB}
+a{color:#2C4A66}a:hover{color:#1D3348}
+.tb{height:40px;display:flex;align-items:center;gap:2px;padding:0 12px;border-bottom:1px solid #DCD3C3;background:#F1ECE3;flex-wrap:wrap}
+.logo{font-weight:700;margin-right:14px;display:flex;align-items:center;gap:8px;font-size:14px}
+.logo i{width:22px;height:22px;border-radius:5px;background:#1E1D1A;display:inline-block}
+.mod{padding:0 12px;height:40px;display:flex;align-items:center;color:#5B574F;text-decoration:none}
+.mod.on{color:#1E1D1A;font-weight:600;box-shadow:inset 0 -2px 0 #2C4A66}
+.tbr{margin-left:auto;color:#5B574F;font-size:12px}
+.nav{flex:0 0 176px;padding:16px 10px;box-sizing:border-box}
+.nav a{display:flex;align-items:center;gap:8px;height:34px;padding:0 10px;border-radius:4px;color:#3A372F;text-decoration:none}
+.nav a.on{background:#E2DACB;color:#1E1D1A;font-weight:600}
+.nav a.later{color:#9A9386}
+.main{flex:999 1 560px;min-width:0;padding:4px 24px 48px;box-sizing:border-box}
+.wrap{max-width:1200px}
+.hdr{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:14px 0 12px}
+.hdr h1{margin:0;font-size:18px;font-family:'Noto Serif SC',serif;font-weight:600;margin-right:8px}
+.lbl{color:#5B574F;font-size:12px}
+.in{height:30px;border:1px solid #CFC6B5;border-radius:4px;background:#FBF9F4;padding:0 8px;font:inherit;color:inherit;box-sizing:border-box}
+.btn{height:30px;padding:0 12px;border:1px solid #CFC6B5;border-radius:4px;background:#FBF9F4;font:inherit;color:#1E1D1A;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.btn.sm{height:26px;padding:0 10px;font-size:12px}
+.btn.pri{background:#1E1D1A;color:#F6F2EA;border-color:#1E1D1A}
+.gch{height:28px;padding:0 12px;border-radius:14px;border:1px solid #CFC6B5;background:#FBF9F4;font:inherit;font-size:12px;color:#3A372F;cursor:pointer}
+.gch.on{background:#2C4A66;border-color:#2C4A66;color:#fff}
+.tog{width:34px;height:20px;border-radius:10px;background:#CFC6B5;border:0;position:relative;cursor:pointer;padding:0;flex:none}
+.tog::after{content:'';position:absolute;left:2px;top:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:left .15s}
+.tog.on{background:#2C4A66}.tog.on::after{left:16px}
+.groups{display:grid;grid-template-columns:repeat(auto-fill,minmax(400px,1fr));gap:12px}
+.grp{background:#F6F2EA;border:1px solid #DCD3C3;border-radius:6px;padding:10px 12px}
+.grp h3{margin:0 0 4px;font-size:13px;display:flex;align-items:center;gap:6px}
+.grp h3 span{color:#8A8478;font-weight:400;font-size:12px}
+.sr{display:flex;align-items:center;gap:8px;height:32px;border-bottom:1px solid #EAE3D6;position:relative}
+.sr:last-child{border-bottom:0}
+.sr .nm{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kbd{min-width:92px;height:24px;padding:0 8px;border-radius:4px;border:1px solid #CFC6B5;border-bottom-width:2px;background:#FBF9F4;font-family:Consolas,'SFMono-Regular',monospace;font-size:12px;color:#1E1D1A;cursor:pointer}
+.kbd.empty{border-style:dashed;border-bottom-width:1px;color:#A9A194;font-family:inherit}
+.kbd.rec{border-color:#2C4A66;color:#2C4A66;background:#E3E9EE;font-family:inherit}
+.kbd.bad{border-color:#A33A2E;color:#A33A2E;background:#F5E3E0}
+.ib{width:26px;height:26px;border:0;border-radius:4px;background:transparent;color:#8A8478;cursor:pointer;font:inherit}
+.ib:hover{background:#E6DFD2;color:#1E1D1A}
+.menu{position:absolute;right:0;top:30px;z-index:5;background:#FBF9F4;border:1px solid #CFC6B5;border-radius:6px;box-shadow:0 8px 20px rgba(30,29,26,.16);padding:4px;display:flex;flex-direction:column;min-width:120px}
+.menu button{height:30px;border:0;background:transparent;text-align:left;padding:0 10px;font:inherit;cursor:pointer;border-radius:4px}
+.menu button:hover{background:#ECE6DB}
+.conf{display:flex;align-items:center;gap:8px;padding:6px 8px;margin:2px 0 6px;background:#F5E3E0;border-radius:4px;color:#7A2A21;font-size:12px;flex-wrap:wrap}
+</style>
+</helmet>
+<div style="font-family: 'Noto Sans SC', 'Microsoft YaHei', system-ui, sans-serif; color: #1E1D1A; font-size: 13px; line-height: 1.5; background: #ECE6DB; min-height: 1040px">
+<header class="tb">
+<span class="logo"><i></i>胥宇</span>
+<a class="mod" href="#">工作台</a><a class="mod" href="#">资料整理</a><a class="mod" href="#">绘图</a><a class="mod" href="#">绩效</a><a class="mod on" href="#">配置</a>
+<span class="tbr">水墨 · 白天</span>
+</header>
+<div style="display: flex; flex-wrap: wrap">
+<nav class="nav" aria-label="配置中心">
+<a href="#">通用</a>
+<a class="on" href="Shortcuts.dc.html">快捷键</a>
+<a href="Overview.dc.html">绘图方案</a>
+<a href="#">资料与企业品牌</a>
+<a href="#">数据与备份</a>
+<a class="later" href="#">CAD 支持</a>
+</nav>
+<main class="main">
+<div class="wrap">
+<div class="hdr">
+<h1>快捷键</h1>
+<input class="in" style="width: 240px" placeholder="搜命令或按键，例如：汇总、Ctrl+K" value="{{ query }}" aria-label="搜索快捷键" onChange="{{ setQuery }}">
+<span style="flex: 1"></span>
+<label class="lbl" style="display: inline-flex; align-items: center; gap: 8px; color: #3A372F; font-size: 13px"><button type="button" class="{{ internalCls }}" aria-label="显示弹窗内部命令" onClick="{{ toggleInternal }}"></button>显示弹窗内部命令</label>
+<button type="button" class="btn">恢复全部默认</button>
+</div>
+<div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px">
+<sc-for list="{{ chips }}" as="c" hint-placeholder-count="6"><button type="button" class="{{ c.cls }}" onClick="{{ c.pick }}">{{ c.label }}</button></sc-for>
+</div>
+<div class="groups">
+<sc-for list="{{ groups }}" as="g" hint-placeholder-count="5">
+<section class="grp">
+<h3>{{ g.name }} <span>{{ g.count }}</span></h3>
+<sc-for list="{{ g.rows }}" as="r" hint-placeholder-count="4">
+<div>
+<div class="sr">
+<span class="nm" title="{{ r.name }}">{{ r.name }}</span>
+<button type="button" class="{{ r.kbdCls }}" aria-label="{{ r.aria }}" onClick="{{ r.record }}" onKeyDown="{{ r.onKey }}">{{ r.keyText }}</button>
+<button type="button" class="ib" aria-label="更多" onClick="{{ r.toggleMenu }}">⋯</button>
+<sc-if value="{{ r.menu }}" hint-placeholder-val="{{ false }}"><div class="menu"><button type="button" onClick="{{ r.clear }}">清除</button><button type="button" onClick="{{ r.reset }}">恢复默认</button></div></sc-if>
+</div>
+<sc-if value="{{ r.conflict }}" hint-placeholder-val="{{ false }}"><div class="conf"><span>{{ r.conflictText }}</span><span style="flex: 1"></span><button type="button" class="btn sm" onClick="{{ r.replace }}">替换</button><button type="button" class="btn sm" onClick="{{ r.cancel }}">取消</button></div></sc-if>
+</div>
+</sc-for>
+</section>
+</sc-for>
+</div>
+<p class="lbl" style="margin: 14px 0 0">“全部命令”面板（Ctrl+K）里只显示快捷键，不再在那里改；点上面的按键框，直接按新的组合键即可。</p>
+</div>
+</main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1040}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    const G = (group, list, internal) => list.map(([id, name, key]) => ({ id, name, key, def: key, group, internal: !!internal }));
+    this.state = {
+      query: '', group: 'all', showInternal: false, rec: null, menu: null, conflict: null,
+      items: [].concat(
+        G('文件与导出', [['open', '打开图纸', 'Ctrl+O'], ['save', '保存工程', 'Ctrl+S'], ['pdf', '快速导出 PDF', 'Ctrl+E'], ['next', '完成并下一份', 'Ctrl+Enter'], ['log', '导出记录', '']]),
+        G('绘图工具', [['sel', '选择 / 拖动', 'V'], ['arrow', '连续箭头标注', 'A'], ['text', '添加文字', 'T'], ['len', '长度测量', ''], ['area', '面积与周长', ''], ['cal', '比例校准', ''], ['rect', '标注框', ''], ['zone', '区域布点', '']]),
+        G('放置设备', [['p1', '连续放置：点位摄像机（客流）', '1'], ['p2', '连续放置：枪机 BX-2（卖场监控）', '2'], ['p3', '连续放置：D6PS-1 半球（卖场监控）', ''], ['p4', '放置分类点位', '']]),
+        G('设备汇总', [['list', '汇总清单', 'Ctrl+Alt+H'], ['gen', '生成设备汇总', 'Ctrl+Alt+G'], ['desc', '生成分类说明', 'Ctrl+Alt+D'], ['combo', '载入常用组合', 'Ctrl+Alt+L'], ['inc', '增加设备数量', ''], ['dec', '减少设备数量', '']]),
+        G('视图与窗口', [['cmd', '全部命令', 'Ctrl+K'], ['fit', '适配窗口', 'Ctrl+0'], ['zin', '放大', 'Ctrl+='], ['zout', '缩小', 'Ctrl+-'], ['fstyle', '本文件样式', 'Ctrl+Alt+S']]),
+        G('弹窗内部', [['x1', '关闭图片大小设置', ''], ['x2', '撤销素材调整', ''], ['x3', '重做素材调整', ''], ['x4', '保存图片参数', ''], ['x5', '视觉中心归中', '']], true)
+      )
+    };
+  }
+  renderVals() {
+    const s = this.state;
+    const setKey = (id, key) => this.setState({ items: s.items.map((it) => it.id === id ? Object.assign({}, it, { key }) : it), rec: null, menu: null, conflict: null });
+    const combo = (e) => {
+      const k = e.key;
+      if (['Control', 'Alt', 'Shift', 'Meta'].indexOf(k) >= 0) return null;
+      const parts = [];
+      if (e.ctrlKey) parts.push('Ctrl');
+      if (e.altKey) parts.push('Alt');
+      if (e.shiftKey) parts.push('Shift');
+      parts.push(k.length === 1 ? k.toUpperCase() : k);
+      return parts.join('+');
+    };
+    const visible = s.items.filter((it) => (s.showInternal || !it.internal) && (s.group === 'all' || it.group === s.group) && (!s.query || it.name.indexOf(s.query) >= 0 || it.key.toLowerCase().indexOf(s.query.toLowerCase()) >= 0));
+    const names = [];
+    visible.forEach((it) => { if (names.indexOf(it.group) < 0) names.push(it.group); });
+    const allGroups = [];
+    s.items.forEach((it) => { if ((s.showInternal || !it.internal) && allGroups.indexOf(it.group) < 0) allGroups.push(it.group); });
+    return {
+      query: s.query,
+      setQuery: (e) => this.setState({ query: e.target.value }),
+      internalCls: s.showInternal ? 'tog on' : 'tog',
+      toggleInternal: () => this.setState({ showInternal: !s.showInternal }),
+      chips: [{ label: '全部', v: 'all' }].concat(allGroups.map((g) => ({ label: g, v: g }))).map((c) => ({ label: c.label, cls: s.group === c.v ? 'gch on' : 'gch', pick: () => this.setState({ group: c.v }) })),
+      groups: names.map((g) => {
+        const rows = visible.filter((it) => it.group === g);
+        return {
+          name: g, count: rows.length + ' 项',
+          rows: rows.map((it) => {
+            const recording = s.rec === it.id;
+            const conflict = s.conflict && s.conflict.id === it.id ? s.conflict : null;
+            return {
+              name: it.name,
+              aria: it.name + ' 的快捷键',
+              keyText: conflict ? conflict.key : recording ? '请按新组合键…' : (it.key || '未设置'),
+              kbdCls: conflict ? 'kbd bad' : recording ? 'kbd rec' : it.key ? 'kbd' : 'kbd empty',
+              record: () => this.setState({ rec: recording ? null : it.id, menu: null, conflict: null }),
+              onKey: (e) => {
+                if (!recording) return;
+                if (e.key === 'Escape') { this.setState({ rec: null }); return; }
+                if (e.key === 'Backspace') { setKey(it.id, ''); return; }
+                const c = combo(e);
+                if (!c) return;
+                e.preventDefault();
+                const other = s.items.find((o) => o.id !== it.id && o.key === c);
+                if (other) this.setState({ conflict: { id: it.id, key: c, otherId: other.id, otherName: other.name }, rec: null });
+                else setKey(it.id, c);
+              },
+              menu: s.menu === it.id,
+              toggleMenu: () => this.setState({ menu: s.menu === it.id ? null : it.id }),
+              clear: () => setKey(it.id, ''),
+              reset: () => setKey(it.id, it.def),
+              conflict: !!conflict,
+              conflictText: conflict ? conflict.key + ' 已被“' + conflict.otherName + '”使用' : '',
+              replace: () => { const c = s.conflict; this.setState({ items: s.items.map((o) => o.id === c.id ? Object.assign({}, o, { key: c.key }) : o.id === c.otherId ? Object.assign({}, o, { key: '' }) : o), conflict: null }); },
+              cancel: () => this.setState({ conflict: null })
+            };
+          })
+        };
+      })
+    };
+  }
+}
+</script>
+</body>
+</html>

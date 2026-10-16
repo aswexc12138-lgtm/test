@@ -1,0 +1,20 @@
+{
+  "v": 3,
+  "createdOnFiles": { "v": 1, "at": "2026-10-16T09:30:00Z" },
+  "title": "胥宇配置与方案编辑器设计稿",
+  "launch": { "view": "canvas" },
+  "pages": [],
+  "boards": {
+    "Main.dc.html": { "x": 0, "y": 0, "w": 1280, "h": 860, "title": "方案编辑器 · 基本与编号", "expand": "fill", "is_interactive": true },
+    "Categories.dc.html": { "x": 1360, "y": 0, "w": 1280, "h": 860, "title": "方案编辑器 · 分类与汇总说明", "expand": "fill", "is_interactive": true },
+    "Assets.dc.html": { "x": 2720, "y": 0, "w": 1280, "h": 900, "title": "方案编辑器 · 设备素材", "expand": "fill", "is_interactive": true },
+    "Styles.dc.html": { "x": 0, "y": 1020, "w": 1280, "h": 1040, "title": "方案编辑器 · 样式", "expand": "fill", "is_interactive": true },
+    "Summary.dc.html": { "x": 1360, "y": 1020, "w": 1280, "h": 860, "title": "方案编辑器 · 汇总与导出", "expand": "fill", "is_interactive": true },
+    "Shortcuts.dc.html": { "x": 2720, "y": 1020, "w": 1280, "h": 1040, "title": "配置中心 · 快捷键", "expand": "fill", "is_interactive": true },
+    "ColorPicker.dc.html": { "x": 0, "y": 2200, "w": 760, "h": 560, "title": "取色浮层（全软件统一）", "is_interactive": true },
+    "Overview.dc.html": { "x": 840, "y": 2200, "w": 1280, "h": 760, "title": "配置中心 · 方案总览", "expand": "fill", "is_interactive": true }
+  },
+  "order": ["Main.dc.html", "Categories.dc.html", "Assets.dc.html", "Styles.dc.html", "Summary.dc.html", "Shortcuts.dc.html", "ColorPicker.dc.html", "Overview.dc.html"],
+  "notes": {},
+  "designSystems": []
+}

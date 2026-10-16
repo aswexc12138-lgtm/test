@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>方案编辑器 · 分类与汇总说明</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&amp;family=Noto+Serif+SC:wght@600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#ECE6DB}
+a{color:#2C4A66}a:hover{color:#1D3348}
+.tb{height:40px;display:flex;align-items:center;gap:2px;padding:0 12px;border-bottom:1px solid #DCD3C3;background:#F1ECE3;flex-wrap:wrap}
+.logo{font-weight:700;margin-right:14px;display:flex;align-items:center;gap:8px;font-size:14px}
+.logo i{width:22px;height:22px;border-radius:5px;background:#1E1D1A;display:inline-block}
+.mod{padding:0 12px;height:40px;display:flex;align-items:center;color:#5B574F;text-decoration:none}
+.mod.on{color:#1E1D1A;font-weight:600;box-shadow:inset 0 -2px 0 #2C4A66}
+.tbr{margin-left:auto;color:#5B574F;font-size:12px}
+.nav{flex:0 0 176px;padding:16px 10px;box-sizing:border-box}
+.nav a{display:flex;align-items:center;gap:8px;height:34px;padding:0 10px;border-radius:4px;color:#3A372F;text-decoration:none}
+.nav a.on{background:#E2DACB;color:#1E1D1A;font-weight:600}
+.nav a.later{color:#9A9386}
+.main{flex:999 1 560px;min-width:0;padding:4px 24px 48px;box-sizing:border-box}
+.wrap{max-width:1200px}
+.hdr{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 0}
+.hdr h1{margin:0;font-size:18px;font-family:'Noto Serif SC',serif;font-weight:600}
+.back{display:inline-flex;align-items:center;gap:4px;color:#5B574F;text-decoration:none;font-size:13px}
+.dirty{color:#A15C1F;font-size:12px;display:inline-flex;align-items:center;gap:6px}
+.dirty::before{content:'';width:7px;height:7px;border-radius:50%;background:#C77A2E}
+.tabs{display:flex;gap:2px;margin:0 0 16px;border-bottom:1px solid #DCD3C3;flex-wrap:wrap}
+.tabs a{padding:8px 14px;color:#5B574F;text-decoration:none;border-bottom:2px solid transparent;margin-bottom:-1px}
+.tabs a.on{color:#1E1D1A;border-bottom-color:#2C4A66;font-weight:600}
+.card{background:#F6F2EA;border:1px solid #DCD3C3;border-radius:6px;padding:14px 16px}
+.card h3{margin:0 0 12px;font-size:14px;display:flex;align-items:center;gap:6px}
+.row{display:flex;align-items:center;gap:10px 18px;flex-wrap:wrap}
+.f{display:inline-flex;align-items:center;gap:8px}
+.lbl{color:#5B574F;font-size:12px}
+.in{height:30px;border:1px solid #CFC6B5;border-radius:4px;background:#FBF9F4;padding:0 8px;font:inherit;color:inherit;box-sizing:border-box}
+.in:focus{outline:2px solid #2C4A66;outline-offset:-1px}
+.btn{height:30px;padding:0 12px;border:1px solid #CFC6B5;border-radius:4px;background:#FBF9F4;font:inherit;color:#1E1D1A;cursor:pointer;display:inline-flex;align-items:center;gap:6px;text-decoration:none}
+.btn.pri{background:#1E1D1A;color:#F6F2EA;border-color:#1E1D1A}
+.seg{display:inline-flex;border:1px solid #CFC6B5;border-radius:4px;overflow:hidden;background:#FBF9F4}
+.seg button{height:28px;padding:0 10px;border:0;border-left:1px solid #E2DACB;background:transparent;font:inherit;color:#3A372F;cursor:pointer}
+.seg button:first-child{border-left:0}
+.seg button.on{background:#2C4A66;color:#fff}
+.step{display:inline-flex;align-items:center;border:1px solid #CFC6B5;border-radius:4px;background:#FBF9F4;height:30px;box-sizing:border-box}
+.step button{width:26px;height:28px;border:0;background:transparent;cursor:pointer;font:inherit;color:#3A372F}
+.step span{min-width:36px;text-align:center;font-variant-numeric:tabular-nums}
+.q{display:inline-flex;width:15px;height:15px;border-radius:50%;border:1px solid #B8AE9C;color:#8A8478;font-size:10px;align-items:center;justify-content:center;cursor:help;font-weight:400}
+.chip{display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:12px;background:#E3DBCC;color:#1E1D1A;font-size:12px}
+.ib{width:28px;height:28px;border:0;border-radius:4px;background:transparent;color:#5B574F;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font:inherit}
+.ib:hover{background:#E6DFD2}
+.ib.del:hover{color:#A33A2E}
+.ib:disabled{opacity:.3;cursor:default;background:transparent}
+.grip{color:#B8AE9C;cursor:grab;width:16px;text-align:center;letter-spacing:-2px}
+.trow{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid #E6DFD2}
+.th{display:flex;gap:8px;color:#8A8478;font-size:12px;padding:0 0 6px;border-bottom:1px solid #DCD3C3}
+.var{height:22px;padding:0 8px;border:1px dashed #B8AE9C;border-radius:11px;background:transparent;font:inherit;font-size:12px;color:#2C4A66;cursor:pointer}
+</style>
+</helmet>
+<div style="font-family: 'Noto Sans SC', 'Microsoft YaHei', system-ui, sans-serif; color: #1E1D1A; font-size: 13px; line-height: 1.5; background: #ECE6DB; min-height: 860px">
+<header class="tb">
+<span class="logo"><i></i>胥宇</span>
+<a class="mod" href="#">工作台</a><a class="mod" href="#">资料整理</a><a class="mod" href="#">绘图</a><a class="mod" href="#">绩效</a><a class="mod on" href="#">配置</a>
+<span class="tbr">水墨 · 白天</span>
+</header>
+<div style="display: flex; flex-wrap: wrap">
+<nav class="nav" aria-label="配置中心">
+<a href="#">通用</a>
+<a href="Shortcuts.dc.html">快捷键</a>
+<a class="on" href="Overview.dc.html">绘图方案</a>
+<a href="#">资料与企业品牌</a>
+<a href="#">数据与备份</a>
+<a class="later" href="#">CAD 支持</a>
+</nav>
+<main class="main">
+<div class="wrap">
+<div class="hdr">
+<a class="back" href="Overview.dc.html">← 方案库</a>
+<span style="color: #B8AE9C">/</span>
+<h1>BIG（老店）</h1>
+<span class="chip">海外门店</span>
+<span class="chip" style="background: #DCE3E8; color: #2C4A66">默认方案</span>
+<span style="flex: 1"></span>
+<sc-if value="{{ dirty }}" hint-placeholder-val="{{ true }}"><span class="dirty">有未保存的修改</span></sc-if>
+<button class="btn" type="button">保存并设为默认</button>
+<button class="btn pri" type="button" onClick="{{ save }}">保存</button>
+</div>
+<nav class="tabs" aria-label="方案设置">
+<a href="Main.dc.html">基本与编号</a>
+<a class="on" href="Categories.dc.html">分类与汇总说明</a>
+<a href="Assets.dc.html">设备素材</a>
+<a href="Styles.dc.html">样式</a>
+<a href="Summary.dc.html">汇总与导出</a>
+</nav>
+
+<div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-start">
+<section class="card" style="flex: 1 1 520px; min-width: 0">
+<h3>业务分类 <span class="q" title="顺序就是编号优先级：一个点位同属多个分类时，按排在前面的分类编号">?</span>
+<span style="flex: 1"></span>
+<button class="btn" type="button" onClick="{{ add }}">＋ 添加分类</button></h3>
+<div class="th"><span style="width: 16px"></span><span style="width: 18px">#</span><span style="width: 160px">分类名称</span><span style="flex: 1">说明（会写进汇总说明）</span><span style="width: 92px"></span></div>
+<sc-for list="{{ cats }}" as="c" hint-placeholder-count="5">
+<div class="trow">
+<span class="grip" aria-hidden="true">⋮⋮</span>
+<span style="width: 18px; color: #8A8478; font-variant-numeric: tabular-nums">{{ c.no }}</span>
+<input class="in" style="width: 160px" value="{{ c.name }}" aria-label="分类名称" onChange="{{ c.setName }}">
+<input class="in" style="flex: 1; min-width: 120px" value="{{ c.desc }}" aria-label="分类说明" onChange="{{ c.setDesc }}">
+<button class="ib" type="button" aria-label="上移" disabled="{{ c.first }}" onClick="{{ c.up }}">↑</button>
+<button class="ib" type="button" aria-label="下移" disabled="{{ c.last }}" onClick="{{ c.down }}">↓</button>
+<button class="ib del" type="button" aria-label="删除分类" onClick="{{ c.del }}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"></path></svg></button>
+</div>
+</sc-for>
+<p class="lbl" style="margin: 10px 0 0">说明支持换行；行太长时会按右边设置的宽度自动折行。</p>
+</section>
+
+<section class="card" style="flex: 1 1 440px; min-width: 0">
+<h3>汇总说明怎么排 <span class="q" title="点“生成分类说明”时，按这里的规则把各分类写成一段文字放到图上">?</span></h3>
+<div style="display: flex; flex-direction: column; gap: 12px">
+<div class="row"><span class="lbl" style="width: 64px">版式</span><span class="seg"><sc-for list="{{ layouts }}" as="o" hint-placeholder-count="2"><button type="button" class="{{ o.cls }}" onClick="{{ o.pick }}">{{ o.label }}</button></sc-for></span></div>
+<div class="row" style="align-items: flex-start"><span class="lbl" style="width: 64px; padding-top: 5px">开头</span>
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px">
+<input class="in" style="width: 100%" value="{{ intro }}" aria-label="汇总开头" onChange="{{ setIntro }}">
+<div class="row" style="gap: 6px"><span class="lbl">点一下插入：</span><sc-for list="{{ vars }}" as="v" hint-placeholder-count="3"><button type="button" class="var" onClick="{{ v.add }}">{{ v.label }}</button></sc-for></div>
+</div></div>
+<div class="row"><span class="lbl" style="width: 64px">分类之间</span><span class="seg"><sc-for list="{{ gaps }}" as="o" hint-placeholder-count="3"><button type="button" class="{{ o.cls }}" onClick="{{ o.pick }}">{{ o.label }}</button></sc-for></span></div>
+<div class="row"><span class="lbl" style="width: 64px">宽度</span><span class="step"><button type="button" aria-label="变窄" onClick="{{ narrower }}">−</button><span>{{ width }}</span><button type="button" aria-label="变宽" onClick="{{ wider }}">+</button></span><span class="lbl">pt，图上实际宽度</span></div>
+<div>
+<div class="lbl" style="margin-bottom: 6px">预览（跟着上面的设置实时变）</div>
+<div style="background: #fff; border: 1px solid #DCD3C3; border-radius: 4px; padding: 14px; overflow: hidden">
+<div style="{{ boxStyle }}">
+<div style="font-weight: 700; margin-bottom: 4px">{{ introText }}</div>
+<sc-if value="{{ perCat }}" hint-placeholder-val="{{ true }}">
+<sc-for list="{{ blocks }}" as="b" hint-placeholder-count="5">
+<div style="{{ b.style }}"><div style="font-weight: 600">{{ b.head }}</div><div style="white-space: pre-line; color: #3A372F">{{ b.desc }}</div></div>
+</sc-for>
+</sc-if>
+<sc-if value="{{ merged }}" hint-placeholder-val="{{ false }}"><div style="color: #3A372F">{{ mergedText }}</div></sc-if>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":860}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = {
+      dirty: false, layout: 'per', gap: 'half', width: 340, intro: '本图共 {总数量} 个点位：',
+      cats: [
+        { id: 1, name: '客流', desc: '客流统计', n: 3 },
+        { id: 2, name: '收银台空岗/排队', desc: '收银台空岗及排队检测', n: 2 },
+        { id: 3, name: '收银台拾音', desc: '收银台拾音监控', n: 1 },
+        { id: 4, name: '卖场监控', desc: '卖场区域监控', n: 2 },
+        { id: 5, name: '隔间监控', desc: '隔间区域监控', n: 1 }
+      ]
+    };
+  }
+  renderVals() {
+    const s = this.state;
+    const set = (patch) => this.setState(Object.assign({ dirty: true }, patch));
+    const move = (i, d) => { const c = s.cats.slice(); const t = c[i]; c[i] = c[i + d]; c[i + d] = t; set({ cats: c }); };
+    const patchCat = (i, patch) => set({ cats: s.cats.map((c, j) => j === i ? Object.assign({}, c, patch) : c) });
+    const total = s.cats.reduce((a, c) => a + c.n, 0);
+    const gapPx = s.gap === 'none' ? 0 : s.gap === 'half' ? 7 : 14;
+    const scale = 0.9;
+    return {
+      dirty: s.dirty,
+      save: () => this.setState({ dirty: false }),
+      add: () => set({ cats: s.cats.concat([{ id: Date.now(), name: '新分类', desc: '', n: 1 }]) }),
+      cats: s.cats.map((c, i) => ({
+        no: i + 1, name: c.name, desc: c.desc, first: i === 0, last: i === s.cats.length - 1,
+        setName: (e) => patchCat(i, { name: e.target.value }),
+        setDesc: (e) => patchCat(i, { desc: e.target.value }),
+        up: () => move(i, -1), down: () => move(i, 1),
+        del: () => set({ cats: s.cats.filter((_, j) => j !== i) })
+      })),
+      layouts: [['per', '每个分类一段'], ['merged', '合并成一段']].map(([v, label]) => ({ label, cls: s.layout === v ? 'on' : '', pick: () => set({ layout: v }) })),
+      gaps: [['none', '不留空'], ['half', '留半行'], ['line', '留一行']].map(([v, label]) => ({ label, cls: s.gap === v ? 'on' : '', pick: () => set({ gap: v }) })),
+      intro: s.intro,
+      setIntro: (e) => set({ intro: e.target.value }),
+      vars: ['{总数量}', '{项目名称}', '{分类}', '{数量}'].map((label) => ({ label, add: () => set({ intro: s.intro + label }) })),
+      width: s.width,
+      narrower: () => set({ width: Math.max(200, s.width - 20) }),
+      wider: () => set({ width: Math.min(480, s.width + 20) }),
+      boxStyle: 'width:' + Math.round(s.width * scale) + 'px;max-width:100%;font-size:12px;line-height:1.55;border-left:1px dashed #C9BEAA;border-right:1px dashed #C9BEAA;padding:0 6px;box-sizing:border-box',
+      introText: s.intro.replace('{总数量}', String(total)).replace('{项目名称}', 'BIG 老店').replace('{分类}', '各分类').replace('{数量}', String(total)),
+      perCat: s.layout === 'per',
+      merged: s.layout === 'merged',
+      blocks: s.cats.map((c, i) => ({ head: c.name + '（' + c.n + ' 个）', desc: c.desc, style: 'margin-top:' + (i === 0 ? 0 : gapPx) + 'px' })),
+      mergedText: s.cats.map((c) => c.name + ' ' + c.n + ' 个' + (c.desc ? '（' + c.desc + '）' : '')).join('；') + '。'
+    };
+  }
+}
+</script>
+</body>
+</html>
