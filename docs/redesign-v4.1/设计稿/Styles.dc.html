@@ -35,18 +35,20 @@ a{color:#2C4A66}a:hover{color:#1D3348}
 .tabs a.on{color:#1E1D1A;border-bottom-color:#2C4A66;font-weight:600}
 .card{background:#F6F2EA;border:1px solid #DCD3C3;border-radius:6px;padding:14px 16px}
 .card h3{margin:0 0 10px;font-size:14px;display:flex;align-items:center;gap:6px}
-.row{display:flex;align-items:center;gap:10px 14px;flex-wrap:wrap}
 .lbl{color:#5B574F;font-size:12px}
 .in{height:28px;border:1px solid #CFC6B5;border-radius:4px;background:#FBF9F4;padding:0 6px;font:inherit;color:inherit;box-sizing:border-box}
 .btn{height:30px;padding:0 12px;border:1px solid #CFC6B5;border-radius:4px;background:#FBF9F4;font:inherit;color:#1E1D1A;cursor:pointer;display:inline-flex;align-items:center;gap:6px;text-decoration:none}
+.btn.sm{height:26px;padding:0 10px;font-size:12px}
 .btn.pri{background:#1E1D1A;color:#F6F2EA;border-color:#1E1D1A}
 .seg{display:inline-flex;border:1px solid #CFC6B5;border-radius:4px;overflow:hidden;background:#FBF9F4}
 .seg button{height:26px;padding:0 8px;border:0;border-left:1px solid #E2DACB;background:transparent;font:inherit;font-size:12px;color:#3A372F;cursor:pointer}
 .seg button:first-child{border-left:0}
 .seg button.on{background:#2C4A66;color:#fff}
 .step{display:inline-flex;align-items:center;border:1px solid #CFC6B5;border-radius:4px;background:#FBF9F4;height:28px;box-sizing:border-box}
+.step:hover{border-color:#8A8478}
 .step button{width:22px;height:26px;border:0;background:transparent;cursor:pointer;font:inherit;color:#3A372F}
-.step span{min-width:32px;text-align:center;font-variant-numeric:tabular-nums;font-size:12px}
+.step input{width:40px;height:26px;border:0;background:transparent;text-align:center;font:inherit;font-size:12px;font-variant-numeric:tabular-nums;color:inherit;padding:0}
+.step input:focus{outline:none;background:#fff}
 .q{display:inline-flex;width:15px;height:15px;border-radius:50%;border:1px solid #B8AE9C;color:#8A8478;font-size:10px;align-items:center;justify-content:center;cursor:help;font-weight:400}
 .chip{display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:12px;background:#E3DBCC;color:#1E1D1A;font-size:12px}
 .tog{width:34px;height:20px;border-radius:10px;background:#CFC6B5;border:0;position:relative;cursor:pointer;padding:0;flex:none}
@@ -59,12 +61,20 @@ a{color:#2C4A66}a:hover{color:#1D3348}
 .tt th{text-align:left;font-weight:400;color:#8A8478;font-size:12px;padding:0 8px 6px 0;border-bottom:1px solid #DCD3C3;white-space:nowrap}
 .tt td{padding:6px 8px 6px 0;border-bottom:1px solid #E6DFD2;vertical-align:middle;white-space:nowrap}
 .tt tr.all td{background:#EFE9DE}
-.pop{position:absolute;z-index:5;top:30px;left:0;width:248px;background:#FBF9F4;border:1px solid #CFC6B5;border-radius:6px;box-shadow:0 8px 24px rgba(30,29,26,.18);padding:12px;white-space:normal}
-.pal{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
-.pal button{height:28px;border-radius:4px;border:1px solid rgba(0,0,0,.15);cursor:pointer;padding:0}
+.pop{position:absolute;z-index:5;top:30px;left:0;width:252px;background:#FBF9F4;border:1px solid #CFC6B5;border-radius:6px;box-shadow:0 8px 24px rgba(30,29,26,.18);padding:10px 12px 12px;white-space:normal;box-sizing:border-box}
+.cmp{display:flex;align-items:center;gap:6px;font-size:12px;color:#5B574F;margin-bottom:8px}
+.cmp i{display:block;width:26px;height:18px;border-radius:3px;border:1px solid rgba(0,0,0,.15)}
+.cmp b{font-family:Consolas,monospace;font-weight:400;color:#1E1D1A;margin-left:auto}
+.pt{font-size:12px;color:#5B574F;margin:8px 0 5px}
+.cg{display:grid;grid-template-columns:repeat(10,18px);gap:3px 4px}
+.cg button{width:18px;height:18px;border:1px solid rgba(0,0,0,.12);padding:0;cursor:pointer;border-radius:2px}
+.cg button:hover{outline:1px solid #1E1D1A}
+.cg button.on{box-shadow:0 0 0 2px #FBF9F4,0 0 0 3px #1E1D1A}
+.pf{display:flex;align-items:center;gap:6px;margin-top:10px}
+.more{background:none;border:0;padding:0;font:inherit;font-size:12px;color:#2C4A66;cursor:pointer;margin-left:auto}
 .gc{flex:1 1 300px;min-width:0}
 .pv{height:120px;background:#fff;border:1px solid #DCD3C3;border-radius:4px;display:flex;align-items:center;justify-content:center;margin-top:10px;position:relative}
-.fr{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.fr{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
 .fr .lbl{width:84px;flex:none}
 </style>
 </helmet>
@@ -103,11 +113,11 @@ a{color:#2C4A66}a:hover{color:#1D3348}
 <a class="on" href="Styles.dc.html">样式</a>
 <a href="Summary.dc.html">汇总与导出</a>
 </nav>
-<p class="lbl" style="margin: 0 0 12px">这里是方案的默认样式。单个文件要特殊处理，在绘图里点“本文件样式”，用的是同一套控件。</p>
+<p class="lbl" style="margin: 0 0 12px">这里是方案的默认样式。单个文件要特殊处理，在绘图里点“本文件样式”，用的是同一套控件。数字框都能直接输入，鼠标放上去滚轮调，按住 Shift 一次调 10。</p>
 
 <section class="card" style="margin-bottom: 12px">
 <h3>文字</h3>
-<div style="overflow-x: auto">
+<div style="overflow-x: auto; padding-bottom: 4px">
 <table class="tt">
 <thead><tr><th style="width: 110px">类型</th><th>字体</th><th>字号</th><th>颜色</th><th>粗体</th><th>对齐</th><th>行距</th><th style="width: 100%">样例</th></tr></thead>
 <tbody>
@@ -115,21 +125,24 @@ a{color:#2C4A66}a:hover{color:#1D3348}
 <tr class="{{ r.trCls }}">
 <td style="font-weight: 600">{{ r.label }}</td>
 <td><select class="in" style="width: 104px" aria-label="字体"><option>{{ r.font }}</option><option>黑体</option><option>宋体</option><option>仿宋</option><option>楷体</option></select></td>
-<td><span class="step"><button type="button" aria-label="字号减小" onClick="{{ r.sizeDec }}">−</button><span>{{ r.sizeText }}</span><button type="button" aria-label="字号增大" onClick="{{ r.sizeInc }}">+</button></span></td>
+<td><span class="step"><button type="button" aria-label="字号减小" onClick="{{ r.sizeN.dec }}">−</button><input aria-label="字号" title="滚轮可调" value="{{ r.sizeN.value }}" onChange="{{ r.sizeN.change }}" onBlur="{{ r.sizeN.blur }}" onWheel="{{ r.sizeN.wheel }}"><button type="button" aria-label="字号增大" onClick="{{ r.sizeN.inc }}">+</button></span></td>
 <td><div style="position: relative"><button type="button" class="sw" style="{{ r.swStyle }}" aria-label="选择颜色" onClick="{{ r.openColor }}"></button>
 <sc-if value="{{ r.open }}" hint-placeholder-val="{{ false }}">
 <div class="pop" role="dialog" aria-label="选择颜色">
-<div class="lbl" style="margin-bottom: 6px">图纸常用色</div>
-<div class="pal"><sc-for list="{{ r.palette }}" as="p" hint-placeholder-count="12"><button type="button" style="{{ p.style }}" aria-label="{{ p.name }}" title="{{ p.name }}" onClick="{{ p.pick }}"></button></sc-for></div>
-<div class="lbl" style="margin: 10px 0 6px">最近用过</div>
-<div class="pal"><sc-for list="{{ r.recent }}" as="p" hint-placeholder-count="4"><button type="button" style="{{ p.style }}" aria-label="{{ p.name }}" title="{{ p.name }}" onClick="{{ p.pick }}"></button></sc-for></div>
-<div style="display: flex; gap: 6px; margin-top: 10px; align-items: center"><input class="in" style="width: 96px; font-family: Consolas, monospace" value="{{ r.hex }}" aria-label="色值"><button type="button" class="btn" style="height: 28px; padding: 0 8px">吸管</button><span style="flex: 1"></span><button type="button" class="btn" style="height: 28px; padding: 0 8px" onClick="{{ closeColor }}">完成</button></div>
+<div class="cmp"><span>原来</span><i style="{{ r.pop.oldStyle }}"></i><span>现在</span><i style="{{ r.pop.newStyle }}"></i><b>{{ r.pop.hex }}</b></div>
+<div class="pt" style="margin-top: 0">主题颜色</div>
+<div class="cg"><sc-for list="{{ r.pop.base }}" as="p" hint-placeholder-count="10"><button type="button" class="{{ p.cls }}" style="{{ p.style }}" aria-label="{{ p.name }}" title="{{ p.name }}" onClick="{{ p.pick }}"></button></sc-for></div>
+<div class="cg" style="margin-top: 6px"><sc-for list="{{ r.pop.tints }}" as="p" hint-placeholder-count="50"><button type="button" class="{{ p.cls }}" style="{{ p.style }}" aria-label="{{ p.name }}" title="{{ p.name }}" onClick="{{ p.pick }}"></button></sc-for></div>
+<div class="pt">最近使用</div>
+<div class="cg"><sc-for list="{{ r.pop.recent }}" as="p" hint-placeholder-count="6"><button type="button" class="{{ p.cls }}" style="{{ p.style }}" aria-label="{{ p.name }}" title="{{ p.name }}" onClick="{{ p.pick }}"></button></sc-for></div>
+<div class="pf"><input class="in" style="width: 84px; font-family: Consolas, monospace" value="{{ r.pop.hex }}" aria-label="色值" onChange="{{ r.pop.setHex }}"><button type="button" class="btn sm">吸管</button><button type="button" class="more">更多颜色…</button></div>
+<div class="pf" style="justify-content: flex-end"><button type="button" class="btn sm" onClick="{{ r.pop.cancel }}">取消</button><button type="button" class="btn sm pri" onClick="{{ r.pop.ok }}">确定</button></div>
 </div>
 </sc-if>
 </div></td>
 <td><button type="button" class="{{ r.boldCls }}" aria-label="粗体" onClick="{{ r.toggleBold }}">B</button></td>
 <td><span class="seg"><sc-for list="{{ r.aligns }}" as="a" hint-placeholder-count="3"><button type="button" class="{{ a.cls }}" onClick="{{ a.pick }}">{{ a.label }}</button></sc-for></span></td>
-<td><span class="step"><button type="button" aria-label="行距减小" onClick="{{ r.lhDec }}">−</button><span>{{ r.lhText }}</span><button type="button" aria-label="行距增大" onClick="{{ r.lhInc }}">+</button></span></td>
+<td><span class="step"><button type="button" aria-label="行距减小" onClick="{{ r.lhN.dec }}">−</button><input aria-label="行距" title="滚轮可调" value="{{ r.lhN.value }}" onChange="{{ r.lhN.change }}" onBlur="{{ r.lhN.blur }}" onWheel="{{ r.lhN.wheel }}"><button type="button" aria-label="行距增大" onClick="{{ r.lhN.inc }}">+</button></span></td>
 <td><div style="{{ r.sampleStyle }}">{{ r.sample }}</div></td>
 </tr>
 </sc-for>
@@ -141,32 +154,53 @@ a{color:#2C4A66}a:hover{color:#1D3348}
 <div style="display: flex; flex-wrap: wrap; gap: 12px">
 <section class="card gc">
 <h3>箭头</h3>
-<div class="fr"><span class="lbl">箭头大小</span><span class="step"><button type="button" aria-label="变小" onClick="{{ arrowSizeDec }}">−</button><span>{{ arrowSize }}</span><button type="button" aria-label="变大" onClick="{{ arrowSizeInc }}">+</button></span></div>
-<div class="fr"><span class="lbl">线条粗细</span><span class="step"><button type="button" aria-label="变细" onClick="{{ arrowWDec }}">−</button><span>{{ arrowW }}</span><button type="button" aria-label="变粗" onClick="{{ arrowWInc }}">+</button></span></div>
+<div class="fr"><span class="lbl">箭头大小</span><span class="step"><button type="button" aria-label="变小" onClick="{{ arrowSizeN.dec }}">−</button><input aria-label="箭头大小" title="滚轮可调" value="{{ arrowSizeN.value }}" onChange="{{ arrowSizeN.change }}" onBlur="{{ arrowSizeN.blur }}" onWheel="{{ arrowSizeN.wheel }}"><button type="button" aria-label="变大" onClick="{{ arrowSizeN.inc }}">+</button></span></div>
+<div class="fr"><span class="lbl">线条粗细</span><span class="step"><button type="button" aria-label="变细" onClick="{{ arrowWN.dec }}">−</button><input aria-label="线条粗细" title="滚轮可调" value="{{ arrowWN.value }}" onChange="{{ arrowWN.change }}" onBlur="{{ arrowWN.blur }}" onWheel="{{ arrowWN.wheel }}"><button type="button" aria-label="变粗" onClick="{{ arrowWN.inc }}">+</button></span></div>
 <div class="fr"><span class="lbl">颜色</span><div style="position: relative"><button type="button" class="sw" style="{{ arrowSw }}" aria-label="箭头颜色" onClick="{{ openArrowColor }}"></button>
 <sc-if value="{{ arrowOpen }}" hint-placeholder-val="{{ false }}">
 <div class="pop" role="dialog" aria-label="选择颜色">
-<div class="lbl" style="margin-bottom: 6px">图纸常用色</div>
-<div class="pal"><sc-for list="{{ palette }}" as="p" hint-placeholder-count="12"><button type="button" style="{{ p.style }}" aria-label="{{ p.name }}" title="{{ p.name }}" onClick="{{ p.pick }}"></button></sc-for></div>
-<div style="display: flex; gap: 6px; margin-top: 10px; align-items: center"><input class="in" style="width: 96px; font-family: Consolas, monospace" value="{{ arrowHex }}" aria-label="色值"><span style="flex: 1"></span><button type="button" class="btn" style="height: 28px; padding: 0 8px" onClick="{{ closeColor }}">完成</button></div>
+<div class="cmp"><span>原来</span><i style="{{ arrowPop.oldStyle }}"></i><span>现在</span><i style="{{ arrowPop.newStyle }}"></i><b>{{ arrowPop.hex }}</b></div>
+<div class="pt" style="margin-top: 0">主题颜色</div>
+<div class="cg"><sc-for list="{{ arrowPop.base }}" as="p" hint-placeholder-count="10"><button type="button" class="{{ p.cls }}" style="{{ p.style }}" aria-label="{{ p.name }}" title="{{ p.name }}" onClick="{{ p.pick }}"></button></sc-for></div>
+<div class="cg" style="margin-top: 6px"><sc-for list="{{ arrowPop.tints }}" as="p" hint-placeholder-count="50"><button type="button" class="{{ p.cls }}" style="{{ p.style }}" aria-label="{{ p.name }}" title="{{ p.name }}" onClick="{{ p.pick }}"></button></sc-for></div>
+<div class="pt">最近使用</div>
+<div class="cg"><sc-for list="{{ arrowPop.recent }}" as="p" hint-placeholder-count="6"><button type="button" class="{{ p.cls }}" style="{{ p.style }}" aria-label="{{ p.name }}" title="{{ p.name }}" onClick="{{ p.pick }}"></button></sc-for></div>
+<div class="pf"><input class="in" style="width: 84px; font-family: Consolas, monospace" value="{{ arrowPop.hex }}" aria-label="色值" onChange="{{ arrowPop.setHex }}"><button type="button" class="btn sm">吸管</button><button type="button" class="more">更多颜色…</button></div>
+<div class="pf" style="justify-content: flex-end"><button type="button" class="btn sm" onClick="{{ arrowPop.cancel }}">取消</button><button type="button" class="btn sm pri" onClick="{{ arrowPop.ok }}">确定</button></div>
 </div>
 </sc-if>
 </div></div>
-<div class="pv"><svg width="220" height="60" viewBox="0 0 220 60" aria-hidden="true"><line x1="16" y1="44" x2="{{ arrowX2 }}" y2="16" stroke="{{ arrowColor }}" stroke-width="{{ arrowW }}" stroke-linecap="round"></line><polygon points="{{ arrowHead }}" fill="{{ arrowColor }}"></polygon></svg></div>
+<div class="pv"><svg width="220" height="60" viewBox="0 0 220 60" aria-hidden="true"><line x1="16" y1="44" x2="{{ arrowX2 }}" y2="{{ arrowY2 }}" stroke="{{ arrowColor }}" stroke-width="{{ arrowW }}" stroke-linecap="round"></line><polygon points="{{ arrowHead }}" fill="{{ arrowColor }}"></polygon></svg></div>
 </section>
 
 <section class="card gc">
 <h3>重点红圈</h3>
 <div class="fr"><span class="lbl">新点位默认带</span><button type="button" class="{{ ringOnCls }}" aria-label="新点位默认显示红圈" onClick="{{ toggleRingOn }}"></button></div>
-<div class="fr"><span class="lbl">外扩间距</span><span class="step"><button type="button" aria-label="减小" onClick="{{ ringPadDec }}">−</button><span>{{ ringPad }}</span><button type="button" aria-label="增大" onClick="{{ ringPadInc }}">+</button></span></div>
-<div class="fr"><span class="lbl">线宽</span><span class="step"><button type="button" aria-label="变细" onClick="{{ ringWDec }}">−</button><span>{{ ringW }}</span><button type="button" aria-label="变粗" onClick="{{ ringWInc }}">+</button></span><span class="lbl" style="width: auto">颜色</span><button type="button" class="sw" style="background: #E53935" aria-label="红圈颜色"></button></div>
-<div class="pv"><svg width="160" height="110" viewBox="0 0 160 110" aria-hidden="true"><circle cx="80" cy="52" r="{{ ringR }}" fill="none" stroke="#E53935" stroke-width="{{ ringW }}"></circle><path d="M64 46h32" stroke="#1E1D1A" stroke-width="2"></path><path d="M67 46a13 13 0 0 0 26 0" fill="none" stroke="#1E1D1A" stroke-width="2"></path><circle cx="80" cy="52" r="4" fill="none" stroke="#1E1D1A" stroke-width="2"></circle><text x="80" y="104" text-anchor="middle" font-size="11" font-weight="700" fill="#1E1D1A">Cam3</text></svg></div>
+<div class="fr"><span class="lbl">外扩间距</span><span class="step"><button type="button" aria-label="减小" onClick="{{ ringPadN.dec }}">−</button><input aria-label="外扩间距" title="滚轮可调" value="{{ ringPadN.value }}" onChange="{{ ringPadN.change }}" onBlur="{{ ringPadN.blur }}" onWheel="{{ ringPadN.wheel }}"><button type="button" aria-label="增大" onClick="{{ ringPadN.inc }}">+</button></span></div>
+<div class="fr"><span class="lbl">线宽</span><span class="step"><button type="button" aria-label="变细" onClick="{{ ringWN.dec }}">−</button><input aria-label="红圈线宽" title="滚轮可调" value="{{ ringWN.value }}" onChange="{{ ringWN.change }}" onBlur="{{ ringWN.blur }}" onWheel="{{ ringWN.wheel }}"><button type="button" aria-label="变粗" onClick="{{ ringWN.inc }}">+</button></span>
+<span class="lbl" style="width: auto">颜色</span><div style="position: relative"><button type="button" class="sw" style="{{ ringSw }}" aria-label="红圈颜色" onClick="{{ openRingColor }}"></button>
+<sc-if value="{{ ringOpen }}" hint-placeholder-val="{{ false }}">
+<div class="pop" role="dialog" aria-label="选择颜色" style="left: auto; right: 0">
+<div class="cmp"><span>原来</span><i style="{{ ringPop.oldStyle }}"></i><span>现在</span><i style="{{ ringPop.newStyle }}"></i><b>{{ ringPop.hex }}</b></div>
+<div class="pt" style="margin-top: 0">主题颜色</div>
+<div class="cg"><sc-for list="{{ ringPop.base }}" as="p" hint-placeholder-count="10"><button type="button" class="{{ p.cls }}" style="{{ p.style }}" aria-label="{{ p.name }}" title="{{ p.name }}" onClick="{{ p.pick }}"></button></sc-for></div>
+<div class="cg" style="margin-top: 6px"><sc-for list="{{ ringPop.tints }}" as="p" hint-placeholder-count="50"><button type="button" class="{{ p.cls }}" style="{{ p.style }}" aria-label="{{ p.name }}" title="{{ p.name }}" onClick="{{ p.pick }}"></button></sc-for></div>
+<div class="pt">最近使用</div>
+<div class="cg"><sc-for list="{{ ringPop.recent }}" as="p" hint-placeholder-count="6"><button type="button" class="{{ p.cls }}" style="{{ p.style }}" aria-label="{{ p.name }}" title="{{ p.name }}" onClick="{{ p.pick }}"></button></sc-for></div>
+<div class="pf"><input class="in" style="width: 84px; font-family: Consolas, monospace" value="{{ ringPop.hex }}" aria-label="色值" onChange="{{ ringPop.setHex }}"><button type="button" class="btn sm">吸管</button><button type="button" class="more">更多颜色…</button></div>
+<div class="pf" style="justify-content: flex-end"><button type="button" class="btn sm" onClick="{{ ringPop.cancel }}">取消</button><button type="button" class="btn sm pri" onClick="{{ ringPop.ok }}">确定</button></div>
+</div>
+</sc-if>
+</div></div>
+<div class="pv"><svg width="160" height="110" viewBox="0 0 160 110" aria-hidden="true"><circle cx="80" cy="52" r="{{ ringR }}" fill="none" stroke="{{ ringColor }}" stroke-width="{{ ringW }}"></circle><path d="M64 46h32" stroke="#1E1D1A" stroke-width="2"></path><path d="M67 46a13 13 0 0 0 26 0" fill="none" stroke="#1E1D1A" stroke-width="2"></path><circle cx="80" cy="52" r="4" fill="none" stroke="#1E1D1A" stroke-width="2"></circle><text x="80" y="104" text-anchor="middle" font-size="11" font-weight="700" fill="#1E1D1A">Cam3</text></svg></div>
 </section>
 
 <section class="card gc">
 <h3>设备图片尺寸 <span class="q" title="全部监控点位一起调，全部汇总设备一起调；图片始终保持原始宽高比">?</span></h3>
-<div class="fr"><span class="lbl">点位最长边</span><span class="step"><button type="button" aria-label="减小" onClick="{{ pointDec }}">−</button><span>{{ point }}</span><button type="button" aria-label="增大" onClick="{{ pointInc }}">+</button></span><span class="lbl" style="width: auto">图片与编号</span><span class="step"><button type="button" aria-label="减小" onClick="{{ gapDec }}">−</button><span>{{ gap }}</span><button type="button" aria-label="增大" onClick="{{ gapInc }}">+</button></span></div>
-<div class="fr"><span class="lbl">汇总最长边</span><span class="step"><button type="button" aria-label="减小" onClick="{{ sumDec }}">−</button><span>{{ sum }}</span><button type="button" aria-label="增大" onClick="{{ sumInc }}">+</button></span><span class="lbl" style="width: auto">按图幅自动调</span><button type="button" class="{{ autoCls }}" aria-label="按页面图幅自动调整设备图片（试验）" onClick="{{ toggleAuto }}"></button></div>
+<div class="fr"><span class="lbl">点位最长边</span><span class="step"><button type="button" aria-label="减小" onClick="{{ pointN.dec }}">−</button><input aria-label="点位最长边" title="滚轮可调" value="{{ pointN.value }}" onChange="{{ pointN.change }}" onBlur="{{ pointN.blur }}" onWheel="{{ pointN.wheel }}"><button type="button" aria-label="增大" onClick="{{ pointN.inc }}">+</button></span>
+<span class="lbl" style="width: auto">图片与编号</span><span class="step"><button type="button" aria-label="减小" onClick="{{ gapN.dec }}">−</button><input aria-label="图片与编号间距" title="滚轮可调" value="{{ gapN.value }}" onChange="{{ gapN.change }}" onBlur="{{ gapN.blur }}" onWheel="{{ gapN.wheel }}"><button type="button" aria-label="增大" onClick="{{ gapN.inc }}">+</button></span></div>
+<div class="fr"><span class="lbl">汇总最长边</span><span class="step"><button type="button" aria-label="减小" onClick="{{ sumN.dec }}">−</button><input aria-label="汇总设备最长边" title="滚轮可调" value="{{ sumN.value }}" onChange="{{ sumN.change }}" onBlur="{{ sumN.blur }}" onWheel="{{ sumN.wheel }}"><button type="button" aria-label="增大" onClick="{{ sumN.inc }}">+</button></span>
+<span class="lbl" style="width: auto">按图幅自动调</span><button type="button" class="{{ autoCls }}" aria-label="按页面图幅自动调整设备图片（试验）" onClick="{{ toggleAuto }}"></button></div>
 <div class="pv" style="gap: 28px; align-items: flex-end; padding-bottom: 14px">
 <div style="display: flex; flex-direction: column; align-items: center"><span style="{{ pointBox }}"></span><span style="{{ pointLabel }}">Cam1</span></div>
 <div style="display: flex; flex-direction: column; align-items: center"><span style="{{ sumBox }}"></span><span style="font-size: 11px; font-weight: 700; margin-top: 4px">录像机 × 1台</span></div>
@@ -183,7 +217,7 @@ class Component extends DCLogic {
   constructor(props) {
     super(props);
     this.state = {
-      dirty: false, open: null, recent: ['#C0392B', '#1E2A3A', '#0E6E5C', '#283593'],
+      dirty: false, open: null, snap: null, recent: ['#C0392B', '#1E2A3A', '#0E6E5C', '#283593'],
       rows: [
         { label: '普通文字', size: 16, color: '#1E2A3A', bold: false, align: 'left', lh: 1.25 },
         { label: '点位编号', size: 13, color: '#1E2A3A', bold: true, align: 'center', lh: 1.25 },
@@ -193,23 +227,66 @@ class Component extends DCLogic {
         { label: '箭头标注', size: 14, color: '#C0392B', bold: false, align: 'left', lh: 1.25 }
       ],
       arrow: { size: 10, w: 2, color: '#C0392B' },
-      ring: { on: false, pad: 10, w: 3 },
+      ring: { on: false, pad: 10, w: 3, color: '#E53935' },
       point: 42, sum: 64, gap: 5, auto: false
     };
   }
   renderVals() {
     const s = this.state;
     const set = (patch) => this.setState(Object.assign({ dirty: true }, patch));
-    const COLORS = [['#E53935', '红'], ['#C62828', '深红'], ['#F57C00', '橙'], ['#F9A825', '黄'], ['#2E7D32', '绿'], ['#00897B', '青'], ['#1E88E5', '蓝'], ['#283593', '靛'], ['#6A1B9A', '紫'], ['#1E1D1A', '黑'], ['#5B574F', '深灰'], ['#9E9E9E', '灰']];
-    const apply = (c) => {
-      const recent = [c].concat(s.recent.filter((x) => x !== c)).slice(0, 6);
-      if (s.open === 'arrow') { set({ arrow: Object.assign({}, s.arrow, { color: c }), recent, open: null }); return; }
-      const idx = typeof s.open === 'number' ? s.open : -1;
-      if (idx === -1) { set({ rows: s.rows.map((r) => Object.assign({}, r, { color: c })), recent, open: null }); return; }
-      set({ rows: s.rows.map((r, i) => i === idx ? Object.assign({}, r, { color: c }) : r), recent, open: null });
+    const num = (value, min, max, step, apply, fixed, fallback) => {
+      const round = (v) => Number((Math.round(v / step) * step).toFixed(4));
+      const clamp = (v) => Math.min(max, Math.max(min, round(v)));
+      const base = value == null ? fallback : value;
+      return {
+        value: value == null ? '多种' : fixed ? Number(value).toFixed(fixed) : String(value),
+        inc: () => apply(clamp(base + step)),
+        dec: () => apply(clamp(base - step)),
+        wheel: (e) => { const d = e.deltaY || e.deltaX; if (!d) return; apply(clamp(base + (d < 0 ? 1 : -1) * step * (e.shiftKey ? 10 : 1))); },
+        change: (e) => { const v = parseFloat(e.target.value); if (!isNaN(v)) apply(v); },
+        blur: () => apply(clamp(base))
+      };
     };
-    const palette = COLORS.map(([c, name]) => ({ name, style: 'background:' + c, pick: () => apply(c) }));
-    const recent = s.recent.map((c) => ({ name: c, style: 'background:' + c, pick: () => apply(c) }));
+    const BASE = [['#262626', '黑'], ['#E53935', '红'], ['#F57C00', '橙'], ['#FBC02D', '黄'], ['#43A047', '绿'], ['#00897B', '青'], ['#1E88E5', '蓝'], ['#3949AB', '靛'], ['#8E24AA', '紫'], ['#6D4C41', '棕']];
+    const rgb = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
+    const hex = (c) => '#' + c.map((v) => Math.round(v).toString(16).padStart(2, '0')).join('').toUpperCase();
+    const tint = (h, p) => hex(rgb(h).map((v) => v + (255 - v) * p));
+    const shade = (h, p) => hex(rgb(h).map((v) => v * (1 - p)));
+    const VARIANTS = [['淡 80%', (h) => tint(h, 0.8)], ['淡 60%', (h) => tint(h, 0.6)], ['淡 40%', (h) => tint(h, 0.4)], ['深 25%', (h) => shade(h, 0.25)], ['深 50%', (h) => shade(h, 0.5)]];
+    const TINTS = [];
+    VARIANTS.forEach(([vn, fn]) => BASE.forEach(([c, n]) => TINTS.push([fn(c), n + ' · ' + vn])));
+    const setColor = (key, c) => {
+      if (key === 'arrow') set({ arrow: Object.assign({}, s.arrow, { color: c }) });
+      else if (key === 'ring') set({ ring: Object.assign({}, s.ring, { color: c }) });
+      else if (key === 'all') set({ rows: s.rows.map((r) => Object.assign({}, r, { color: c })) });
+      else set({ rows: s.rows.map((r, i) => i === key ? Object.assign({}, r, { color: c }) : r) });
+    };
+    const origColor = (key) => {
+      const snap = s.snap;
+      if (!snap) return null;
+      if (key === 'arrow') return snap.arrow.color;
+      if (key === 'ring') return snap.ring.color;
+      if (key === 'all') return snap.rows.every((r) => r.color === snap.rows[0].color) ? snap.rows[0].color : null;
+      return snap.rows[key].color;
+    };
+    const mixed = 'repeating-linear-gradient(45deg,#ddd 0 4px,#fff 4px 8px)';
+    const openFor = (key) => () => {
+      if (s.open === key) { this.setState({ open: null, snap: null }); return; }
+      this.setState({ open: key, snap: { rows: s.rows, arrow: s.arrow, ring: s.ring } });
+    };
+    const makePop = (key, cur) => {
+      const cells = (list) => list.map(([c, name]) => ({ name: name + ' ' + c, style: 'background:' + c, cls: cur && c.toUpperCase() === cur.toUpperCase() ? 'on' : '', pick: () => setColor(key, c) }));
+      const old = origColor(key);
+      return {
+        oldStyle: 'background:' + (old || mixed),
+        newStyle: 'background:' + (cur || mixed),
+        hex: cur || '多种',
+        base: cells(BASE), tints: cells(TINTS), recent: cells(s.recent.map((c) => [c, '最近使用'])),
+        setHex: (e) => { const v = e.target.value.trim(); if (/^#[0-9a-fA-F]{6}$/.test(v)) setColor(key, v.toUpperCase()); },
+        ok: () => this.setState({ open: null, snap: null, recent: cur ? [cur].concat(s.recent.filter((x) => x !== cur)).slice(0, 10) : s.recent }),
+        cancel: () => this.setState(Object.assign({ open: null, snap: null }, s.snap || {}))
+      };
+    };
     const patchRow = (i, fn) => {
       if (i === -1) set({ rows: s.rows.map((r) => Object.assign({}, r, fn(r))) });
       else set({ rows: s.rows.map((r, j) => j === i ? Object.assign({}, r, fn(r)) : r) });
@@ -218,58 +295,51 @@ class Component extends DCLogic {
     const all = { label: '全部统一', size: same('size') ? s.rows[0].size : null, color: same('color') ? s.rows[0].color : null, bold: same('bold') ? s.rows[0].bold : null, align: same('align') ? s.rows[0].align : null, lh: same('lh') ? s.rows[0].lh : null };
     const mk = (r, i, isAll) => {
       const key = isAll ? 'all' : i;
-      const size = r.size ?? 14, lh = r.lh ?? 1.25;
+      const target = isAll ? -1 : i;
+      const size = r.size == null ? 14 : r.size, lh = r.lh == null ? 1.25 : r.lh;
       return {
         label: r.label, font: isAll ? '多种' : '微软雅黑', trCls: isAll ? 'all' : '',
-        sizeText: r.size == null ? '多种' : String(r.size),
-        sizeInc: () => patchRow(isAll ? -1 : i, (x) => ({ size: Math.min(48, (isAll ? size : x.size) + 1) })),
-        sizeDec: () => patchRow(isAll ? -1 : i, (x) => ({ size: Math.max(8, (isAll ? size : x.size) - 1) })),
-        swStyle: r.color ? 'background:' + r.color : 'background:repeating-linear-gradient(45deg,#ddd 0 4px,#fff 4px 8px)',
-        hex: r.color || '多种',
+        sizeN: num(r.size, 8, 48, 1, (v) => patchRow(target, () => ({ size: v })), 0, 14),
+        lhN: num(r.lh, 1, 2, 0.05, (v) => patchRow(target, () => ({ lh: v })), 2, 1.25),
+        swStyle: 'background:' + (r.color || mixed),
         open: s.open === key,
-        openColor: () => this.setState({ open: s.open === key ? null : key }),
-        palette, recent,
+        openColor: openFor(key),
+        pop: makePop(key, r.color),
         boldCls: r.bold ? 'bold on' : 'bold',
-        toggleBold: () => patchRow(isAll ? -1 : i, (x) => ({ bold: isAll ? !r.bold : !x.bold })),
-        aligns: [['left', '左'], ['center', '中'], ['right', '右']].map(([v, label]) => ({ label, cls: r.align === v ? 'on' : '', pick: () => patchRow(isAll ? -1 : i, () => ({ align: v })) })),
-        lhText: r.lh == null ? '多种' : r.lh.toFixed(2),
-        lhInc: () => patchRow(isAll ? -1 : i, (x) => ({ lh: Math.min(2, Math.round(((isAll ? lh : x.lh) + 0.05) * 100) / 100) })),
-        lhDec: () => patchRow(isAll ? -1 : i, (x) => ({ lh: Math.max(1, Math.round(((isAll ? lh : x.lh) - 0.05) * 100) / 100) })),
-        sample: isAll ? '修改这一行会同时改下面 6 类' : 'Cam1 / 录像机 × 2台 / 12.5m',
+        toggleBold: () => patchRow(target, (x) => ({ bold: isAll ? !r.bold : !x.bold })),
+        aligns: [['left', '左'], ['center', '中'], ['right', '右']].map(([v, label]) => ({ label, cls: r.align === v ? 'on' : '', pick: () => patchRow(target, () => ({ align: v })) })),
+        sample: isAll ? '改这一行，下面 6 类一起改' : 'Cam1 / 录像机 × 2台 / 12.5m',
         sampleStyle: isAll ? 'color:#8A8478;font-size:12px' : 'font-size:' + Math.round(size * 0.85) + 'px;line-height:' + lh + ';color:' + r.color + ';font-weight:' + (r.bold ? 700 : 400) + ';text-align:' + r.align + ';min-width:220px'
       };
     };
     const a = s.arrow;
-    const x2 = 200;
-    const ang = Math.atan2(16 - 44, x2 - 16);
-    const hl = 6 + a.size, hw = (4 + a.size * 0.6);
-    const bx = x2 - Math.cos(ang) * hl, by = 16 - Math.sin(ang) * hl;
-    const head = [x2 + ',' + 16, (bx + Math.sin(ang) * hw).toFixed(1) + ',' + (by - Math.cos(ang) * hw).toFixed(1), (bx - Math.sin(ang) * hw).toFixed(1) + ',' + (by + Math.cos(ang) * hw).toFixed(1)].join(' ');
+    const x1 = 16, y1 = 44, tx = 200, ty = 16;
+    const ang = Math.atan2(ty - y1, tx - x1);
+    const hl = 6 + a.size, hw = 4 + a.size * 0.6;
+    const bx = tx - Math.cos(ang) * hl, by = ty - Math.sin(ang) * hl;
+    const head = [tx + ',' + ty, (bx + Math.sin(ang) * hw).toFixed(1) + ',' + (by - Math.cos(ang) * hw).toFixed(1), (bx - Math.sin(ang) * hw).toFixed(1) + ',' + (by + Math.cos(ang) * hw).toFixed(1)].join(' ');
     return {
       dirty: s.dirty,
       save: () => this.setState({ dirty: false }),
-      closeColor: () => this.setState({ open: null }),
       rows: [mk(all, -1, true)].concat(s.rows.map((r, i) => mk(r, i, false))),
-      palette,
-      arrowSize: a.size, arrowW: a.w, arrowColor: a.color, arrowHex: a.color, arrowSw: 'background:' + a.color,
-      arrowX2: (bx).toFixed(1), arrowHead: head,
+      arrowSizeN: num(a.size, 4, 30, 1, (v) => set({ arrow: Object.assign({}, a, { size: v }) })),
+      arrowWN: num(a.w, 1, 8, 1, (v) => set({ arrow: Object.assign({}, a, { w: v }) })),
+      arrowW: a.w, arrowColor: a.color, arrowSw: 'background:' + a.color,
+      arrowX2: bx.toFixed(1), arrowY2: by.toFixed(1), arrowHead: head,
       arrowOpen: s.open === 'arrow',
-      openArrowColor: () => this.setState({ open: s.open === 'arrow' ? null : 'arrow' }),
-      arrowSizeInc: () => set({ arrow: Object.assign({}, a, { size: Math.min(30, a.size + 1) }) }),
-      arrowSizeDec: () => set({ arrow: Object.assign({}, a, { size: Math.max(4, a.size - 1) }) }),
-      arrowWInc: () => set({ arrow: Object.assign({}, a, { w: Math.min(8, a.w + 1) }) }),
-      arrowWDec: () => set({ arrow: Object.assign({}, a, { w: Math.max(1, a.w - 1) }) }),
+      openArrowColor: openFor('arrow'),
+      arrowPop: makePop('arrow', a.color),
       ringOnCls: s.ring.on ? 'tog on' : 'tog',
       toggleRingOn: () => set({ ring: Object.assign({}, s.ring, { on: !s.ring.on }) }),
-      ringPad: s.ring.pad, ringW: s.ring.w, ringR: 20 + s.ring.pad * 1.2,
-      ringPadInc: () => set({ ring: Object.assign({}, s.ring, { pad: Math.min(24, s.ring.pad + 1) }) }),
-      ringPadDec: () => set({ ring: Object.assign({}, s.ring, { pad: Math.max(0, s.ring.pad - 1) }) }),
-      ringWInc: () => set({ ring: Object.assign({}, s.ring, { w: Math.min(8, s.ring.w + 1) }) }),
-      ringWDec: () => set({ ring: Object.assign({}, s.ring, { w: Math.max(1, s.ring.w - 1) }) }),
-      point: s.point, sum: s.sum, gap: s.gap,
-      pointInc: () => set({ point: Math.min(80, s.point + 2) }), pointDec: () => set({ point: Math.max(20, s.point - 2) }),
-      sumInc: () => set({ sum: Math.min(96, s.sum + 2) }), sumDec: () => set({ sum: Math.max(24, s.sum - 2) }),
-      gapInc: () => set({ gap: Math.min(20, s.gap + 1) }), gapDec: () => set({ gap: Math.max(0, s.gap - 1) }),
+      ringPadN: num(s.ring.pad, 0, 24, 1, (v) => set({ ring: Object.assign({}, s.ring, { pad: v }) })),
+      ringWN: num(s.ring.w, 1, 8, 1, (v) => set({ ring: Object.assign({}, s.ring, { w: v }) })),
+      ringW: s.ring.w, ringR: 20 + s.ring.pad * 1.2, ringColor: s.ring.color, ringSw: 'background:' + s.ring.color,
+      ringOpen: s.open === 'ring',
+      openRingColor: openFor('ring'),
+      ringPop: makePop('ring', s.ring.color),
+      pointN: num(s.point, 20, 80, 2, (v) => set({ point: v })),
+      sumN: num(s.sum, 24, 96, 2, (v) => set({ sum: v })),
+      gapN: num(s.gap, 0, 20, 1, (v) => set({ gap: v })),
       autoCls: s.auto ? 'tog on' : 'tog',
       toggleAuto: () => set({ auto: !s.auto }),
       pointBox: 'display:block;width:' + s.point + 'px;height:' + Math.round(s.point * 0.75) + 'px;border-radius:4px;background:#D9D2C4;border:1px solid #B8AE9C',

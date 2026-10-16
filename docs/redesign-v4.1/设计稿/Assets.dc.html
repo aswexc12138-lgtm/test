@@ -48,6 +48,9 @@ a{color:#2C4A66}a:hover{color:#1D3348}
 .step{display:inline-flex;align-items:center;border:1px solid #CFC6B5;border-radius:4px;background:#FBF9F4;height:30px;box-sizing:border-box}
 .step button{width:26px;height:28px;border:0;background:transparent;cursor:pointer;font:inherit;color:#3A372F}
 .step span{min-width:36px;text-align:center;font-variant-numeric:tabular-nums}
+.step input{width:40px;height:28px;border:0;background:transparent;text-align:center;font:inherit;font-variant-numeric:tabular-nums;color:inherit;padding:0}
+.step input:focus{outline:none;background:#fff}
+.step:hover{border-color:#8A8478}
 .chip{display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:12px;background:#E3DBCC;color:#1E1D1A;font-size:12px}
 .tog{width:34px;height:20px;border-radius:10px;background:#CFC6B5;border:0;position:relative;cursor:pointer;padding:0;flex:none}
 .tog::after{content:'';position:absolute;left:2px;top:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:left .15s}
@@ -138,7 +141,7 @@ a{color:#2C4A66}a:hover{color:#1D3348}
 <sc-if value="{{ isPoint }}" hint-placeholder-val="{{ true }}">
 <div style="display: flex; flex-direction: column; gap: 14px">
 <div class="fr" style="align-items: flex-start"><span class="lbl" style="padding-top: 4px">业务分类</span><span class="row" style="gap: 6px"><sc-for list="{{ catOpts }}" as="c" hint-placeholder-count="5"><button type="button" class="{{ c.cls }}" onClick="{{ c.toggle }}">{{ c.label }}</button></sc-for></span></div>
-<div class="fr"><span class="lbl">显示倍率</span><span class="step"><button type="button" aria-label="缩小" onClick="{{ scaleDec }}">−</button><span>{{ scaleText }}</span><button type="button" aria-label="放大" onClick="{{ scaleInc }}">+</button></span><span class="lbl">× 统一尺寸</span></div>
+<div class="fr"><span class="lbl">显示倍率</span><span class="step"><button type="button" aria-label="缩小" onClick="{{ scaleN.dec }}">−</button><input aria-label="显示倍率" title="可直接输入；鼠标放上去滚轮调，按住 Shift 一次调 1.0" value="{{ scaleN.value }}" onChange="{{ scaleN.change }}" onBlur="{{ scaleN.blur }}" onWheel="{{ scaleN.wheel }}"><button type="button" aria-label="放大" onClick="{{ scaleN.inc }}">+</button></span><span class="lbl">× 统一尺寸</span></div>
 <div class="fr"><span class="lbl">默认红圈</span><button type="button" class="{{ ringCls }}" aria-label="放置后默认带重点红圈" onClick="{{ toggleRing }}"></button><span class="lbl">放置后自动带重点红圈</span></div>
 </div>
 </sc-if>
@@ -180,6 +183,18 @@ class Component extends DCLogic {
     const set = (patch) => this.setState(Object.assign({ dirty: true }, patch));
     const cur = s.assets.find((a) => a.id === s.sel) || s.assets[0];
     const patchCur = (patch) => set({ assets: s.assets.map((a) => a.id === cur.id ? Object.assign({}, a, patch) : a) });
+    const num = (value, min, max, step, apply, fixed) => {
+      const round = (v) => Number((Math.round(v / step) * step).toFixed(4));
+      const clamp = (v) => Math.min(max, Math.max(min, round(v)));
+      return {
+        value: fixed ? Number(value).toFixed(fixed) : String(value),
+        inc: () => apply(clamp(value + step)),
+        dec: () => apply(clamp(value - step)),
+        wheel: (e) => { const d = e.deltaY || e.deltaX; if (!d) return; apply(clamp(value + (d < 0 ? 1 : -1) * step * (e.shiftKey ? 10 : 1))); },
+        change: (e) => { const v = parseFloat(e.target.value); if (!isNaN(v)) apply(v); },
+        blur: () => apply(clamp(value))
+      };
+    };
     const allCats = ['客流', '收银台空岗/排队', '收银台拾音', '卖场监控', '隔间监控'];
     const shown = s.assets.filter((a) => (s.filter === 'all' || a.role === s.filter) && (!s.query || a.name.indexOf(s.query) >= 0));
     return {
@@ -203,9 +218,7 @@ class Component extends DCLogic {
       roles: [['point', '点位设备'], ['sum', '汇总设备']].map(([v, label]) => ({ label, cls: cur.role === v ? 'on' : '', pick: () => patchCur({ role: v }) })),
       isPoint: cur.role === 'point',
       catOpts: allCats.map((c) => ({ label: c, cls: cur.cats.indexOf(c) >= 0 ? 'cat on' : 'cat', toggle: () => patchCur({ cats: cur.cats.indexOf(c) >= 0 ? cur.cats.filter((x) => x !== c) : cur.cats.concat([c]) }) })),
-      scaleText: cur.scale.toFixed(1),
-      scaleInc: () => patchCur({ scale: Math.min(3, Math.round((cur.scale + 0.1) * 10) / 10) }),
-      scaleDec: () => patchCur({ scale: Math.max(0.5, Math.round((cur.scale - 0.1) * 10) / 10) }),
+      scaleN: num(cur.scale, 0.5, 3, 0.1, (v) => patchCur({ scale: v }), 1),
       ringCls: cur.ring ? 'tog on' : 'tog',
       toggleRing: () => patchCur({ ring: !cur.ring }),
       moreOpen: s.moreOpen,

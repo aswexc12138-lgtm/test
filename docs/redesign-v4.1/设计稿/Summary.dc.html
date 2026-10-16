@@ -39,31 +39,43 @@ a{color:#2C4A66}a:hover{color:#1D3348}
 .lbl{color:#5B574F;font-size:12px}
 .in{height:30px;border:1px solid #CFC6B5;border-radius:4px;background:#FBF9F4;padding:0 8px;font:inherit;color:inherit;box-sizing:border-box}
 .btn{height:30px;padding:0 12px;border:1px solid #CFC6B5;border-radius:4px;background:#FBF9F4;font:inherit;color:#1E1D1A;cursor:pointer;display:inline-flex;align-items:center;gap:6px;text-decoration:none}
+.btn.sm{height:26px;padding:0 10px;font-size:12px}
 .btn.pri{background:#1E1D1A;color:#F6F2EA;border-color:#1E1D1A}
+.btn.danger{color:#A33A2E;border-color:#D9B3AC}
 .seg{display:inline-flex;border:1px solid #CFC6B5;border-radius:4px;overflow:hidden;background:#FBF9F4}
 .seg button{height:28px;padding:0 10px;border:0;border-left:1px solid #E2DACB;background:transparent;font:inherit;color:#3A372F;cursor:pointer}
 .seg button:first-child{border-left:0}
 .seg button.on{background:#2C4A66;color:#fff}
 .step{display:inline-flex;align-items:center;border:1px solid #CFC6B5;border-radius:4px;background:#FBF9F4;height:30px;box-sizing:border-box}
+.step:hover{border-color:#8A8478}
 .step button{width:26px;height:28px;border:0;background:transparent;cursor:pointer;font:inherit;color:#3A372F}
-.step span{min-width:30px;text-align:center;font-variant-numeric:tabular-nums}
+.step input{width:36px;height:28px;border:0;background:transparent;text-align:center;font:inherit;font-variant-numeric:tabular-nums;color:inherit;padding:0}
+.step input:focus{outline:none;background:#fff}
 .q{display:inline-flex;width:15px;height:15px;border-radius:50%;border:1px solid #B8AE9C;color:#8A8478;font-size:10px;align-items:center;justify-content:center;cursor:help;font-weight:400}
 .chip{display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:12px;background:#E3DBCC;color:#1E1D1A;font-size:12px}
 .tog{width:34px;height:20px;border-radius:10px;background:#CFC6B5;border:0;position:relative;cursor:pointer;padding:0;flex:none}
 .tog::after{content:'';position:absolute;left:2px;top:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:left .15s}
 .tog.on{background:#2C4A66}.tog.on::after{left:16px}
-.opt{display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 14px;border:1px solid #CFC6B5;border-radius:6px;background:#FBF9F4;cursor:pointer;font:inherit;color:#3A372F}
+.opt{display:flex;flex-direction:column;align-items:center;gap:6px;padding:8px 14px;border:1px solid #CFC6B5;border-radius:6px;background:#FBF9F4;cursor:pointer;font:inherit;color:#3A372F}
 .opt.on{border-color:#2C4A66;box-shadow:0 0 0 1px #2C4A66;color:#1E1D1A}
 .mini{display:flex;gap:3px}
 .mini i{display:block;width:16px;height:10px;background:#B8AE9C;border-radius:2px}
 .ib{width:28px;height:28px;border:0;border-radius:4px;background:transparent;color:#5B574F;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
 .ib:hover{background:#E6DFD2;color:#A33A2E}
-.trow{display:flex;align-items:center;gap:10px;padding:5px 0;border-bottom:1px solid #E6DFD2}
+.combo{border:1px solid #DCD3C3;border-radius:6px;background:#FBF9F4;margin-bottom:8px}
+.combo.sel{border-color:#2C4A66;box-shadow:0 0 0 1px #2C4A66}
+.ch{display:flex;align-items:center;gap:10px;padding:8px 10px;cursor:pointer;width:100%;border:0;background:transparent;font:inherit;color:inherit;text-align:left}
+.def{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:#8A8478;border:0;background:transparent;cursor:pointer;padding:0;font-family:inherit}
+.def i{width:14px;height:14px;border-radius:50%;border:1px solid #B8AE9C;display:inline-block;box-sizing:border-box}
+.def.on{color:#2C4A66}.def.on i{border:4px solid #2C4A66}
+.ce{padding:4px 10px 10px;border-top:1px solid #E6DFD2}
+.trow{display:flex;align-items:center;gap:10px;padding:5px 0;border-bottom:1px solid #EFE9DE}
 .fr{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #E6DFD2;flex-wrap:wrap}
 .fr:last-child{border-bottom:0}
 .fr>.lbl{width:96px;flex:none;color:#3A372F;font-size:13px}
 .tile{display:flex;align-items:center;gap:8px;padding:6px 10px;border:1px solid #E6DFD2;border-radius:4px;background:#fff}
 .tile i{display:block;width:30px;height:20px;border-radius:3px;background:#D9D2C4;border:1px solid #B8AE9C}
+.dd{display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 10px;border:1px solid #CFC6B5;border-radius:4px;background:#FBF9F4;font-size:12px}
 </style>
 </helmet>
 <div style="font-family: 'Noto Sans SC', 'Microsoft YaHei', system-ui, sans-serif; color: #1E1D1A; font-size: 13px; line-height: 1.5; background: #ECE6DB; min-height: 860px">
@@ -104,32 +116,49 @@ a{color:#2C4A66}a:hover{color:#1D3348}
 
 <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-start">
 <section class="card" style="flex: 1 1 560px; min-width: 0">
-<h3>设备汇总图例</h3>
-<div class="row" style="margin-bottom: 14px; align-items: stretch">
-<span class="lbl" style="align-self: center; width: 56px">排列</span>
+<h3>汇总组合 <span class="q" title="原来存在本机的“常用设备组合”并到这里，跟着方案走：同事拿到这个方案，就有同样的组合">?</span>
+<span style="flex: 1"></span><button type="button" class="btn" onClick="{{ addCombo }}">＋ 新建组合</button></h3>
+<p class="lbl" style="margin: 0 0 10px">新图纸自动带上“默认”那一组；在绘图的汇总清单里可以随时换成别的组合。</p>
+<sc-for list="{{ combos }}" as="c" hint-placeholder-count="3">
+<div class="{{ c.cls }}">
+<div class="ch">
+<button type="button" class="{{ c.defCls }}" aria-label="设为默认组合" onClick="{{ c.makeDef }}"><i></i>默认</button>
+<button type="button" style="flex: 1; min-width: 0; border: 0; background: transparent; text-align: left; font: inherit; color: inherit; cursor: pointer; padding: 0; display: flex; align-items: baseline; gap: 10px" onClick="{{ c.pick }}"><b style="white-space: nowrap">{{ c.name }}</b><span class="lbl" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ c.summary }}</span></button>
+<span class="lbl">{{ c.arrow }}</span>
+</div>
+<sc-if value="{{ c.sel }}" hint-placeholder-val="{{ false }}">
+<div class="ce">
+<div class="row" style="margin: 6px 0 8px"><span class="lbl" style="width: 40px">名称</span><input class="in" style="width: 200px" value="{{ c.name }}" aria-label="组合名称" onChange="{{ c.rename }}"></div>
+<sc-for list="{{ c.items }}" as="d" hint-placeholder-count="1">
+<div class="trow">
+<select class="in" style="width: 180px" aria-label="设备"><option>{{ d.name }}</option><option>录像机 NVR</option><option>8 口交换机</option><option>音柱</option></select>
+<span class="step"><button type="button" aria-label="减少" onClick="{{ d.qtyN.dec }}">−</button><input aria-label="数量" title="滚轮可调" value="{{ d.qtyN.value }}" onChange="{{ d.qtyN.change }}" onBlur="{{ d.qtyN.blur }}" onWheel="{{ d.qtyN.wheel }}"><button type="button" aria-label="增加" onClick="{{ d.qtyN.inc }}">+</button></span>
+<input class="in" style="width: 48px; text-align: center" value="{{ d.unit }}" aria-label="单位" onChange="{{ d.setUnit }}">
+<span style="flex: 1"></span>
+<button type="button" class="ib" aria-label="移除设备" onClick="{{ d.del }}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"></path></svg></button>
+</div>
+</sc-for>
+<sc-if value="{{ c.empty }}" hint-placeholder-val="{{ false }}"><div class="lbl" style="padding: 6px 0">这一组不带任何汇总设备。</div></sc-if>
+<div class="row" style="margin-top: 8px"><button type="button" class="btn sm" onClick="{{ c.addItem }}">＋ 添加设备</button><span style="flex: 1"></span><sc-if value="{{ c.canDelete }}" hint-placeholder-val="{{ true }}"><button type="button" class="btn sm danger" onClick="{{ c.del }}">删除这个组合</button></sc-if></div>
+</div>
+</sc-if>
+</div>
+</sc-for>
+
+<div class="row" style="margin: 16px 0 8px"><span class="lbl">图例排列</span>
 <button type="button" class="{{ rowCls }}" onClick="{{ pickRow }}"><span class="mini"><i></i><i></i><i></i></span>横排</button>
 <button type="button" class="{{ colCls }}" onClick="{{ pickCol }}"><span class="mini" style="flex-direction: column"><i></i><i></i><i></i></span>竖排</button>
 </div>
-<div class="lbl" style="margin-bottom: 4px">固定汇总设备 <span class="q" title="每张图都会自动带上的汇总设备，比如录像机；数量之后在图上还能改">?</span></div>
-<sc-for list="{{ fixed }}" as="d" hint-placeholder-count="2">
-<div class="trow">
-<select class="in" style="width: 200px" aria-label="设备"><option>{{ d.name }}</option><option>录像机 NVR</option><option>8 口交换机</option><option>音柱</option></select>
-<span class="step"><button type="button" aria-label="减少" onClick="{{ d.dec }}">−</button><span>{{ d.qty }}</span><button type="button" aria-label="增加" onClick="{{ d.inc }}">+</button></span>
-<input class="in" style="width: 52px; text-align: center" value="{{ d.unit }}" aria-label="单位" onChange="{{ d.setUnit }}">
-<span style="flex: 1"></span>
-<button type="button" class="ib" aria-label="移除" onClick="{{ d.del }}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"></path></svg></button>
-</div>
-</sc-for>
-<button type="button" class="btn" style="margin-top: 10px" onClick="{{ addFixed }}">＋ 添加固定设备</button>
-<div class="lbl" style="margin: 16px 0 6px">预览</div>
+<div class="lbl" style="margin-bottom: 6px">预览：{{ selName }}</div>
 <div style="background: #fff; border: 1px solid #DCD3C3; border-radius: 4px; padding: 14px">
 <div style="{{ legendStyle }}">
 <sc-for list="{{ legend }}" as="t" hint-placeholder-count="4"><span class="tile"><i></i><span style="font-size: 12px; font-weight: 600">{{ t.text }}</span></span></sc-for>
 </div>
 </div>
+<div class="row" style="margin-top: 10px"><span class="lbl">在绘图里，汇总清单顶部会多一个：</span><span class="dd">汇总组合：{{ defName }} ▾</span></div>
 </section>
 
-<section class="card" style="flex: 1 1 420px; min-width: 0">
+<section class="card" style="flex: 1 1 400px; min-width: 0">
 <h3>导出</h3>
 <div class="fr"><span class="lbl">PDF 存到</span>
 <div style="flex: 1; min-width: 0">
@@ -150,29 +179,65 @@ a{color:#2C4A66}a:hover{color:#1D3348}
 class Component extends DCLogic {
   constructor(props) {
     super(props);
-    this.state = { dirty: false, dir: 'col', fixed: [{ id: 1, name: '录像机 NVR', qty: 1, unit: '台' }], ownDir: false, conflict: 'ask', vec: true };
+    this.state = {
+      dirty: false, dir: 'col', def: 1, sel: 1, ownDir: false, conflict: 'ask', vec: true,
+      combos: [
+        { id: 1, name: '带录像机', items: [{ name: '录像机 NVR', qty: 1, unit: '台' }] },
+        { id: 2, name: '带交换机', items: [{ name: '8 口交换机', qty: 1, unit: '台' }] },
+        { id: 3, name: '录像机 + 交换机', items: [{ name: '录像机 NVR', qty: 1, unit: '台' }, { name: '8 口交换机', qty: 2, unit: '台' }] },
+        { id: 4, name: '不带汇总设备', items: [] }
+      ]
+    };
   }
   renderVals() {
     const s = this.state;
     const set = (patch) => this.setState(Object.assign({ dirty: true }, patch));
-    const patchFixed = (i, patch) => set({ fixed: s.fixed.map((d, j) => j === i ? Object.assign({}, d, patch) : d) });
-    const legend = [{ text: '点位摄像机 × 6台' }, { text: '枪机 BX-2 × 2台' }].concat(s.fixed.map((d) => ({ text: d.name + ' × ' + d.qty + d.unit })));
+    const num = (value, min, max, step, apply) => {
+      const clamp = (v) => Math.min(max, Math.max(min, Math.round(v / step) * step));
+      return {
+        value: String(value),
+        inc: () => apply(clamp(value + step)),
+        dec: () => apply(clamp(value - step)),
+        wheel: (e) => { const d = e.deltaY || e.deltaX; if (!d) return; apply(clamp(value + (d < 0 ? 1 : -1) * step * (e.shiftKey ? 10 : 1))); },
+        change: (e) => { const v = parseFloat(e.target.value); if (!isNaN(v)) apply(v); },
+        blur: () => apply(clamp(value))
+      };
+    };
+    const patchCombo = (id, fn) => set({ combos: s.combos.map((c) => c.id === id ? Object.assign({}, c, fn(c)) : c) });
+    const sel = s.combos.find((c) => c.id === s.sel) || s.combos[0];
+    const defCombo = s.combos.find((c) => c.id === s.def) || s.combos[0];
+    const describe = (c) => c.items.length ? c.items.map((d) => d.name + ' × ' + d.qty + d.unit).join('、') : '不放任何汇总设备';
     return {
       dirty: s.dirty,
       save: () => this.setState({ dirty: false }),
+      addCombo: () => { const id = Date.now(); set({ combos: s.combos.concat([{ id, name: '新组合', items: [] }]), sel: id }); },
+      combos: s.combos.map((c) => ({
+        name: c.name, summary: describe(c),
+        cls: c.id === s.sel ? 'combo sel' : 'combo',
+        defCls: c.id === s.def ? 'def on' : 'def',
+        makeDef: () => set({ def: c.id }),
+        pick: () => this.setState({ sel: s.sel === c.id ? 0 : c.id }),
+        arrow: c.id === s.sel ? '▾' : '▸',
+        sel: c.id === s.sel,
+        empty: c.items.length === 0,
+        canDelete: c.id !== s.def,
+        rename: (e) => patchCombo(c.id, () => ({ name: e.target.value })),
+        addItem: () => patchCombo(c.id, (x) => ({ items: x.items.concat([{ name: '音柱', qty: 1, unit: '只' }]) })),
+        del: () => set({ combos: s.combos.filter((x) => x.id !== c.id), sel: s.def }),
+        items: c.items.map((d, i) => ({
+          name: d.name, unit: d.unit,
+          qtyN: num(d.qty, 1, 99, 1, (v) => patchCombo(c.id, (x) => ({ items: x.items.map((it, j) => j === i ? Object.assign({}, it, { qty: v }) : it) }))),
+          setUnit: (e) => patchCombo(c.id, (x) => ({ items: x.items.map((it, j) => j === i ? Object.assign({}, it, { unit: e.target.value.slice(0, 2) }) : it) })),
+          del: () => patchCombo(c.id, (x) => ({ items: x.items.filter((_, j) => j !== i) }))
+        }))
+      })),
+      selName: sel ? sel.name : '',
+      defName: defCombo ? defCombo.name : '',
       rowCls: s.dir === 'row' ? 'opt on' : 'opt',
       colCls: s.dir === 'col' ? 'opt on' : 'opt',
       pickRow: () => set({ dir: 'row' }),
       pickCol: () => set({ dir: 'col' }),
-      fixed: s.fixed.map((d, i) => ({
-        name: d.name, qty: d.qty, unit: d.unit,
-        inc: () => patchFixed(i, { qty: d.qty + 1 }),
-        dec: () => patchFixed(i, { qty: Math.max(1, d.qty - 1) }),
-        setUnit: (e) => patchFixed(i, { unit: e.target.value.slice(0, 2) }),
-        del: () => set({ fixed: s.fixed.filter((_, j) => j !== i) })
-      })),
-      addFixed: () => set({ fixed: s.fixed.concat([{ id: Date.now(), name: '8 口交换机', qty: 1, unit: '台' }]) }),
-      legend,
+      legend: [{ text: '点位摄像机 × 6台' }, { text: '枪机 BX-2 × 2台' }].concat((sel ? sel.items : []).map((d) => ({ text: d.name + ' × ' + d.qty + d.unit }))),
       legendStyle: s.dir === 'row' ? 'display:flex;flex-wrap:wrap;gap:8px' : 'display:flex;flex-direction:column;gap:6px;align-items:flex-start',
       dirText: s.ownDir ? 'D:\\交付\\BIG老店\\PDF' : '跟随“资料与企业品牌 → 导出成果根目录”',
       dirHint: s.ownDir ? '只有这个方案导出到这里；其他方案不受影响' : '当前是 D:\\项目\\完成，按季度 / 企业 / 品牌分文件夹',

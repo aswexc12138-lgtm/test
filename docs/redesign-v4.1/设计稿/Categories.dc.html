@@ -49,6 +49,9 @@ a{color:#2C4A66}a:hover{color:#1D3348}
 .step{display:inline-flex;align-items:center;border:1px solid #CFC6B5;border-radius:4px;background:#FBF9F4;height:30px;box-sizing:border-box}
 .step button{width:26px;height:28px;border:0;background:transparent;cursor:pointer;font:inherit;color:#3A372F}
 .step span{min-width:36px;text-align:center;font-variant-numeric:tabular-nums}
+.step input{width:44px;height:28px;border:0;background:transparent;text-align:center;font:inherit;font-variant-numeric:tabular-nums;color:inherit;padding:0}
+.step input:focus{outline:none;background:#fff}
+.step:hover{border-color:#8A8478}
 .q{display:inline-flex;width:15px;height:15px;border-radius:50%;border:1px solid #B8AE9C;color:#8A8478;font-size:10px;align-items:center;justify-content:center;cursor:help;font-weight:400}
 .chip{display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:12px;background:#E3DBCC;color:#1E1D1A;font-size:12px}
 .ib{width:28px;height:28px;border:0;border-radius:4px;background:transparent;color:#5B574F;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font:inherit}
@@ -127,7 +130,7 @@ a{color:#2C4A66}a:hover{color:#1D3348}
 <div class="row" style="gap: 6px"><span class="lbl">点一下插入：</span><sc-for list="{{ vars }}" as="v" hint-placeholder-count="3"><button type="button" class="var" onClick="{{ v.add }}">{{ v.label }}</button></sc-for></div>
 </div></div>
 <div class="row"><span class="lbl" style="width: 64px">分类之间</span><span class="seg"><sc-for list="{{ gaps }}" as="o" hint-placeholder-count="3"><button type="button" class="{{ o.cls }}" onClick="{{ o.pick }}">{{ o.label }}</button></sc-for></span></div>
-<div class="row"><span class="lbl" style="width: 64px">宽度</span><span class="step"><button type="button" aria-label="变窄" onClick="{{ narrower }}">−</button><span>{{ width }}</span><button type="button" aria-label="变宽" onClick="{{ wider }}">+</button></span><span class="lbl">pt，图上实际宽度</span></div>
+<div class="row"><span class="lbl" style="width: 64px">宽度</span><span class="step"><button type="button" aria-label="变窄" onClick="{{ widthN.dec }}">−</button><input aria-label="汇总宽度" title="可直接输入；鼠标放上去滚轮调，按住 Shift 一次调 100" value="{{ widthN.value }}" onChange="{{ widthN.change }}" onBlur="{{ widthN.blur }}" onWheel="{{ widthN.wheel }}"><button type="button" aria-label="变宽" onClick="{{ widthN.inc }}">+</button></span><span class="lbl">pt，图上实际宽度</span></div>
 <div>
 <div class="lbl" style="margin-bottom: 6px">预览（跟着上面的设置实时变）</div>
 <div style="background: #fff; border: 1px solid #DCD3C3; border-radius: 4px; padding: 14px; overflow: hidden">
@@ -168,6 +171,17 @@ class Component extends DCLogic {
   renderVals() {
     const s = this.state;
     const set = (patch) => this.setState(Object.assign({ dirty: true }, patch));
+    const num = (value, min, max, step, apply) => {
+      const clamp = (v) => Math.min(max, Math.max(min, Math.round(v / step) * step));
+      return {
+        value: String(value),
+        inc: () => apply(clamp(value + step)),
+        dec: () => apply(clamp(value - step)),
+        wheel: (e) => { const d = e.deltaY || e.deltaX; if (!d) return; apply(clamp(value + (d < 0 ? 1 : -1) * step * (e.shiftKey ? 10 : 1))); },
+        change: (e) => { const v = parseFloat(e.target.value); if (!isNaN(v)) apply(v); },
+        blur: () => apply(clamp(value))
+      };
+    };
     const move = (i, d) => { const c = s.cats.slice(); const t = c[i]; c[i] = c[i + d]; c[i + d] = t; set({ cats: c }); };
     const patchCat = (i, patch) => set({ cats: s.cats.map((c, j) => j === i ? Object.assign({}, c, patch) : c) });
     const total = s.cats.reduce((a, c) => a + c.n, 0);
@@ -189,9 +203,7 @@ class Component extends DCLogic {
       intro: s.intro,
       setIntro: (e) => set({ intro: e.target.value }),
       vars: ['{总数量}', '{项目名称}', '{分类}', '{数量}'].map((label) => ({ label, add: () => set({ intro: s.intro + label }) })),
-      width: s.width,
-      narrower: () => set({ width: Math.max(200, s.width - 20) }),
-      wider: () => set({ width: Math.min(480, s.width + 20) }),
+      widthN: num(s.width, 200, 480, 10, (v) => set({ width: v })),
       boxStyle: 'width:' + Math.round(s.width * scale) + 'px;max-width:100%;font-size:12px;line-height:1.55;border-left:1px dashed #C9BEAA;border-right:1px dashed #C9BEAA;padding:0 6px;box-sizing:border-box',
       introText: s.intro.replace('{总数量}', String(total)).replace('{项目名称}', 'BIG 老店').replace('{分类}', '各分类').replace('{数量}', String(total)),
       perCat: s.layout === 'per',
