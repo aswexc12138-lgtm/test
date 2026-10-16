@@ -38,25 +38,27 @@ a{color:#2C4A66}
 .pn.small{height:calc(28% - 5px);z-index:1}
 /* Belly bump: the clicked panel first breathes in (its edge pulls back and caves in), then its edge pops out
    as a round belly, bumps the other panel and knocks it away; the other one flies past and settles back. */
-.fx{position:absolute;left:18%;width:64%;height:28px;border-radius:50%;opacity:0;pointer-events:none;z-index:3;border:1px solid #CFC6B5}
-.fx.belly{background:#F6F2EA}
-.fx.suck{background:#E9E3D8}
-.anim .pf.big{animation:fGrow .8s linear both}
-.anim .pd.small{animation:dKnocked .8s linear both}
-.anim .pd.big{animation:dGrow .8s linear both}
-.anim .pf.small{animation:fKnocked .8s linear both}
-.anim .fx.belly.toF{animation:bellyF .8s linear both}
-.anim .fx.suck.toF{animation:suckF .8s linear both}
-.anim .fx.belly.toD{animation:bellyD .8s linear both}
-.anim .fx.suck.toD{animation:suckD .8s linear both}
-@keyframes fGrow{0%{height:calc(28% - 5px)}22%{height:calc(28% - 15px)}35%{height:calc(28% + 5px)}45%{height:42%}55%{height:58%}65%{height:66%}75%{height:calc(72% - 1px)}85%{height:calc(72% - 3px)}100%{height:calc(72% - 5px)}}
-@keyframes dKnocked{0%{height:calc(72% - 5px)}35%{height:calc(72% - 5px)}45%{height:50%}55%{height:34%}65%{height:24%}85%{height:calc(28% - 3px)}100%{height:calc(28% - 5px)}}
-@keyframes dGrow{0%{height:calc(28% - 5px)}22%{height:calc(28% - 15px)}35%{height:calc(28% + 5px)}45%{height:42%}55%{height:58%}65%{height:66%}75%{height:calc(72% - 1px)}85%{height:calc(72% - 3px)}100%{height:calc(72% - 5px)}}
-@keyframes fKnocked{0%{height:calc(72% - 5px)}35%{height:calc(72% - 5px)}45%{height:50%}55%{height:34%}65%{height:24%}85%{height:calc(28% - 3px)}100%{height:calc(28% - 5px)}}
-@keyframes suckF{0%{top:calc(28% - 19px);opacity:0;transform:scaleY(.2);clip-path:inset(0 0 50% 0)}8%{opacity:1}22%{top:calc(28% - 29px);opacity:1;transform:scaleY(1);clip-path:inset(0 0 50% 0)}32%{top:calc(28% - 19px);opacity:0;transform:scaleY(.2);clip-path:inset(0 0 50% 0)}100%{top:calc(28% - 19px);opacity:0;clip-path:inset(0 0 50% 0)}}
-@keyframes bellyF{0%{top:calc(28% - 19px);opacity:0;transform:scaleY(.3);clip-path:inset(50% 0 0 0)}28%{top:calc(28% - 19px);opacity:0;transform:scaleY(.3);clip-path:inset(50% 0 0 0)}35%{top:calc(28% - 9px);opacity:1;transform:scaleY(1);clip-path:inset(50% 0 0 0)}45%{top:calc(42% - 14px);opacity:1;transform:scaleY(.8);clip-path:inset(50% 0 0 0)}58%{top:calc(60% - 14px);opacity:0;transform:scaleY(.3);clip-path:inset(50% 0 0 0)}100%{top:calc(60% - 14px);opacity:0;clip-path:inset(50% 0 0 0)}}
-@keyframes suckD{0%{bottom:calc(28% - 19px);opacity:0;transform:scaleY(.2);clip-path:inset(50% 0 0 0)}8%{opacity:1}22%{bottom:calc(28% - 29px);opacity:1;transform:scaleY(1);clip-path:inset(50% 0 0 0)}32%{bottom:calc(28% - 19px);opacity:0;transform:scaleY(.2);clip-path:inset(50% 0 0 0)}100%{bottom:calc(28% - 19px);opacity:0;clip-path:inset(50% 0 0 0)}}
-@keyframes bellyD{0%{bottom:calc(28% - 19px);opacity:0;transform:scaleY(.3);clip-path:inset(0 0 50% 0)}28%{bottom:calc(28% - 19px);opacity:0;transform:scaleY(.3);clip-path:inset(0 0 50% 0)}35%{bottom:calc(28% - 9px);opacity:1;transform:scaleY(1);clip-path:inset(0 0 50% 0)}45%{bottom:calc(42% - 14px);opacity:1;transform:scaleY(.8);clip-path:inset(0 0 50% 0)}58%{bottom:calc(60% - 14px);opacity:0;transform:scaleY(.3);clip-path:inset(0 0 50% 0)}100%{bottom:calc(60% - 14px);opacity:0;clip-path:inset(0 0 50% 0)}}
+.fx{position:absolute;left:14%;width:72%;border-radius:50%;opacity:0;pointer-events:none;z-index:3;border:1px solid #CFC6B5}
+.fx.belly{background:#F6F2EA;height:48px}
+.fx.suck{background:#E9E3D8;height:44px}
+.anim .pf.big{animation:fGrow .95s linear both}
+.anim .pd.small{animation:dKnocked .95s linear both}
+.anim .pd.big{animation:dGrow .95s linear both}
+.anim .pf.small{animation:fKnocked .95s linear both}
+.anim .fx.belly.toF{animation:bellyF .95s linear both}
+.anim .fx.suck.toF{animation:suckF .95s linear both}
+.anim .fx.belly.toD{animation:bellyD .95s linear both}
+.anim .fx.suck.toD{animation:suckD .95s linear both}
+/* The bumper does NOT follow the other panel: it hits, bounces back a little, and only then grows into the gap
+   the knocked panel left behind. The knocked panel flies past its final size and springs back. */
+@keyframes fGrow{0%{height:calc(28% - 5px)}20%{height:calc(28% - 27px)}30%{height:calc(28% + 3px)}36%{height:calc(28% + 4px)}46%{height:calc(28% - 4px)}60%{height:50%}75%{height:calc(72% - 14px)}88%{height:calc(72% - 2px)}100%{height:calc(72% - 5px)}}
+@keyframes dKnocked{0%{height:calc(72% - 5px);transform:none}30%{height:calc(72% - 5px);transform:none}36%{height:calc(72% - 5px);transform:scaleY(.95)}46%{height:calc(28% - 34px);transform:none}60%{height:calc(28% - 24px)}75%{height:calc(28% + 1px)}88%{height:calc(28% - 8px)}100%{height:calc(28% - 5px)}}
+@keyframes dGrow{0%{height:calc(28% - 5px)}20%{height:calc(28% - 27px)}30%{height:calc(28% + 3px)}36%{height:calc(28% + 4px)}46%{height:calc(28% - 4px)}60%{height:50%}75%{height:calc(72% - 14px)}88%{height:calc(72% - 2px)}100%{height:calc(72% - 5px)}}
+@keyframes fKnocked{0%{height:calc(72% - 5px);transform:none}30%{height:calc(72% - 5px);transform:none}36%{height:calc(72% - 5px);transform:scaleY(.95)}46%{height:calc(28% - 34px);transform:none}60%{height:calc(28% - 24px)}75%{height:calc(28% + 1px)}88%{height:calc(28% - 8px)}100%{height:calc(28% - 5px)}}
+@keyframes suckF{0%{top:calc(28% - 27px);opacity:0;transform:scaleY(.2);clip-path:inset(0 0 50% 0)}6%{opacity:1}20%{top:calc(28% - 49px);opacity:1;transform:scaleY(1);clip-path:inset(0 0 50% 0)}28%{top:calc(28% - 26px);opacity:0;transform:scaleY(.2);clip-path:inset(0 0 50% 0)}100%{top:calc(28% - 26px);opacity:0;clip-path:inset(0 0 50% 0)}}
+@keyframes bellyF{0%{top:calc(28% - 29px);opacity:0;transform:scaleY(.3);clip-path:inset(50% 0 0 0)}26%{top:calc(28% - 29px);opacity:0;transform:scaleY(.3);clip-path:inset(50% 0 0 0)}30%{top:calc(28% - 21px);opacity:1;transform:scaleY(1);clip-path:inset(50% 0 0 0)}36%{top:calc(28% - 20px);opacity:1;transform:scale(1.08,1.15);clip-path:inset(50% 0 0 0)}46%{top:calc(28% - 28px);opacity:.6;transform:scaleY(.5);clip-path:inset(50% 0 0 0)}54%{top:calc(28% - 28px);opacity:0;transform:scaleY(.2);clip-path:inset(50% 0 0 0)}100%{top:calc(28% - 28px);opacity:0;clip-path:inset(50% 0 0 0)}}
+@keyframes suckD{0%{bottom:calc(28% - 27px);opacity:0;transform:scaleY(.2);clip-path:inset(50% 0 0 0)}6%{opacity:1}20%{bottom:calc(28% - 49px);opacity:1;transform:scaleY(1);clip-path:inset(50% 0 0 0)}28%{bottom:calc(28% - 26px);opacity:0;transform:scaleY(.2);clip-path:inset(50% 0 0 0)}100%{bottom:calc(28% - 26px);opacity:0;clip-path:inset(50% 0 0 0)}}
+@keyframes bellyD{0%{bottom:calc(28% - 29px);opacity:0;transform:scaleY(.3);clip-path:inset(0 0 50% 0)}26%{bottom:calc(28% - 29px);opacity:0;transform:scaleY(.3);clip-path:inset(0 0 50% 0)}30%{bottom:calc(28% - 21px);opacity:1;transform:scaleY(1);clip-path:inset(0 0 50% 0)}36%{bottom:calc(28% - 20px);opacity:1;transform:scale(1.08,1.15);clip-path:inset(0 0 50% 0)}46%{bottom:calc(28% - 28px);opacity:.6;transform:scaleY(.5);clip-path:inset(0 0 50% 0)}54%{bottom:calc(28% - 28px);opacity:0;transform:scaleY(.2);clip-path:inset(0 0 50% 0)}100%{bottom:calc(28% - 28px);opacity:0;clip-path:inset(0 0 50% 0)}}
 .pn.act{box-shadow:0 6px 18px rgba(30,29,26,.12)}
 .pn.dim{opacity:.5;filter:saturate(.7)}
 .pn.dim:hover{opacity:.7}
