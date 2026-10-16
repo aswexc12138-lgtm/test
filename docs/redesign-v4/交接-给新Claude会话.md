@@ -64,6 +64,9 @@
 3. 用户试用 preview.27 时被提醒过：图纸先用副本；资料整理别在真实目录上“开始整理 / 清理”；先别装 Setup.exe（会替换日常用的版本）。
 4. **CAD**：用户决定 CAD 放到最后、单独一个版本，**v4 验收后不接着做 CAD**。草稿包在本分支 `docs/cad-v1/`（README 顶部记了状态和“CAD 工作区”方向：用户嫌现在的 CAD 显示像图片，要改成矢量显示 + 图层 + 捕捉；到时先重写再发）。用户这轮的回答：同事十几个、都能上网、有没有管理员不确定（按没有设计）、同事电脑有没有 CAD 不确定、同事也要交 DWG、代码签名证书暂不买。**ODA 许可**：给同事日常业务用之前要公司确认（旧方案 3.1/3.2 节），已告诉用户和证书一起谈；软件里用团队配置包开关 `cad.odaAllowed` 控制（CAD-22）。
 
+5. **v4 最终审计（2026-10-16，dev f0fd93b）：通过。** 自己重跑：diff-guard、wiring-check（159 个文件）、trace-check 全阶段、typecheck、lint 都过；单元测试只剩 Windows 路径那条（环境差异），主题对比度 64 条在临时补浏览器路径后全过；集成测试的失败全是 Windows 专用用例。244→245 例（新增 Escape 边界例）；230 例是 85 个改动文件的重复遍，不是全量；跳过的都是旧的条件跳过。唯一失败 cad-native:10（没装 ODA，基线同样失败）。
+   发现、待下一轮小修：①所有夜间主题里，设备浮窗和汇总清单的素材缩略图是深色线条叠在深色底上，几乎看不见（`styles.css` `.ui-devico`，建议夜间给缩略图白底）；②完整备份会把整个 userData 连 Chromium 缓存（Code Cache 等）一起备份，C-04 的 EBUSY 就是这么来的，Codex 只加了 1 秒重试，建议直接排除浏览器缓存目录；③ab-fixed-claims:166 资料计数延迟出现过一次，原因未查明（报告已如实记录）；④仓库根目录有 300cde1 时混进来的杂文件（`k.toLowerCase().includes('canvas')`、`p0_source.txt`、`visual-runner.html`）。已建议用户先用 Preview 32 做真机验收，问题攒一起再修一轮、只打一次包。
+
 ## 五、工具和环境事实
 
 - **Codex 换模型**：PowerShell 运行 `irm https://cdn.deepseek.com/api-docs/codex-deepseek-setup-en.ps1 | iex`，选 `1` deepseek-flash（能看图）、`2` deepseek-v4-pro（更强，不能看图）、`9` 恢复原配置。脚本读用户环境变量 `DEEPSEEK_API_KEY`。换模型后旧对话会按登录方式分组暂时看不到；要新开对话，开工指令必须自包含。
