@@ -30,9 +30,9 @@ a{color:#2C4A66}
 .rail{position:absolute;left:12px;top:10px;width:40px;padding:6px 0;background:#F6F2EA;border:1px solid #DCD3C3;border-radius:8px;display:flex;flex-direction:column;align-items:center;gap:4px}
 .rail span{width:30px;height:30px;border-radius:5px;display:flex;align-items:center;justify-content:center;color:#5B574F}
 .rail span.on{background:#DCE3E8;color:#2C4A66}
-.col{position:absolute;top:10px;bottom:10px;display:flex;flex-direction:column;gap:10px}
-.pn{display:flex;flex-direction:column;min-height:92px;overflow:hidden;background:#F6F2EA;border:1px solid #DCD3C3;border-radius:8px;transition:flex-grow .3s ease,opacity .25s ease,box-shadow .2s}
-.pn.act{box-shadow:0 4px 16px rgba(30,29,26,.10)}
+.col{position:absolute;top:10px;bottom:10px}
+.pn{position:absolute;left:0;right:0;display:flex;flex-direction:column;overflow:hidden;background:#F6F2EA;border:1px solid #DCD3C3;border-radius:8px;transition:height .3s ease,opacity .25s ease,box-shadow .2s}
+.pn.act{box-shadow:0 10px 30px rgba(30,29,26,.20)}
 .pn.dim{opacity:.55}
 .pn.dim:hover{opacity:.8}
 .ph{height:38px;flex:none;display:flex;align-items:center;gap:6px;padding:0 10px 0 12px;border-bottom:1px solid #E6DFD2}
@@ -178,15 +178,16 @@ class Component extends DCLogic {
     const done = this.props.fileDone ?? false;
     const tab = s.tab ?? (done ? 'files' : 'pages');
     const filesAct = s.active === 'files';
-    const grow = (on) => 'flex-grow:' + (on ? 3 : 1) + ';flex-shrink:1;flex-basis:0';
+    // The focused panel stretches over the other one; the other keeps its place and size underneath.
+    const box = (on, top) => (top ? 'top:0;' : 'bottom:0;') + 'height:' + (on ? '74%' : 'calc(50% - 5px)') + ';z-index:' + (on ? 2 : 1);
     return {
       pageNo: s.page,
       prevPage: () => this.setState({ page: Math.max(1, s.page - 1) }),
       nextPage: () => this.setState({ page: Math.min(4, s.page + 1) }),
       filesCls: filesAct ? 'pn act' : 'pn dim',
       devCls: filesAct ? 'pn dim' : 'pn act',
-      filesStyle: grow(filesAct),
-      devStyle: grow(!filesAct),
+      filesStyle: box(filesAct, true),
+      devStyle: box(!filesAct, false),
       activateFiles: () => { if (s.active !== 'files') this.setState({ active: 'files' }); },
       activateDevices: () => { if (s.active !== 'devices') this.setState({ active: 'devices' }); },
       tabs: [['files', '文件'], ['pages', '页面'], ['points', '点位']].map(([v, label]) => ({ label, cls: tab === v ? 'on' : '', pick: () => this.setState({ tab: v }) })),
