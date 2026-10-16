@@ -1,0 +1,144 @@
+{
+  "$comment": "v4.1 每个阶段允许改动的文件（xuyu 仓库内相对路径，glob）。用法同 v4：diff-guard 的 G8 按 allow 检查，trace-check 按 ids 检查，ui 列表里的编号必须有 tests/e2e/ 的测试和截图。要改范围外的文件：满足 00-规则第二节五个条件的小范围修订可以自己登记（加 scopeRevision 说明）、单独提交后继续；其他的停下来问用户。always 对所有阶段都允许。",
+  "always": [
+    "tests/**",
+    "fixtures/**",
+    "docs/redesign-v4.1/reports/**",
+    "docs/redesign-v4.1/traceability.json"
+  ],
+  "phases": {
+    "Q1": {
+      "title": "公共控件：数字框、取色浮层",
+      "ids": ["V-01", "V-02"],
+      "ui": ["V-01", "V-02"],
+      "allow": [
+        "src/renderer/components/CommittedNumberInput.tsx",
+        "src/renderer/components/ColorPopover.tsx",
+        "src/renderer/components/ui/**",
+        "src/core/color-palette.ts",
+        "src/renderer/components/TeamConfigPanel.tsx",
+        "src/renderer/components/AssetNormalizationEditor.tsx",
+        "src/renderer/App.tsx",
+        "src/renderer/feedback/**",
+        "src/renderer/*.css",
+        "src/renderer/styles/**"
+      ]
+    },
+    "Q2": {
+      "title": "配置中心导航、方案总览、方案编辑器外壳",
+      "ids": ["V-03", "V-04", "V-05"],
+      "ui": ["V-03", "V-04", "V-05"],
+      "allow": [
+        "src/renderer/components/ConfigurationCenter.tsx",
+        "src/renderer/components/TeamConfigPanel.tsx",
+        "src/renderer/components/scheme-editor/**",
+        "src/renderer/components/ui/**",
+        "src/renderer/components/CommandPalette.tsx",
+        "src/renderer/components/source-workflow-settings.css",
+        "src/renderer/App.tsx",
+        "src/core/keyboard-shortcuts.ts",
+        "src/core/drawing-schemes.ts",
+        "src/renderer/*.css",
+        "src/renderer/styles/**"
+      ]
+    },
+    "Q3": {
+      "title": "方案编辑器：基本与编号、分类与汇总说明",
+      "ids": ["V-06", "V-07", "V-08", "V-09"],
+      "ui": ["V-06", "V-08", "V-09"],
+      "allow": [
+        "src/renderer/components/TeamConfigPanel.tsx",
+        "src/renderer/components/scheme-editor/**",
+        "src/renderer/components/ui/**",
+        "src/core/templates.ts",
+        "src/core/migrations.ts",
+        "src/core/template-compatibility.ts",
+        "src/core/descriptions.ts",
+        "src/core/performance.ts",
+        "src/core/recognition.ts",
+        "src/core/keyboard-shortcuts.ts",
+        "src/renderer/*.css",
+        "src/renderer/styles/**"
+      ]
+    },
+    "Q4": {
+      "title": "方案编辑器：设备素材、样式、汇总与导出（含汇总组合迁移）",
+      "ids": ["V-10", "V-11", "V-12", "V-13", "V-14"],
+      "ui": ["V-10", "V-11", "V-12", "V-13", "V-14"],
+      "allow": [
+        "src/renderer/components/TeamConfigPanel.tsx",
+        "src/renderer/components/scheme-editor/**",
+        "src/renderer/components/ui/**",
+        "src/renderer/components/AssetNormalizationEditor.tsx",
+        "src/renderer/components/ConfigurationCenter.tsx",
+        "src/renderer/App.tsx",
+        "src/shared/models.ts",
+        "src/core/migrations.ts",
+        "src/core/equipment.ts",
+        "src/core/summary-combos.ts",
+        "src/core/drawing-schemes.ts",
+        "src/core/template-compatibility.ts",
+        "src/core/output-directory.ts",
+        "src/core/keyboard-shortcuts.ts",
+        "electron/services/team-config-service.ts",
+        "src/renderer/*.css",
+        "src/renderer/styles/**"
+      ]
+    },
+    "Q5": {
+      "title": "快捷键页、全部命令面板、连续放置快捷键",
+      "ids": ["V-15", "V-16", "V-17"],
+      "ui": ["V-15", "V-16", "V-17"],
+      "allow": [
+        "src/renderer/components/CommandPalette.tsx",
+        "src/renderer/components/ConfigurationCenter.tsx",
+        "src/renderer/components/TeamConfigPanel.tsx",
+        "src/renderer/components/scheme-editor/**",
+        "src/renderer/components/ui/**",
+        "src/renderer/feedback/commands.tsx",
+        "src/renderer/App.tsx",
+        "src/core/keyboard-shortcuts.ts",
+        "src/renderer/*.css",
+        "src/renderer/styles/**"
+      ]
+    },
+    "Q6": {
+      "title": "绘图：标题栏、左侧联动与动画、资料默认页、两个弹窗、汇总组合切换、两处小问题",
+      "ids": ["V-18", "V-19", "V-20", "V-21", "V-22", "V-23", "V-24", "V-25", "V-26"],
+      "ui": ["V-18", "V-19", "V-20", "V-21", "V-22", "V-23", "V-24", "V-25", "V-26"],
+      "allow": [
+        "src/renderer/components/ModuleRail.tsx",
+        "src/renderer/components/FloatPanel.tsx",
+        "src/renderer/components/DevicePanel.tsx",
+        "src/renderer/components/SummaryList.tsx",
+        "src/renderer/components/ToastNotice.tsx",
+        "src/renderer/components/FloorPlanCanvas.tsx",
+        "src/renderer/components/PagePanel.tsx",
+        "src/renderer/components/PagePanel.css",
+        "src/renderer/components/scheme-editor/**",
+        "src/renderer/components/ui/**",
+        "src/renderer/feedback/**",
+        "src/renderer/App.tsx",
+        "src/renderer/theme.tsx",
+        "src/core/equipment.ts",
+        "src/core/summary-combos.ts",
+        "src/core/keyboard-shortcuts.ts",
+        "src/renderer/*.css",
+        "src/renderer/styles/**",
+        "src/renderer/themes/bridge.css"
+      ]
+    },
+    "Q7": {
+      "title": "收尾小修：备份不带浏览器缓存、删除根目录杂文件",
+      "ids": ["V-27", "V-28"],
+      "allow": [
+        "electron/services/data-service.ts",
+        "electron/services/preview-user-data.ts",
+        "electron/services/disposable-user-data.ts",
+        "k.toLowerCase().includes('canvas')",
+        "p0_source.txt",
+        "setup"
+      ]
+    }
+  }
+}
