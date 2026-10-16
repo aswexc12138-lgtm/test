@@ -13,12 +13,14 @@
 <style>
 body{margin:0;background:#ECE6DB}
 a{color:#2C4A66}a:hover{color:#1D3348}
-.tb{height:40px;display:flex;align-items:center;gap:2px;padding:0 12px;border-bottom:1px solid #DCD3C3;background:#F1ECE3;flex-wrap:wrap}
+.tb{height:40px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 12px;border-bottom:1px solid #DCD3C3;background:#F1ECE3}
+.mods{display:flex;gap:2px}
+.wc{display:inline-flex;gap:22px;color:#8A8478;font-size:13px;margin-left:18px}
 .logo{font-weight:700;margin-right:14px;display:flex;align-items:center;gap:8px;font-size:14px}
 .logo i{width:22px;height:22px;border-radius:5px;background:#1E1D1A;display:inline-block}
 .mod{padding:0 12px;height:40px;display:flex;align-items:center;color:#5B574F;text-decoration:none}
 .mod.on{color:#1E1D1A;font-weight:600;box-shadow:inset 0 -2px 0 #2C4A66}
-.tbr{margin-left:auto;color:#5B574F;font-size:12px}
+.tbr{justify-self:end;display:flex;align-items:center;color:#5B574F;font-size:12px}
 .nav{flex:0 0 176px;padding:16px 10px;box-sizing:border-box}
 .nav a{display:flex;align-items:center;gap:8px;height:34px;padding:0 10px;border-radius:4px;color:#3A372F;text-decoration:none}
 .nav a.on{background:#E2DACB;color:#1E1D1A;font-weight:600}
@@ -81,8 +83,8 @@ a{color:#2C4A66}a:hover{color:#1D3348}
 <div style="font-family: 'Noto Sans SC', 'Microsoft YaHei', system-ui, sans-serif; color: #1E1D1A; font-size: 13px; line-height: 1.5; background: #ECE6DB; min-height: 1040px">
 <header class="tb">
 <span class="logo"><i></i>胥宇</span>
-<a class="mod" href="#">工作台</a><a class="mod" href="#">资料整理</a><a class="mod" href="#">绘图</a><a class="mod" href="#">绩效</a><a class="mod on" href="#">配置</a>
-<span class="tbr">水墨 · 白天</span>
+<nav class="mods" aria-label="模块"><a class="mod" href="#">工作台</a><a class="mod" href="#">资料整理</a><a class="mod" href="Editor.dc.html">绘图</a><a class="mod" href="#">绩效</a><a class="mod on" href="Overview.dc.html">配置</a></nav>
+<span class="tbr">水墨 · 白天<span class="wc" aria-hidden="true"><span>─</span><span>☐</span><span>✕</span></span></span>
 </header>
 <div style="display: flex; flex-wrap: wrap">
 <nav class="nav" aria-label="配置中心">

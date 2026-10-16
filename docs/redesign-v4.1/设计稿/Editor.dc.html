@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>绘图 · 左侧资料与设备联动</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#E6DFD3}
+a{color:#2C4A66}a:hover{color:#1D3348}
+.tb{height:40px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 12px;border-bottom:1px solid #DCD3C3;background:#F1ECE3}
+.logo{font-weight:700;display:flex;align-items:center;gap:8px;font-size:14px}
+.logo i{width:22px;height:22px;border-radius:5px;background:#1E1D1A;display:inline-block}
+.mods{display:flex;gap:2px}
+.mod{padding:0 12px;height:40px;display:flex;align-items:center;color:#5B574F;text-decoration:none}
+.mod.on{color:#1E1D1A;font-weight:600;box-shadow:inset 0 -2px 0 #2C4A66}
+.tbr{justify-self:end;display:flex;align-items:center;color:#5B574F;font-size:12px}
+.wc{display:inline-flex;gap:22px;color:#8A8478;font-size:13px;margin-left:18px}
+.etb{height:44px;display:flex;align-items:center;gap:8px;padding:0 12px;background:#F1ECE3;border-bottom:1px solid #DCD3C3;flex-wrap:wrap}
+.lbl{color:#5B574F;font-size:12px}
+.btn{height:30px;padding:0 10px;border:1px solid #CFC6B5;border-radius:4px;background:#FBF9F4;font:inherit;font-size:12px;color:#1E1D1A;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.btn.pri{background:#1E1D1A;color:#F6F2EA;border-color:#1E1D1A}
+.btn.flat{border-color:transparent;background:transparent}
+.tools{flex:0 0 44px;display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 0;background:#F1ECE3;border-right:1px solid #DCD3C3}
+.tools span{width:30px;height:30px;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#5B574F}
+.tools span.on{background:#DCE3E8;color:#2C4A66}
+.left{flex:0 0 268px;display:flex;flex-direction:column;gap:8px;padding:8px;box-sizing:border-box;min-height:0}
+.pn{display:flex;flex-direction:column;min-height:40px;overflow:hidden;background:#F6F2EA;border:1px solid #DCD3C3;border-radius:6px;transition:flex-grow .28s ease,opacity .2s ease,border-color .2s}
+.pn.act{border-color:#B8AE9C;box-shadow:0 2px 10px rgba(30,29,26,.08)}
+.ph{height:40px;flex:none;display:flex;align-items:center;gap:8px;padding:0 12px;border:0;background:transparent;font:inherit;color:inherit;cursor:pointer;text-align:left;width:100%}
+.ph b{font-size:13px}
+.ph .sum{flex:1;min-width:0;color:#8A8478;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pb{flex:1;min-height:0;overflow:auto;padding:0 10px 10px}
+.tabs{display:flex;gap:2px;background:#EAE3D6;border-radius:5px;padding:2px;margin-bottom:8px}
+.tabs button{flex:1;height:26px;border:0;border-radius:4px;background:transparent;font:inherit;font-size:12px;color:#5B574F;cursor:pointer}
+.tabs button.on{background:#FBF9F4;color:#1E1D1A;font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.hint{display:flex;align-items:center;gap:6px;font-size:11px;color:#A15C1F;background:#F6E9D8;border-radius:4px;padding:4px 8px;margin-bottom:8px}
+.pages{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pg{border:1px solid #DCD3C3;border-radius:4px;background:#fff;padding:6px;cursor:pointer;font:inherit;color:inherit;text-align:left;display:flex;flex-direction:column;gap:4px}
+.pg.on{border-color:#2C4A66;box-shadow:0 0 0 1px #2C4A66}
+.pg i{display:block;height:70px;background:#FBF9F4;border:1px solid #EAE3D6;border-radius:2px;position:relative;overflow:hidden}
+.fl{display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:4px;cursor:pointer;border:0;background:transparent;font:inherit;color:inherit;width:100%;text-align:left}
+.fl.on{background:#E3E9EE}
+.st{font-size:11px;padding:1px 7px;border-radius:9px;background:#E6DFD2;color:#5B574F;margin-left:auto;white-space:nowrap}
+.st.doing{background:#DCE3E8;color:#2C4A66}.st.done{background:#DFE9DF;color:#3F6B4F}
+.grp{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;margin:6px 0 4px}
+.dv{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:4px;border:1px solid transparent}
+.dv:hover{border-color:#DCD3C3;background:#FBF9F4}
+.th{width:30px;height:24px;border-radius:3px;background:#EFE9DE;display:flex;align-items:center;justify-content:center;flex:none}
+.canvas{flex:1;min-width:0;display:flex;align-items:center;justify-content:center;padding:20px;box-sizing:border-box}
+.sb{height:28px;display:flex;align-items:center;gap:14px;padding:0 12px;background:#F1ECE3;border-top:1px solid #DCD3C3;font-size:12px;color:#5B574F}
+</style>
+</helmet>
+<div style="font-family: 'Noto Sans SC', 'Microsoft YaHei', system-ui, sans-serif; color: #1E1D1A; font-size: 13px; line-height: 1.5; background: #E6DFD3; display: flex; flex-direction: column; height: 860px">
+<header class="tb">
+<span class="logo"><i></i>胥宇</span>
+<nav class="mods" aria-label="模块"><a class="mod" href="#">工作台</a><a class="mod" href="#">资料整理</a><a class="mod on" href="Editor.dc.html">绘图</a><a class="mod" href="#">绩效</a><a class="mod" href="Overview.dc.html">配置</a></nav>
+<span class="tbr">水墨 · 白天<span class="wc" aria-hidden="true"><span>─</span><span>☐</span><span>✕</span></span></span>
+</header>
+<div class="etb">
+<b>2F 平面图.pdf</b>
+<span class="lbl">方案 BIG（老店）</span>
+<span style="display: inline-flex; align-items: center; gap: 4px; margin-left: 8px"><button type="button" class="btn flat" aria-label="上一页" onClick="{{ prevPage }}">‹</button><span>第 {{ pageNo }} / 4 页</span><button type="button" class="btn flat" aria-label="下一页" onClick="{{ nextPage }}">›</button></span>
+<span style="flex: 1"></span>
+<button type="button" class="btn">点位说明</button>
+<button type="button" class="btn">设备汇总</button>
+<button type="button" class="btn">本文件样式</button>
+<button type="button" class="btn">打开图纸</button>
+<button type="button" class="btn">导出 PDF</button>
+<button type="button" class="btn" aria-label="更多">⋯</button>
+<button type="button" class="btn pri">完成并下一份</button>
+</div>
+<div style="display: flex; flex: 1; min-height: 0">
+<div class="tools" aria-hidden="true">
+<span class="on"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3l14 9-6 1-3 6z"></path></svg></span>
+<span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 5h14M12 5v14"></path></svg></span>
+<span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 19L19 5M12 5h7v7"></path></svg></span>
+<span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="6" width="16" height="12"></rect></svg></span>
+<span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 18L18 4M7 15l2 2M10 12l2 2M13 9l2 2"></path></svg></span>
+</div>
+<div class="left">
+<section class="{{ filesCls }}" style="{{ filesStyle }}" aria-label="资料">
+<button type="button" class="ph" onClick="{{ activateFiles }}"><b>资料</b><span class="sum">{{ filesSum }}</span><span class="lbl">{{ filesArrow }}</span></button>
+<div class="pb">
+<div class="tabs"><sc-for list="{{ tabs }}" as="t" hint-placeholder-count="3"><button type="button" class="{{ t.cls }}" onClick="{{ t.pick }}">{{ t.label }}</button></sc-for></div>
+<sc-if value="{{ showHint }}" hint-placeholder-val="{{ true }}"><div class="hint">这份还没做完，先显示页面</div></sc-if>
+<sc-if value="{{ onPages }}" hint-placeholder-val="{{ true }}">
+<div class="pages">
+<sc-for list="{{ pages }}" as="p" hint-placeholder-count="4">
+<button type="button" class="{{ p.cls }}" onClick="{{ p.pick }}">
+<i><svg width="100%" height="100%" viewBox="0 0 100 70" preserveAspectRatio="none" aria-hidden="true"><path d="M8 8h84v54H8z M8 30h40 M60 8v54 M60 40h32" fill="none" stroke="#B8AE9C" stroke-width="1.5"></path></svg></i>
+<span style="font-size: 12px; font-weight: 600">第 {{ p.no }} 页</span>
+<span class="lbl">{{ p.meta }}</span>
+</button>
+</sc-for>
+</div>
+</sc-if>
+<sc-if value="{{ onFiles }}" hint-placeholder-val="{{ false }}">
+<sc-for list="{{ files }}" as="f" hint-placeholder-count="3">
+<button type="button" class="{{ f.cls }}"><span>{{ f.name }}</span><span class="{{ f.stCls }}">{{ f.st }}</span></button>
+</sc-for>
+</sc-if>
+<sc-if value="{{ onPoints }}" hint-placeholder-val="{{ false }}">
+<sc-for list="{{ points }}" as="q" hint-placeholder-count="6"><div class="fl"><span style="font-weight: 600">{{ q.label }}</span><span class="lbl" style="margin-left: auto">{{ q.cat }}</span></div></sc-for>
+</sc-if>
+</div>
+</section>
+<section class="{{ devCls }}" style="{{ devStyle }}" aria-label="设备">
+<button type="button" class="ph" onClick="{{ activateDevices }}"><b>设备</b><span class="sum">{{ devSum }}</span><span class="lbl">{{ devArrow }}</span></button>
+<div class="pb">
+<div class="grp"><span style="color: #2C4A66">●</span>点位设备<span class="lbl" style="font-weight: 400">点一下开始连续放置</span></div>
+<sc-for list="{{ devs }}" as="d" hint-placeholder-count="3">
+<div class="dv"><span class="th"><svg width="22" height="16" viewBox="0 0 70 50" fill="none" stroke="#3A372F" stroke-width="3" aria-hidden="true"><path d="M8 22h54"></path><path d="M12 22a23 23 0 0 0 46 0"></path><circle cx="35" cy="30" r="7"></circle></svg></span><span style="flex: 1; min-width: 0"><span style="display: block; font-weight: 600; font-size: 12px">{{ d.name }}</span><span class="lbl">{{ d.cat }}</span></span><span class="lbl">已放 <b style="color: #1E1D1A">{{ d.n }}</b></span></div>
+</sc-for>
+<div class="grp" style="margin-top: 10px"><span style="color: #6B4C7A">■</span>汇总设备<span class="lbl" style="font-weight: 400">组合：带录像机</span></div>
+<div class="dv"><span class="th"><svg width="22" height="14" viewBox="0 0 80 46" fill="none" stroke="#3A372F" stroke-width="3" aria-hidden="true"><rect x="6" y="10" width="68" height="26" rx="3"></rect></svg></span><span style="flex: 1; font-weight: 600; font-size: 12px">录像机 NVR</span><span class="lbl">× 1 台</span></div>
+</div>
+</section>
+</div>
+<div class="canvas">
+<div style="width: 640px; max-width: 100%; aspect-ratio: 1.42; background: #fff; box-shadow: 0 6px 24px rgba(30,29,26,.15); position: relative">
+<svg width="100%" height="100%" viewBox="0 0 640 450" aria-hidden="true"><g fill="none" stroke="#9A9386" stroke-width="2"><rect x="40" y="40" width="560" height="370"></rect><path d="M40 200h220M260 40v170M260 260v150M380 40v120M380 220v190M380 300h220"></path></g><g fill="none" stroke="#2C4A66" stroke-width="2.5"><circle cx="150" cy="120" r="9"></circle><circle cx="320" cy="320" r="9"></circle><circle cx="500" cy="110" r="9"></circle></g><g font-size="12" font-weight="700" fill="#1E1D1A" text-anchor="middle"><text x="150" y="146">客流1</text><text x="320" y="346">客流2</text><text x="500" y="136">监控1</text></g><text x="560" y="436" font-size="12" fill="#8A8478" text-anchor="end">第 {{ pageNo }} 页</text></svg>
+</div>
+</div>
+</div>
+<div class="sb"><span>已保存 · 10:21</span><span>比例 1:100</span><span style="flex: 1"></span><span>整体 100%</span><span>第 {{ pageNo }} / 4 页</span></div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"fileDone":{"editor":"boolean","default":false},"$preview":{"width":1280,"height":860}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { active: 'files', tab: null, page: 2 };
+  }
+  renderVals() {
+    const s = this.state;
+    const done = this.props.fileDone ?? false;
+    const tab = s.tab ?? (done ? 'files' : 'pages');
+    const filesAct = s.active === 'files';
+    const grow = (on) => 'flex:' + (on ? '1 1 40px' : '0.0001 1 40px') + ';opacity:' + (on ? 1 : 0.62);
+    return {
+      pageNo: s.page,
+      prevPage: () => this.setState({ page: Math.max(1, s.page - 1) }),
+      nextPage: () => this.setState({ page: Math.min(4, s.page + 1) }),
+      filesCls: filesAct ? 'pn act' : 'pn',
+      devCls: filesAct ? 'pn' : 'pn act',
+      filesStyle: grow(filesAct),
+      devStyle: grow(!filesAct),
+      filesArrow: filesAct ? '' : '展开',
+      devArrow: filesAct ? '展开' : '',
+      activateFiles: () => this.setState({ active: 'files' }),
+      activateDevices: () => this.setState({ active: 'devices' }),
+      filesSum: filesAct ? '2F 平面图 · ' + (done ? '已完成' : '未完成') : '2F 平面图 · 第 ' + s.page + '/4 页',
+      devSum: filesAct ? '点位 3 种 · 汇总 1 种' : '',
+      tabs: [['files', '文件'], ['pages', '页面'], ['points', '点位']].map(([v, label]) => ({ label, cls: tab === v ? 'on' : '', pick: () => this.setState({ tab: v, active: 'files' }) })),
+      showHint: !done && tab === 'pages' && s.tab == null,
+      onPages: tab === 'pages', onFiles: tab === 'files', onPoints: tab === 'points',
+      pages: [1, 2, 3, 4].map((no) => ({ no, meta: ['3 个点位', '3 个点位 · 当前', '还没放点', '还没放点'][no - 1].replace(' · 当前', no === s.page ? ' · 当前' : ''), cls: no === s.page ? 'pg on' : 'pg', pick: () => this.setState({ page: no }) })),
+      files: [['1F 平面图.pdf', '已完成', 'st done'], ['2F 平面图.pdf', done ? '已完成' : '进行中', done ? 'st done' : 'st doing'], ['3F 平面图.pdf', '未开始', 'st']].map(([name, st, stCls], i) => ({ name, st, stCls, cls: i === 1 ? 'fl on' : 'fl' })),
+      points: [['客流1', '客流'], ['客流2', '客流'], ['监控1', '卖场监控']].map(([label, cat]) => ({ label, cat })),
+      devs: [['点位摄像机', '客流', 2], ['D6PS-1 半球', '卖场监控', 1], ['枪机 BX-2', '卖场监控', 0]].map(([name, cat, n]) => ({ name, cat, n }))
+    };
+  }
+}
+</script>
+</body>
+</html>

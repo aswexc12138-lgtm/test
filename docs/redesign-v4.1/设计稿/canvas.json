@@ -12,9 +12,10 @@
     "Summary.dc.html": { "x": 1360, "y": 1020, "w": 1280, "h": 860, "title": "方案编辑器 · 汇总与导出", "expand": "fill", "is_interactive": true },
     "Shortcuts.dc.html": { "x": 2720, "y": 1020, "w": 1280, "h": 1040, "title": "配置中心 · 快捷键", "expand": "fill", "is_interactive": true },
     "ColorPicker.dc.html": { "x": 0, "y": 2200, "w": 760, "h": 560, "title": "取色浮层（全软件统一）", "is_interactive": true },
-    "Overview.dc.html": { "x": 840, "y": 2200, "w": 1280, "h": 760, "title": "配置中心 · 方案总览", "expand": "fill", "is_interactive": true }
+    "Overview.dc.html": { "x": 840, "y": 2200, "w": 1280, "h": 760, "title": "配置中心 · 方案总览", "expand": "fill", "is_interactive": true },
+    "Editor.dc.html": { "x": 2200, "y": 2200, "w": 1280, "h": 860, "title": "绘图 · 左侧资料与设备联动", "expand": "fill", "is_interactive": true }
   },
-  "order": ["Main.dc.html", "Categories.dc.html", "Assets.dc.html", "Styles.dc.html", "Summary.dc.html", "Shortcuts.dc.html", "ColorPicker.dc.html", "Overview.dc.html"],
+  "order": ["Main.dc.html", "Categories.dc.html", "Assets.dc.html", "Styles.dc.html", "Summary.dc.html", "Shortcuts.dc.html", "ColorPicker.dc.html", "Overview.dc.html", "Editor.dc.html"],
   "notes": {},
   "designSystems": []
 }
