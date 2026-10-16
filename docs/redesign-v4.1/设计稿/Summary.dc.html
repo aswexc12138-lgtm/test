@@ -119,7 +119,7 @@ a{color:#2C4A66}a:hover{color:#1D3348}
 <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-start">
 <section class="card" style="flex: 1 1 560px; min-width: 0">
 <h3>汇总组合 <span class="q" title="原来存在本机的“常用设备组合”并到这里，跟着方案走：同事拿到这个方案，就有同样的组合">?</span>
-<span style="flex: 1"></span><button type="button" class="btn" onClick="{{ addCombo }}">＋ 新建组合</button></h3>
+<span style="flex: 1"></span><label class="lbl" style="display: inline-flex; align-items: center; gap: 6px; font-weight: 400">新素材默认单位 <input class="in" style="width: 44px; height: 26px; text-align: center" defaultValue="台" aria-label="汇总默认单位"></label><button type="button" class="btn" onClick="{{ addCombo }}">＋ 新建组合</button></h3>
 <p class="lbl" style="margin: 0 0 10px">新图纸自动带上“默认”那一组；在绘图的汇总清单里可以随时换成别的组合。</p>
 <sc-for list="{{ combos }}" as="c" hint-placeholder-count="3">
 <div class="{{ c.cls }}">

@@ -126,24 +126,24 @@ a{color:#2C4A66}a:hover{color:#1D3348}
 <h3>汇总说明怎么排 <span class="q" title="点“生成分类说明”时，按这里的规则把各分类写成一段文字放到图上">?</span></h3>
 <div style="display: flex; flex-direction: column; gap: 12px">
 <div class="row"><span class="lbl" style="width: 64px">版式</span><span class="seg"><sc-for list="{{ layouts }}" as="o" hint-placeholder-count="2"><button type="button" class="{{ o.cls }}" onClick="{{ o.pick }}">{{ o.label }}</button></sc-for></span></div>
-<div class="row" style="align-items: flex-start"><span class="lbl" style="width: 64px; padding-top: 5px">开头</span>
+<sc-if value="{{ perCat }}" hint-placeholder-val="{{ true }}"><div class="row" style="align-items: flex-start"><span class="lbl" style="width: 64px; padding-top: 5px">开头模板</span>
 <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px">
-<input class="in" style="width: 100%" value="{{ intro }}" aria-label="汇总开头" onChange="{{ setIntro }}">
+<textarea class="in" style="width: 100%; height: 52px; padding: 6px 8px; resize: vertical" aria-label="汇总开头模板" value="{{ intro }}" onChange="{{ setIntro }}"></textarea>
 <div class="row" style="gap: 6px"><span class="lbl">点一下插入：</span><sc-for list="{{ vars }}" as="v" hint-placeholder-count="3"><button type="button" class="var" onClick="{{ v.add }}">{{ v.label }}</button></sc-for></div>
-</div></div>
+</div></div></sc-if>
 <div class="row"><span class="lbl" style="width: 64px">分类之间</span><span class="seg"><sc-for list="{{ gaps }}" as="o" hint-placeholder-count="3"><button type="button" class="{{ o.cls }}" onClick="{{ o.pick }}">{{ o.label }}</button></sc-for></span></div>
 <div class="row"><span class="lbl" style="width: 64px">宽度</span><span class="step"><button type="button" aria-label="变窄" onClick="{{ widthN.dec }}">−</button><input aria-label="汇总宽度" title="可直接输入；鼠标放上去滚轮调，按住 Shift 一次调 100" value="{{ widthN.value }}" onChange="{{ widthN.change }}" onBlur="{{ widthN.blur }}" onWheel="{{ widthN.wheel }}"><button type="button" aria-label="变宽" onClick="{{ widthN.inc }}">+</button></span><span class="lbl">pt，图上实际宽度</span></div>
 <div>
 <div class="lbl" style="margin-bottom: 6px">预览（跟着上面的设置实时变）</div>
 <div style="background: #fff; border: 1px solid #DCD3C3; border-radius: 4px; padding: 14px; overflow: hidden">
 <div style="{{ boxStyle }}">
-<div style="font-weight: 700; margin-bottom: 4px">{{ introText }}</div>
+<sc-if value="{{ perCat }}" hint-placeholder-val="{{ true }}"><div style="font-weight: 700; margin-bottom: 4px">{{ introText }}</div></sc-if>
 <sc-if value="{{ perCat }}" hint-placeholder-val="{{ true }}">
 <sc-for list="{{ blocks }}" as="b" hint-placeholder-count="5">
 <div style="{{ b.style }}"><div style="font-weight: 600">{{ b.head }}</div><div style="white-space: pre-line; color: #3A372F">{{ b.desc }}</div></div>
 </sc-for>
 </sc-if>
-<sc-if value="{{ merged }}" hint-placeholder-val="{{ false }}"><div style="color: #3A372F">{{ mergedText }}</div></sc-if>
+<sc-if value="{{ merged }}" hint-placeholder-val="{{ false }}"><div style="color: #3A372F; white-space: pre-line">{{ mergedText }}</div></sc-if>
 </div>
 </div>
 </div>
@@ -160,7 +160,7 @@ class Component extends DCLogic {
   constructor(props) {
     super(props);
     this.state = {
-      dirty: false, layout: 'per', gap: 'half', width: 340, intro: '本图共 {总数量} 个点位：',
+      dirty: false, layout: 'new', gap: 1, width: 340, intro: '本图共 {总数量} 个点位：',
       cats: [
         { id: 1, name: '客流', desc: '客流统计', n: 3 },
         { id: 2, name: '收银台空岗/排队', desc: '收银台空岗及排队检测', n: 2 },
@@ -187,7 +187,7 @@ class Component extends DCLogic {
     const move = (i, d) => { const c = s.cats.slice(); const t = c[i]; c[i] = c[i + d]; c[i + d] = t; set({ cats: c }); };
     const patchCat = (i, patch) => set({ cats: s.cats.map((c, j) => j === i ? Object.assign({}, c, patch) : c) });
     const total = s.cats.reduce((a, c) => a + c.n, 0);
-    const gapPx = s.gap === 'none' ? 0 : s.gap === 'half' ? 7 : 14;
+    const gapPx = s.gap * 18;
     const scale = 0.9;
     return {
       dirty: s.dirty,
@@ -200,18 +200,18 @@ class Component extends DCLogic {
         up: () => move(i, -1), down: () => move(i, 1),
         del: () => set({ cats: s.cats.filter((_, j) => j !== i) })
       })),
-      layouts: [['per', '每个分类一段'], ['merged', '合并成一段']].map(([v, label]) => ({ label, cls: s.layout === v ? 'on' : '', pick: () => set({ layout: v }) })),
-      gaps: [['none', '不留空'], ['half', '留半行'], ['line', '留一行']].map(([v, label]) => ({ label, cls: s.gap === v ? 'on' : '', pick: () => set({ gap: v }) })),
+      layouts: [['classic', '原版：Cam1/Cam2 + 说明'], ['new', '新版：按分类自动填数量']].map(([v, label]) => ({ label, cls: s.layout === v ? 'on' : '', pick: () => set({ layout: v }) })),
+      gaps: [[0, '不留空行'], [1, '留 1 个空行'], [2, '留 2 个空行']].map(([v, label]) => ({ label, cls: s.gap === v ? 'on' : '', pick: () => set({ gap: v }) })),
       intro: s.intro,
       setIntro: (e) => set({ intro: e.target.value }),
       vars: ['{总数量}', '{项目名称}', '{分类}', '{数量}'].map((label) => ({ label, add: () => set({ intro: s.intro + label }) })),
       widthN: num(s.width, 200, 480, 10, (v) => set({ width: v })),
       boxStyle: 'width:' + Math.round(s.width * scale) + 'px;max-width:100%;font-size:12px;line-height:1.55;border-left:1px dashed #C9BEAA;border-right:1px dashed #C9BEAA;padding:0 6px;box-sizing:border-box',
       introText: s.intro.replace('{总数量}', String(total)).replace('{项目名称}', 'BIG 老店').replace('{分类}', '各分类').replace('{数量}', String(total)),
-      perCat: s.layout === 'per',
-      merged: s.layout === 'merged',
+      perCat: s.layout === 'new',
+      merged: s.layout === 'classic',
       blocks: s.cats.map((c, i) => ({ head: c.name + '（' + c.n + ' 个）', desc: c.desc, style: 'margin-top:' + (i === 0 ? 0 : gapPx) + 'px' })),
-      mergedText: s.cats.map((c) => c.name + ' ' + c.n + ' 个' + (c.desc ? '（' + c.desc + '）' : '')).join('；') + '。'
+      mergedText: (() => { let k = 0; return s.cats.map((c) => { const labels = []; for (let j = 0; j < c.n; j += 1) { k += 1; labels.push('Cam' + k); } return labels.join('/') + '：' + c.desc; }).join('\n'.repeat(1 + s.gap)); })()
     };
   }
 }

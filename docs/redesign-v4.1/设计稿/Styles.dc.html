@@ -126,7 +126,7 @@ a{color:#2C4A66}a:hover{color:#1D3348}
 <sc-for list="{{ rows }}" as="r" hint-placeholder-count="7">
 <tr class="{{ r.trCls }}">
 <td style="font-weight: 600">{{ r.label }}</td>
-<td><select class="in" style="width: 104px" aria-label="字体"><option>{{ r.font }}</option><option>黑体</option><option>宋体</option><option>仿宋</option><option>楷体</option></select></td>
+<td><select class="in" style="width: 104px" aria-label="字体"><sc-for list="{{ r.fonts }}" as="o" hint-placeholder-count="2"><option>{{ o.label }}</option></sc-for></select></td>
 <td><span class="step"><button type="button" aria-label="字号减小" onClick="{{ r.sizeN.dec }}">−</button><input aria-label="字号" title="滚轮可调" value="{{ r.sizeN.value }}" onChange="{{ r.sizeN.change }}" onBlur="{{ r.sizeN.blur }}" onWheel="{{ r.sizeN.wheel }}"><button type="button" aria-label="字号增大" onClick="{{ r.sizeN.inc }}">+</button></span></td>
 <td><div style="position: relative"><button type="button" class="sw" style="{{ r.swStyle }}" aria-label="选择颜色" onClick="{{ r.openColor }}"></button>
 <sc-if value="{{ r.open }}" hint-placeholder-val="{{ false }}">
@@ -202,10 +202,11 @@ a{color:#2C4A66}a:hover{color:#1D3348}
 <div class="fr"><span class="lbl">点位最长边</span><span class="step"><button type="button" aria-label="减小" onClick="{{ pointN.dec }}">−</button><input aria-label="点位最长边" title="滚轮可调" value="{{ pointN.value }}" onChange="{{ pointN.change }}" onBlur="{{ pointN.blur }}" onWheel="{{ pointN.wheel }}"><button type="button" aria-label="增大" onClick="{{ pointN.inc }}">+</button></span>
 <span class="lbl" style="width: auto">图片与编号</span><span class="step"><button type="button" aria-label="减小" onClick="{{ gapN.dec }}">−</button><input aria-label="图片与编号间距" title="滚轮可调" value="{{ gapN.value }}" onChange="{{ gapN.change }}" onBlur="{{ gapN.blur }}" onWheel="{{ gapN.wheel }}"><button type="button" aria-label="增大" onClick="{{ gapN.inc }}">+</button></span></div>
 <div class="fr"><span class="lbl">汇总最长边</span><span class="step"><button type="button" aria-label="减小" onClick="{{ sumN.dec }}">−</button><input aria-label="汇总设备最长边" title="滚轮可调" value="{{ sumN.value }}" onChange="{{ sumN.change }}" onBlur="{{ sumN.blur }}" onWheel="{{ sumN.wheel }}"><button type="button" aria-label="增大" onClick="{{ sumN.inc }}">+</button></span>
-<span class="lbl" style="width: auto">按图幅自动调</span><button type="button" class="{{ autoCls }}" aria-label="按页面图幅自动调整设备图片（试验）" onClick="{{ toggleAuto }}"></button></div>
+<span class="lbl" style="width: auto">图片与标注</span><span class="step"><button type="button" aria-label="减小" onClick="{{ sumGapN.dec }}">−</button><input aria-label="汇总图片与标注间距" title="滚轮可调" value="{{ sumGapN.value }}" onChange="{{ sumGapN.change }}" onBlur="{{ sumGapN.blur }}" onWheel="{{ sumGapN.wheel }}"><button type="button" aria-label="增大" onClick="{{ sumGapN.inc }}">+</button></span></div>
+<div class="fr"><span class="lbl">按图幅自动调</span><button type="button" class="{{ autoCls }}" aria-label="按页面图幅自动调整设备图片（试验）" onClick="{{ toggleAuto }}"></button><span class="lbl" style="width: auto">试验功能：只影响新放的设备，倍率限 0.7–2.4</span></div>
 <div class="pv" style="gap: 28px; align-items: flex-end; padding-bottom: 14px">
 <div style="display: flex; flex-direction: column; align-items: center"><span style="{{ pointBox }}"></span><span style="{{ pointLabel }}">Cam1</span></div>
-<div style="display: flex; flex-direction: column; align-items: center"><span style="{{ sumBox }}"></span><span style="font-size: 11px; font-weight: 700; margin-top: 4px">录像机 × 1台</span></div>
+<div style="display: flex; flex-direction: column; align-items: center"><span style="{{ sumBox }}"></span><span style="{{ sumLabel }}">录像机 × 1台</span></div>
 </div>
 </section>
 </div>
@@ -230,7 +231,7 @@ class Component extends DCLogic {
       ],
       arrow: { size: 10, w: 2, color: '#C0392B' },
       ring: { on: false, pad: 10, w: 3, color: '#E53935' },
-      point: 42, sum: 64, gap: 5, auto: false
+      point: 42, sum: 64, gap: 5, sumGap: 8, auto: false
     };
   }
   renderVals() {
@@ -300,7 +301,8 @@ class Component extends DCLogic {
       const target = isAll ? -1 : i;
       const size = r.size == null ? 14 : r.size, lh = r.lh == null ? 1.25 : r.lh;
       return {
-        label: r.label, font: isAll ? '多种' : '微软雅黑', trCls: isAll ? 'all' : '',
+        label: r.label, trCls: isAll ? 'all' : '',
+        fonts: (isAll ? ['多种', '微软雅黑', '宋体'] : ['微软雅黑', '宋体']).map((label) => ({ label })),
         sizeN: num(r.size, 8, 48, 1, (v) => patchRow(target, () => ({ size: v })), 0, 14),
         lhN: num(r.lh, 1, 2, 0.05, (v) => patchRow(target, () => ({ lh: v })), 2, 1.25),
         swStyle: 'background:' + (r.color || mixed),
@@ -342,6 +344,8 @@ class Component extends DCLogic {
       pointN: num(s.point, 20, 80, 2, (v) => set({ point: v })),
       sumN: num(s.sum, 24, 96, 2, (v) => set({ sum: v })),
       gapN: num(s.gap, 0, 20, 1, (v) => set({ gap: v })),
+      sumGapN: num(s.sumGap, 0, 30, 1, (v) => set({ sumGap: v })),
+      sumLabel: 'font-size:11px;font-weight:700;margin-top:' + s.sumGap + 'px',
       autoCls: s.auto ? 'tog on' : 'tog',
       toggleAuto: () => set({ auto: !s.auto }),
       pointBox: 'display:block;width:' + s.point + 'px;height:' + Math.round(s.point * 0.75) + 'px;border-radius:4px;background:#D9D2C4;border:1px solid #B8AE9C',

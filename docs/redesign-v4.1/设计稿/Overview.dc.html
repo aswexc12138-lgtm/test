@@ -73,7 +73,9 @@ a{color:#2C4A66}a:hover{color:#1D3348}
 <h1>绘图方案</h1>
 <span class="q" title="导入的方案、默认方案和设备素材都存在本机，软件升级后照样保留">?</span>
 <span class="lbl">{{ countText }}</span>
+<button type="button" class="btn" style="height: 26px; font-size: 12px; border-color: transparent; background: transparent; color: #2C4A66">查看存储位置</button>
 <span style="flex: 1"></span>
+<sc-if value="{{ dirty }}" hint-placeholder-val="{{ false }}"><span style="color: #A15C1F; font-size: 12px">● 有未保存的修改</span><button type="button" class="btn" onClick="{{ save }}">保存</button></sc-if>
 <button type="button" class="btn">导入方案</button>
 <button type="button" class="btn">导出方案</button>
 <button type="button" class="btn pri" onClick="{{ add }}">＋ 新建方案</button>
@@ -117,13 +119,15 @@ class Component extends DCLogic {
     const s = this.state;
     return {
       countText: s.schemes.length + ' 个方案',
+      dirty: !!s.dirty,
+      save: () => this.setState({ dirty: false }),
       add: () => this.setState({ schemes: s.schemes.concat([{ id: Date.now(), name: '新方案', scope: '自定义', cats: 0, assets: 0, tags: [] }]) }),
       schemes: s.schemes.map((c) => ({
         name: c.name, scope: c.scope, meta: c.cats + ' 个分类 · ' + c.assets + ' 个素材',
         tags: (c.tags.length > 4 ? c.tags.slice(0, 3).concat(['+' + (c.tags.length - 3)]) : c.tags).map((label) => ({ label })),
         isDef: s.def === c.id, notDef: s.def !== c.id,
         cls: s.def === c.id ? 'sc def' : 'sc',
-        makeDef: () => this.setState({ def: c.id }),
+        makeDef: () => this.setState({ def: c.id, dirty: true }),
         menu: s.menu === c.id,
         toggleMenu: () => this.setState({ menu: s.menu === c.id ? null : c.id }),
         del: () => this.setState({ schemes: s.schemes.filter((x) => x.id !== c.id), menu: null })

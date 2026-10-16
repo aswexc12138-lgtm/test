@@ -11,8 +11,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&amp;display=swap" rel="stylesheet">
 <style>
-body{margin:0;background:#E6DFD3}
-a{color:#2C4A66}a:hover{color:#1D3348}
+body{margin:0;background:#E9E3D8}
+a{color:#2C4A66}
 .tb{height:40px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 12px;border-bottom:1px solid #DCD3C3;background:#F1ECE3}
 .logo{font-weight:700;display:flex;align-items:center;gap:8px;font-size:14px}
 .logo i{width:22px;height:22px;border-radius:5px;background:#1E1D1A;display:inline-block}
@@ -21,149 +21,180 @@ a{color:#2C4A66}a:hover{color:#1D3348}
 .mod.on{color:#1E1D1A;font-weight:600;box-shadow:inset 0 -2px 0 #2C4A66}
 .tbr{justify-self:end;display:flex;align-items:center;color:#5B574F;font-size:12px}
 .wc{display:inline-flex;gap:22px;color:#8A8478;font-size:13px;margin-left:18px}
-.etb{height:44px;display:flex;align-items:center;gap:8px;padding:0 12px;background:#F1ECE3;border-bottom:1px solid #DCD3C3;flex-wrap:wrap}
+.etb{height:50px;display:flex;align-items:center;gap:8px;padding:0 12px;background:#F1ECE3;border-bottom:1px solid #DCD3C3}
 .lbl{color:#5B574F;font-size:12px}
-.btn{height:30px;padding:0 10px;border:1px solid #CFC6B5;border-radius:4px;background:#FBF9F4;font:inherit;font-size:12px;color:#1E1D1A;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
-.btn.pri{background:#1E1D1A;color:#F6F2EA;border-color:#1E1D1A}
+.btn{height:30px;padding:0 10px;border:1px solid #CFC6B5;border-radius:4px;background:#FBF9F4;font:inherit;font-size:12px;color:#1E1D1A;cursor:pointer;display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
 .btn.flat{border-color:transparent;background:transparent}
-.tools{flex:0 0 44px;display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 0;background:#F1ECE3;border-right:1px solid #DCD3C3}
-.tools span{width:30px;height:30px;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#5B574F}
-.tools span.on{background:#DCE3E8;color:#2C4A66}
-.left{flex:0 0 268px;display:flex;flex-direction:column;gap:8px;padding:8px;box-sizing:border-box;min-height:0}
-.pn{display:flex;flex-direction:column;min-height:40px;overflow:hidden;background:#F6F2EA;border:1px solid #DCD3C3;border-radius:6px;transition:flex-grow .28s ease,opacity .2s ease,border-color .2s}
-.pn.act{border-color:#B8AE9C;box-shadow:0 2px 10px rgba(30,29,26,.08)}
-.ph{height:40px;flex:none;display:flex;align-items:center;gap:8px;padding:0 12px;border:0;background:transparent;font:inherit;color:inherit;cursor:pointer;text-align:left;width:100%}
+.btn.pri{background:#1E1D1A;color:#F6F2EA;border-color:#1E1D1A}
+.badge{display:inline-flex;align-items:center;justify-content:center;min-width:16px;height:16px;padding:0 4px;border-radius:3px;border:1px solid #2C4A66;color:#2C4A66;font-size:11px}
+.rail{position:absolute;left:12px;top:10px;width:40px;padding:6px 0;background:#F6F2EA;border:1px solid #DCD3C3;border-radius:8px;display:flex;flex-direction:column;align-items:center;gap:4px}
+.rail span{width:30px;height:30px;border-radius:5px;display:flex;align-items:center;justify-content:center;color:#5B574F}
+.rail span.on{background:#DCE3E8;color:#2C4A66}
+.col{position:absolute;top:10px;bottom:10px;display:flex;flex-direction:column;gap:10px}
+.pn{display:flex;flex-direction:column;min-height:92px;overflow:hidden;background:#F6F2EA;border:1px solid #DCD3C3;border-radius:8px;transition:flex-grow .3s ease,opacity .25s ease,box-shadow .2s}
+.pn.act{box-shadow:0 4px 16px rgba(30,29,26,.10)}
+.pn.dim{opacity:.55}
+.pn.dim:hover{opacity:.8}
+.ph{height:38px;flex:none;display:flex;align-items:center;gap:6px;padding:0 10px 0 12px;border-bottom:1px solid #E6DFD2}
 .ph b{font-size:13px}
-.ph .sum{flex:1;min-width:0;color:#8A8478;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.pb{flex:1;min-height:0;overflow:auto;padding:0 10px 10px}
+.ph .ic{margin-left:auto;display:flex;gap:6px;color:#8A8478}
+.ph .ic span{width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:12px}
+.pb{flex:1;min-height:0;overflow:auto;padding:8px 10px 10px}
 .tabs{display:flex;gap:2px;background:#EAE3D6;border-radius:5px;padding:2px;margin-bottom:8px}
-.tabs button{flex:1;height:26px;border:0;border-radius:4px;background:transparent;font:inherit;font-size:12px;color:#5B574F;cursor:pointer}
-.tabs button.on{background:#FBF9F4;color:#1E1D1A;font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.08)}
-.hint{display:flex;align-items:center;gap:6px;font-size:11px;color:#A15C1F;background:#F6E9D8;border-radius:4px;padding:4px 8px;margin-bottom:8px}
+.tabs button{flex:1;height:28px;border:0;border-radius:4px;background:transparent;font:inherit;font-size:12px;color:#5B574F;cursor:pointer}
+.tabs button.on{background:#DCE3E8;color:#2C4A66;font-weight:600}
 .pages{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.pg{border:1px solid #DCD3C3;border-radius:4px;background:#fff;padding:6px;cursor:pointer;font:inherit;color:inherit;text-align:left;display:flex;flex-direction:column;gap:4px}
+.pg{border:1px solid #DCD3C3;border-radius:4px;background:#fff;padding:5px;cursor:pointer;font:inherit;color:inherit;text-align:left;display:flex;flex-direction:column;gap:3px}
 .pg.on{border-color:#2C4A66;box-shadow:0 0 0 1px #2C4A66}
-.pg i{display:block;height:70px;background:#FBF9F4;border:1px solid #EAE3D6;border-radius:2px;position:relative;overflow:hidden}
-.fl{display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:4px;cursor:pointer;border:0;background:transparent;font:inherit;color:inherit;width:100%;text-align:left}
-.fl.on{background:#E3E9EE}
-.st{font-size:11px;padding:1px 7px;border-radius:9px;background:#E6DFD2;color:#5B574F;margin-left:auto;white-space:nowrap}
-.st.doing{background:#DCE3E8;color:#2C4A66}.st.done{background:#DFE9DF;color:#3F6B4F}
-.grp{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;margin:6px 0 4px}
-.dv{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:4px;border:1px solid transparent}
+.pg i{display:block;height:64px;background:#FBF9F4;border:1px solid #EAE3D6;border-radius:2px;overflow:hidden}
+.fi{display:block;width:100%;height:34px;border:1px solid #DCD3C3;border-radius:4px;background:#FBF9F4;font:inherit;font-size:12px;text-align:left;padding:0 10px;margin-bottom:6px;cursor:pointer;color:#1E1D1A}
+.fi.on{border-color:#2C4A66;background:#E3E9EE}
+.grp{display:flex;align-items:center;gap:6px;margin:4px 0 2px}
+.role{display:inline-flex;align-items:center;gap:4px;height:22px;padding:0 8px;border-radius:4px;font-size:12px;font-weight:600}
+.role.p{background:#DCE3E8;color:#2C4A66}.role.s{background:#EADFEA;color:#6B4C7A}
+.hint{font-size:12px;color:#5B574F;margin:2px 0 6px}
+.dv{display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:5px;border:1px solid transparent;cursor:pointer;background:transparent;font:inherit;color:inherit;width:100%;text-align:left}
 .dv:hover{border-color:#DCD3C3;background:#FBF9F4}
-.th{width:30px;height:24px;border-radius:3px;background:#EFE9DE;display:flex;align-items:center;justify-content:center;flex:none}
-.canvas{flex:1;min-width:0;display:flex;align-items:center;justify-content:center;padding:20px;box-sizing:border-box}
-.sb{height:28px;display:flex;align-items:center;gap:14px;padding:0 12px;background:#F1ECE3;border-top:1px solid #DCD3C3;font-size:12px;color:#5B574F}
+.dv.on{background:#E3E9EE;border-color:#C6D2DC}
+.th{width:30px;height:26px;border-radius:4px;background:#EFE9DE;display:flex;align-items:center;justify-content:center;flex:none;color:#2C4A66}
+.tag{font-size:11px;padding:0 6px;border:1px solid #CFC6B5;border-radius:3px;color:#5B574F}
+.rp{position:absolute;right:10px;width:286px;background:#F6F2EA;border:1px solid #DCD3C3;border-radius:8px;overflow:hidden}
+.in{height:28px;border:1px solid #CFC6B5;border-radius:4px;background:#FBF9F4;padding:0 8px;font:inherit;font-size:12px;box-sizing:border-box}
+.qty{display:inline-flex;align-items:center;border:1px solid #CFC6B5;border-radius:4px;height:26px;background:#FBF9F4}
+.qty span{width:22px;text-align:center;font-size:12px}
+.sb{height:28px;display:flex;align-items:center;gap:12px;padding:0 12px;background:#F1ECE3;border-top:1px solid #DCD3C3;font-size:12px;color:#5B574F}
+.tog{width:30px;height:16px;border-radius:8px;background:#CFC6B5;display:inline-block;position:relative}
+.tog::after{content:'';position:absolute;left:2px;top:2px;width:12px;height:12px;border-radius:50%;background:#fff}
 </style>
 </helmet>
-<div style="font-family: 'Noto Sans SC', 'Microsoft YaHei', system-ui, sans-serif; color: #1E1D1A; font-size: 13px; line-height: 1.5; background: #E6DFD3; display: flex; flex-direction: column; height: 860px">
+<div style="font-family: 'Noto Sans SC', 'Microsoft YaHei', system-ui, sans-serif; color: #1E1D1A; font-size: 13px; line-height: 1.5; background: #E9E3D8; display: flex; flex-direction: column; height: 860px">
 <header class="tb">
 <span class="logo"><i></i>胥宇</span>
 <nav class="mods" aria-label="模块"><a class="mod" href="#">工作台</a><a class="mod" href="#">资料整理</a><a class="mod on" href="Editor.dc.html">绘图</a><a class="mod" href="#">绩效</a><a class="mod" href="Overview.dc.html">配置</a></nav>
 <span class="tbr">水墨 · 白天<span class="wc" aria-hidden="true"><span>─</span><span>☐</span><span>✕</span></span></span>
 </header>
 <div class="etb">
-<b>2F 平面图.pdf</b>
-<span class="lbl">方案 BIG（老店）</span>
-<span style="display: inline-flex; align-items: center; gap: 4px; margin-left: 8px"><button type="button" class="btn flat" aria-label="上一页" onClick="{{ prevPage }}">‹</button><span>第 {{ pageNo }} / 4 页</span><button type="button" class="btn flat" aria-label="下一页" onClick="{{ nextPage }}">›</button></span>
+<div style="display: flex; flex-direction: column; line-height: 1.3; margin-right: 10px"><b>2F 平面图.pdf</b><span class="lbl" style="font-size: 11px">成果目录：未设置 ▾</span></div>
+<button type="button" class="btn">方案 BIG（老店） ▾</button>
+<span style="display: inline-flex; border: 1px solid #CFC6B5; border-radius: 4px; background: #FBF9F4"><button type="button" class="btn flat" aria-label="上一页" onClick="{{ prevPage }}">‹</button><span style="display: flex; align-items: center; padding: 0 8px; font-size: 12px">第 {{ pageNo }} / 4 页</span><button type="button" class="btn flat" aria-label="下一页" onClick="{{ nextPage }}">›</button></span>
 <span style="flex: 1"></span>
-<button type="button" class="btn">点位说明</button>
-<button type="button" class="btn">设备汇总</button>
-<button type="button" class="btn">本文件样式</button>
+<button type="button" class="btn flat">点位说明</button>
+<button type="button" class="btn">设备汇总 <span class="badge">2</span> ▾</button>
+<button type="button" class="btn flat">文件样式</button>
+<button type="button" class="btn flat">图片大小</button>
 <button type="button" class="btn">打开图纸</button>
-<button type="button" class="btn">导出 PDF</button>
+<button type="button" class="btn">导出 PDF ▾</button>
 <button type="button" class="btn" aria-label="更多">⋯</button>
 <button type="button" class="btn pri">完成并下一份</button>
 </div>
-<div style="display: flex; flex: 1; min-height: 0">
-<div class="tools" aria-hidden="true">
-<span class="on"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3l14 9-6 1-3 6z"></path></svg></span>
-<span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 5h14M12 5v14"></path></svg></span>
-<span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 19L19 5M12 5h7v7"></path></svg></span>
-<span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="6" width="16" height="12"></rect></svg></span>
-<span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 18L18 4M7 15l2 2M10 12l2 2M13 9l2 2"></path></svg></span>
+<div style="position: relative; flex: 1; min-height: 0">
+<div class="rail" aria-hidden="true">
+<span>↶</span><span>↷</span><span class="on"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3l14 9-6 1-3 6z"></path></svg></span><span>T</span><span>↗</span><span>△</span><span>📏</span><span>⬠</span><span>⋮⋮</span><span>⧉</span><span>◉</span><span>☰</span><span>⚌</span><span>⚙</span><span>▯</span>
 </div>
-<div class="left">
-<section class="{{ filesCls }}" style="{{ filesStyle }}" aria-label="资料">
-<button type="button" class="ph" onClick="{{ activateFiles }}"><b>资料</b><span class="sum">{{ filesSum }}</span><span class="lbl">{{ filesArrow }}</span></button>
+
+<div class="col" style="left: 62px; width: 256px">
+<section class="{{ filesCls }}" style="{{ filesStyle }}" aria-label="资料" onMouseDown="{{ activateFiles }}">
+<div class="ph"><b>资料</b><span class="ic" aria-hidden="true"><span>📌</span><span>⌃</span><span>✕</span></span></div>
 <div class="pb">
 <div class="tabs"><sc-for list="{{ tabs }}" as="t" hint-placeholder-count="3"><button type="button" class="{{ t.cls }}" onClick="{{ t.pick }}">{{ t.label }}</button></sc-for></div>
-<sc-if value="{{ showHint }}" hint-placeholder-val="{{ true }}"><div class="hint">这份还没做完，先显示页面</div></sc-if>
 <sc-if value="{{ onPages }}" hint-placeholder-val="{{ true }}">
 <div class="pages">
 <sc-for list="{{ pages }}" as="p" hint-placeholder-count="4">
 <button type="button" class="{{ p.cls }}" onClick="{{ p.pick }}">
-<i><svg width="100%" height="100%" viewBox="0 0 100 70" preserveAspectRatio="none" aria-hidden="true"><path d="M8 8h84v54H8z M8 30h40 M60 8v54 M60 40h32" fill="none" stroke="#B8AE9C" stroke-width="1.5"></path></svg></i>
+<i><svg width="100%" height="100%" viewBox="0 0 100 64" preserveAspectRatio="none" aria-hidden="true"><path d="M8 8h84v48H8z M8 28h36 M58 8v48 M58 36h34" fill="none" stroke="#B8AE9C" stroke-width="1.5"></path></svg></i>
 <span style="font-size: 12px; font-weight: 600">第 {{ p.no }} 页</span>
-<span class="lbl">{{ p.meta }}</span>
+<span class="lbl" style="font-size: 11px">{{ p.meta }}</span>
 </button>
 </sc-for>
 </div>
 </sc-if>
 <sc-if value="{{ onFiles }}" hint-placeholder-val="{{ false }}">
-<sc-for list="{{ files }}" as="f" hint-placeholder-count="3">
-<button type="button" class="{{ f.cls }}"><span>{{ f.name }}</span><span class="{{ f.stCls }}">{{ f.st }}</span></button>
-</sc-for>
+<sc-for list="{{ files }}" as="f" hint-placeholder-count="3"><button type="button" class="{{ f.cls }}">{{ f.name }}<span class="lbl" style="float: right; line-height: 32px">{{ f.st }}</span></button></sc-for>
 </sc-if>
 <sc-if value="{{ onPoints }}" hint-placeholder-val="{{ false }}">
-<sc-for list="{{ points }}" as="q" hint-placeholder-count="6"><div class="fl"><span style="font-weight: 600">{{ q.label }}</span><span class="lbl" style="margin-left: auto">{{ q.cat }}</span></div></sc-for>
+<sc-for list="{{ points }}" as="q" hint-placeholder-count="3"><button type="button" class="fi">{{ q.label }}</button></sc-for>
 </sc-if>
 </div>
 </section>
-<section class="{{ devCls }}" style="{{ devStyle }}" aria-label="设备">
-<button type="button" class="ph" onClick="{{ activateDevices }}"><b>设备</b><span class="sum">{{ devSum }}</span><span class="lbl">{{ devArrow }}</span></button>
+
+<section class="{{ devCls }}" style="{{ devStyle }}" aria-label="设备" onMouseDown="{{ activateDevices }}">
+<div class="ph"><b>设备</b><span class="lbl">BIG（老店）</span><span class="ic" aria-hidden="true"><span>📌</span><span>⌃</span><span>✕</span></span></div>
 <div class="pb">
-<div class="grp"><span style="color: #2C4A66">●</span>点位设备<span class="lbl" style="font-weight: 400">点一下开始连续放置</span></div>
+<div class="grp"><span class="role p">● 点位设备</span><span class="lbl" style="margin-left: auto; font-weight: 600; color: #1E1D1A">3 项</span></div>
+<div class="hint">点一下开始连续放置</div>
 <sc-for list="{{ devs }}" as="d" hint-placeholder-count="3">
-<div class="dv"><span class="th"><svg width="22" height="16" viewBox="0 0 70 50" fill="none" stroke="#3A372F" stroke-width="3" aria-hidden="true"><path d="M8 22h54"></path><path d="M12 22a23 23 0 0 0 46 0"></path><circle cx="35" cy="30" r="7"></circle></svg></span><span style="flex: 1; min-width: 0"><span style="display: block; font-weight: 600; font-size: 12px">{{ d.name }}</span><span class="lbl">{{ d.cat }}</span></span><span class="lbl">已放 <b style="color: #1E1D1A">{{ d.n }}</b></span></div>
+<button type="button" class="{{ d.cls }}" onClick="{{ d.pick }}"><span class="th"><svg width="20" height="12" viewBox="0 0 40 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="10" cy="12" r="7"></circle><path d="M17 12h18M29 6l6 6-6 6"></path></svg></span><span style="flex: 1; min-width: 0"><span style="display: block; font-weight: 600; font-size: 12px">{{ d.name }}</span><span class="lbl" style="font-size: 11px">{{ d.cat }}</span></span><span class="lbl">已放 <b style="color: #1E1D1A">{{ d.n }}</b></span></button>
 </sc-for>
-<div class="grp" style="margin-top: 10px"><span style="color: #6B4C7A">■</span>汇总设备<span class="lbl" style="font-weight: 400">组合：带录像机</span></div>
-<div class="dv"><span class="th"><svg width="22" height="14" viewBox="0 0 80 46" fill="none" stroke="#3A372F" stroke-width="3" aria-hidden="true"><rect x="6" y="10" width="68" height="26" rx="3"></rect></svg></span><span style="flex: 1; font-weight: 600; font-size: 12px">录像机 NVR</span><span class="lbl">× 1 台</span></div>
+<div class="grp" style="margin-top: 8px"><span class="role s">■ 汇总设备</span><span class="lbl" style="margin-left: auto; font-weight: 600; color: #1E1D1A">1 项</span></div>
+<div class="hint">不放点位，只进汇总图例</div>
+<div class="dv"><span class="th" style="color: #6B4C7A"><svg width="20" height="12" viewBox="0 0 40 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><rect x="3" y="5" width="34" height="14" rx="2"></rect></svg></span><span style="flex: 1; min-width: 0"><span style="display: block; font-weight: 600; font-size: 12px">录像机</span><span class="lbl" style="font-size: 11px">模板 1 台</span></span><span class="lbl">× <b style="color: #1E1D1A">1</b> 台</span><span class="tag">模板</span></div>
+<div class="lbl" style="border-top: 1px solid #E6DFD2; margin-top: 10px; padding-top: 8px">› 常用设备组合</div>
 </div>
 </section>
 </div>
-<div class="canvas">
-<div style="width: 640px; max-width: 100%; aspect-ratio: 1.42; background: #fff; box-shadow: 0 6px 24px rgba(30,29,26,.15); position: relative">
-<svg width="100%" height="100%" viewBox="0 0 640 450" aria-hidden="true"><g fill="none" stroke="#9A9386" stroke-width="2"><rect x="40" y="40" width="560" height="370"></rect><path d="M40 200h220M260 40v170M260 260v150M380 40v120M380 220v190M380 300h220"></path></g><g fill="none" stroke="#2C4A66" stroke-width="2.5"><circle cx="150" cy="120" r="9"></circle><circle cx="320" cy="320" r="9"></circle><circle cx="500" cy="110" r="9"></circle></g><g font-size="12" font-weight="700" fill="#1E1D1A" text-anchor="middle"><text x="150" y="146">客流1</text><text x="320" y="346">客流2</text><text x="500" y="136">监控1</text></g><text x="560" y="436" font-size="12" fill="#8A8478" text-anchor="end">第 {{ pageNo }} 页</text></svg>
+
+<div style="position: absolute; left: 330px; right: 310px; top: 10px; bottom: 10px; display: flex; align-items: center; justify-content: center">
+<div style="width: 92%; max-width: 560px; aspect-ratio: 0.72; background: #fff; box-shadow: 0 6px 24px rgba(30,29,26,.15)">
+<svg width="100%" height="100%" viewBox="0 0 400 556" aria-hidden="true"><g fill="none" stroke="#9A9386" stroke-width="1.6"><rect x="30" y="40" width="340" height="470"></rect><path d="M30 220h160M190 40v190M190 290v220M280 40v150M280 260v250M280 380h90"></path></g><g fill="none" stroke="#2C4A66" stroke-width="2"><circle cx="110" cy="120" r="8"></circle><path d="M118 120h14m-5-5l5 5-5 5"></path><circle cx="240" cy="420" r="8"></circle><path d="M248 420h14m-5-5l5 5-5 5"></path></g><g font-size="11" font-weight="700" fill="#1E1D1A" text-anchor="middle"><text x="112" y="144">Cam1</text><text x="242" y="444">Cam2</text></g></svg>
+</div>
+<div style="position: absolute; right: 0; bottom: 0; display: flex; align-items: center; gap: 14px; background: #F6F2EA; border: 1px solid #DCD3C3; border-radius: 6px; padding: 4px 12px; font-size: 12px"><span>–</span><span>100%</span><span>+</span><span style="color: #8A8478">|</span><span>适配</span></div>
+</div>
+
+<div class="rp" style="top: 10px; height: 330px">
+<div class="ph"><b>属性</b><span class="ic" aria-hidden="true"><span>📌</span><span>⌃</span><span>✕</span></span></div>
+<div style="padding: 10px 12px; display: flex; flex-direction: column; gap: 8px; font-size: 12px">
+<span class="lbl">监控点位</span>
+<span class="lbl">旋转</span>
+<div style="display: flex; gap: 6px"><input class="in" style="flex: 1" value="0" aria-label="旋转"><button type="button" class="btn" aria-label="旋转 90 度">⟳</button><button type="button" class="btn" aria-label="水平镜像">⇋</button><button type="button" class="btn" aria-label="垂直翻转">⇵</button></div>
+<b style="font-size: 13px; margin-top: 4px">标注</b>
+<span class="lbl">点位编号 / 标注内容</span>
+<input class="in" value="Cam1" aria-label="点位编号">
+<div style="display: flex; gap: 16px"><label><input type="checkbox" checked> 自动编号</label><label><input type="checkbox" checked> 显示图片标注</label></div>
+<div style="display: flex; gap: 8px"><label style="flex: 1" class="lbl">编号偏移 X<input class="in" style="width: 100%" value="0"></label><label style="flex: 1" class="lbl">编号偏移 Y<input class="in" style="width: 100%" value="0"></label></div>
+</div>
+</div>
+<div class="rp" style="top: 350px; bottom: 10px">
+<div class="ph"><b>汇总清单</b><span class="lbl">BIG（老店）</span><span class="ic" aria-hidden="true"><span>📌</span><span>⌃</span><span>✕</span></span></div>
+<div style="padding: 6px 12px; font-size: 12px">
+<div style="display: flex; color: #5B574F; padding: 4px 0; border-bottom: 1px solid #E6DFD2"><span style="flex: 1">设备</span><span>数量</span></div>
+<div style="display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px solid #E6DFD2"><span style="flex: 1"><b>点位摄像机</b><br><span class="lbl">客流 · 点位</span></span><span class="qty"><span>−</span><span>2</span><span>+</span></span>台</div>
+<div style="display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px solid #E6DFD2"><span style="flex: 1"><b>录像机</b><br><span class="lbl">汇总设备 · 模板</span></span><span class="qty"><span>−</span><span>1</span><span>+</span></span>台</div>
+<div class="lbl" style="margin: 8px 0">2 项待更新</div>
+<div style="display: flex; gap: 6px"><button type="button" class="btn">＋ 添加设备</button><button type="button" class="btn" aria-label="汇总设置">⚙</button><button type="button" class="btn" aria-label="刷新">↻</button><span style="flex: 1"></span><button type="button" class="btn pri">全部放到图上</button></div>
 </div>
 </div>
 </div>
-<div class="sb"><span>已保存 · 10:21</span><span>比例 1:100</span><span style="flex: 1"></span><span>整体 100%</span><span>第 {{ pageNo }} / 4 页</span></div>
+<div class="sb"><span><b style="color: #1E1D1A">已保存</b> 上次保存 10:21</span><span>比例 · 未校准</span><span style="display: inline-flex; align-items: center; gap: 6px">吸附 <span class="tog"></span></span><span style="flex: 1"></span><span>整体 100%</span><span>{{ pageNo }}/4 页</span><span>?</span></div>
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"fileDone":{"editor":"boolean","default":false},"$preview":{"width":1280,"height":860}}'>
 class Component extends DCLogic {
   constructor(props) {
     super(props);
-    this.state = { active: 'files', tab: null, page: 2 };
+    this.state = { active: 'files', tab: null, page: 2, dev: 0 };
   }
   renderVals() {
     const s = this.state;
     const done = this.props.fileDone ?? false;
     const tab = s.tab ?? (done ? 'files' : 'pages');
     const filesAct = s.active === 'files';
-    const grow = (on) => 'flex:' + (on ? '1 1 40px' : '0.0001 1 40px') + ';opacity:' + (on ? 1 : 0.62);
+    const grow = (on) => 'flex-grow:' + (on ? 3 : 1) + ';flex-shrink:1;flex-basis:0';
     return {
       pageNo: s.page,
       prevPage: () => this.setState({ page: Math.max(1, s.page - 1) }),
       nextPage: () => this.setState({ page: Math.min(4, s.page + 1) }),
-      filesCls: filesAct ? 'pn act' : 'pn',
-      devCls: filesAct ? 'pn' : 'pn act',
+      filesCls: filesAct ? 'pn act' : 'pn dim',
+      devCls: filesAct ? 'pn dim' : 'pn act',
       filesStyle: grow(filesAct),
       devStyle: grow(!filesAct),
-      filesArrow: filesAct ? '' : '展开',
-      devArrow: filesAct ? '展开' : '',
-      activateFiles: () => this.setState({ active: 'files' }),
-      activateDevices: () => this.setState({ active: 'devices' }),
-      filesSum: filesAct ? '2F 平面图 · ' + (done ? '已完成' : '未完成') : '2F 平面图 · 第 ' + s.page + '/4 页',
-      devSum: filesAct ? '点位 3 种 · 汇总 1 种' : '',
-      tabs: [['files', '文件'], ['pages', '页面'], ['points', '点位']].map(([v, label]) => ({ label, cls: tab === v ? 'on' : '', pick: () => this.setState({ tab: v, active: 'files' }) })),
-      showHint: !done && tab === 'pages' && s.tab == null,
+      activateFiles: () => { if (s.active !== 'files') this.setState({ active: 'files' }); },
+      activateDevices: () => { if (s.active !== 'devices') this.setState({ active: 'devices' }); },
+      tabs: [['files', '文件'], ['pages', '页面'], ['points', '点位']].map(([v, label]) => ({ label, cls: tab === v ? 'on' : '', pick: () => this.setState({ tab: v }) })),
       onPages: tab === 'pages', onFiles: tab === 'files', onPoints: tab === 'points',
-      pages: [1, 2, 3, 4].map((no) => ({ no, meta: ['3 个点位', '3 个点位 · 当前', '还没放点', '还没放点'][no - 1].replace(' · 当前', no === s.page ? ' · 当前' : ''), cls: no === s.page ? 'pg on' : 'pg', pick: () => this.setState({ page: no }) })),
-      files: [['1F 平面图.pdf', '已完成', 'st done'], ['2F 平面图.pdf', done ? '已完成' : '进行中', done ? 'st done' : 'st doing'], ['3F 平面图.pdf', '未开始', 'st']].map(([name, st, stCls], i) => ({ name, st, stCls, cls: i === 1 ? 'fl on' : 'fl' })),
-      points: [['客流1', '客流'], ['客流2', '客流'], ['监控1', '卖场监控']].map(([label, cat]) => ({ label, cat })),
-      devs: [['点位摄像机', '客流', 2], ['D6PS-1 半球', '卖场监控', 1], ['枪机 BX-2', '卖场监控', 0]].map(([name, cat, n]) => ({ name, cat, n }))
+      pages: [1, 2, 3, 4].map((no) => ({ no, meta: no === s.page ? '当前 · 2 个点位' : no === 1 ? '3 个点位' : '还没放点', cls: no === s.page ? 'pg on' : 'pg', pick: () => this.setState({ page: no }) })),
+      files: [['1F 平面图.pdf', '已完成'], ['2F 平面图.pdf', done ? '已完成' : '进行中'], ['3F 平面图.pdf', '未开始']].map(([name, st], i) => ({ name, st, cls: i === 1 ? 'fi on' : 'fi' })),
+      points: ['Cam1', 'Cam2'].map((label) => ({ label })),
+      devs: [['点位摄像机', '客流', 2], ['D6PS-1 半球', '卖场监控', 0], ['枪机 BX-2', '卖场监控', 0]].map(([name, cat, n], i) => ({ name, cat, n, cls: s.dev === i ? 'dv on' : 'dv', pick: () => this.setState({ dev: i }) }))
     };
   }
 }
