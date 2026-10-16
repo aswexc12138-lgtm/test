@@ -31,11 +31,21 @@ a{color:#2C4A66}
 .rail span{width:30px;height:30px;border-radius:5px;display:flex;align-items:center;justify-content:center;color:#5B574F}
 .rail span.on{background:#DCE3E8;color:#2C4A66}
 .col{position:absolute;top:10px;bottom:10px}
-.pn{position:absolute;left:0;right:0;display:flex;flex-direction:column;overflow:hidden;background:#F6F2EA;border:1px solid #DCD3C3;border-radius:8px;box-sizing:border-box;transition:top .5s cubic-bezier(.34,1.3,.64,1),height .5s cubic-bezier(.34,1.3,.64,1),opacity .35s ease,filter .35s ease}
-@keyframes lift{0%{transform:none}35%{transform:translateY(-8px) scale(1.012)}100%{transform:none}}
-@keyframes kick{0%{transform:none}40%{transform:translateY(14px)}100%{transform:none}}
-.pn.act{box-shadow:0 6px 18px rgba(30,29,26,.12);animation:lift .45s ease-out}
-.pn.dim{opacity:.5;filter:saturate(.7);animation:kick .5s ease-out}
+.pn{position:absolute;left:0;right:0;display:flex;flex-direction:column;overflow:hidden;background:#F6F2EA;border:1px solid #DCD3C3;border-radius:8px;box-sizing:border-box;transition:opacity .35s ease,filter .35s ease}
+.pf{top:0;transform-origin:top center}
+.pd{bottom:0;transform-origin:bottom center}
+.pn.big{height:calc(72% - 5px);z-index:2}
+.pn.small{height:calc(28% - 5px);z-index:1}
+.anim .pf.big{animation:fGrow .75s linear both}
+.anim .pd.small{animation:dPushed .75s linear both}
+.anim .pd.big{animation:dGrow .75s linear both}
+.anim .pf.small{animation:fPushed .75s linear both}
+@keyframes fGrow{0%{height:calc(28% - 5px)}28%{height:calc(28% - 19px);border-bottom-left-radius:50% 22px;border-bottom-right-radius:50% 22px}62%{height:calc(72% + 4px);border-bottom-left-radius:50% 6px;border-bottom-right-radius:50% 6px}80%{height:calc(72% - 10px);border-bottom-left-radius:8px;border-bottom-right-radius:8px}100%{height:calc(72% - 5px)}}
+@keyframes dPushed{0%{height:calc(72% - 5px)}31%{height:calc(72% - 5px)}62%{height:calc(28% - 6px);transform:scaleY(.95);border-top-left-radius:50% 12px;border-top-right-radius:50% 12px}80%{height:calc(28% + 2px);transform:scaleY(1.01);border-top-left-radius:8px;border-top-right-radius:8px}100%{height:calc(28% - 5px);transform:none}}
+@keyframes dGrow{0%{height:calc(28% - 5px)}28%{height:calc(28% - 19px);border-top-left-radius:50% 22px;border-top-right-radius:50% 22px}62%{height:calc(72% + 4px);border-top-left-radius:50% 6px;border-top-right-radius:50% 6px}80%{height:calc(72% - 10px);border-top-left-radius:8px;border-top-right-radius:8px}100%{height:calc(72% - 5px)}}
+@keyframes fPushed{0%{height:calc(72% - 5px)}31%{height:calc(72% - 5px)}62%{height:calc(28% - 6px);transform:scaleY(.95);border-bottom-left-radius:50% 12px;border-bottom-right-radius:50% 12px}80%{height:calc(28% + 2px);transform:scaleY(1.01);border-bottom-left-radius:8px;border-bottom-right-radius:8px}100%{height:calc(28% - 5px);transform:none}}
+.pn.act{box-shadow:0 6px 18px rgba(30,29,26,.12)}
+.pn.dim{opacity:.5;filter:saturate(.7)}
 .pn.dim:hover{opacity:.7}
 .ph{height:38px;flex:none;display:flex;align-items:center;gap:6px;padding:0 10px 0 12px;border-bottom:1px solid #E6DFD2}
 .ph b{font-size:13px}
@@ -94,7 +104,7 @@ a{color:#2C4A66}
 <span>↶</span><span>↷</span><span class="on"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3l14 9-6 1-3 6z"></path></svg></span><span>T</span><span>↗</span><span>△</span><span>📏</span><span>⬠</span><span>⋮⋮</span><span>⧉</span><span>◉</span><span>☰</span><span>⚌</span><span>⚙</span><span>▯</span>
 </div>
 
-<div class="col" style="left: 62px; width: 256px">
+<div class="{{ colCls }}" style="left: 62px; width: 256px">
 <section class="{{ filesCls }}" style="{{ filesStyle }}" aria-label="资料" onMouseDown="{{ activateFiles }}">
 <div class="ph"><b>资料</b><span class="ic" aria-hidden="true"><span>📌</span><span>⌃</span><span>✕</span></span></div>
 <div class="pb">
@@ -169,7 +179,7 @@ a{color:#2C4A66}
 <div class="sb"><span><b style="color: #1E1D1A">已保存</b> 上次保存 10:21</span><span>比例 · 未校准</span><span style="display: inline-flex; align-items: center; gap: 6px">吸附 <span class="tog"></span></span><span style="flex: 1"></span><span>整体 100%</span><span>{{ pageNo }}/4 页</span><span>?</span></div>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"fileDone":{"editor":"boolean","default":false},"swap":{"editor":"boolean","default":true},"$preview":{"width":1280,"height":860}}'>
+<script type="text/x-dc" data-dc-script data-props='{"fileDone":{"editor":"boolean","default":false},"$preview":{"width":1280,"height":860}}'>
 class Component extends DCLogic {
   constructor(props) {
     super(props);
@@ -180,24 +190,19 @@ class Component extends DCLogic {
     const done = this.props.fileDone ?? false;
     const tab = s.tab ?? (done ? 'files' : 'pages');
     const filesAct = s.active === 'files';
-    // Clicking inside a panel lifts it a little and kicks the other one down out of the way (squeezed, not covered).
-    // swap on: the clicked panel moves to the top; swap off: order stays, only the sizes change.
-    const swap = this.props.swap ?? true;
-    const box = (on, isFiles) => {
-      const first = swap ? on : isFiles;
-      const top = first ? '0' : 'calc(' + (on ? '28%' : '72%') + ' + 5px)';
-      return 'top:' + top + ';height:' + (on ? 'calc(72% - 5px)' : 'calc(28% - 5px)') + ';z-index:' + (on ? 2 : 1);
-    };
+    // Positions are fixed (资料 on top, 设备 below). Clicking inside a panel moves the shared edge: it first
+    // lifts back in an arc, then swings across and collides with the other panel, which is squashed and settles.
     return {
       pageNo: s.page,
       prevPage: () => this.setState({ page: Math.max(1, s.page - 1) }),
       nextPage: () => this.setState({ page: Math.min(4, s.page + 1) }),
-      filesCls: filesAct ? 'pn act' : 'pn dim',
-      devCls: filesAct ? 'pn dim' : 'pn act',
-      filesStyle: box(filesAct, true),
-      devStyle: box(!filesAct, false),
-      activateFiles: () => { if (s.active !== 'files') this.setState({ active: 'files' }); },
-      activateDevices: () => { if (s.active !== 'devices') this.setState({ active: 'devices' }); },
+      colCls: s.moved ? 'col anim' : 'col',
+      filesCls: filesAct ? 'pn pf big act' : 'pn pf small dim',
+      devCls: filesAct ? 'pn pd small dim' : 'pn pd big act',
+      filesStyle: '',
+      devStyle: '',
+      activateFiles: () => { if (s.active !== 'files') this.setState({ active: 'files', moved: true }); },
+      activateDevices: () => { if (s.active !== 'devices') this.setState({ active: 'devices', moved: true }); },
       tabs: [['files', '文件'], ['pages', '页面'], ['points', '点位']].map(([v, label]) => ({ label, cls: tab === v ? 'on' : '', pick: () => this.setState({ tab: v }) })),
       onPages: tab === 'pages', onFiles: tab === 'files', onPoints: tab === 'points',
       pages: [1, 2, 3, 4].map((no) => ({ no, meta: no === s.page ? '当前 · 2 个点位' : no === 1 ? '3 个点位' : '还没放点', cls: no === s.page ? 'pg on' : 'pg', pick: () => this.setState({ page: no }) })),
