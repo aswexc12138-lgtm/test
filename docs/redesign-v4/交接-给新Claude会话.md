@@ -4,6 +4,19 @@
 
 ---
 
+## 〇、最新状态（2026-10-18，先看这一节）
+
+- **v4.1 界面改版已完成**：xuyu `dev` 到 `b6ee2f5`（导入提交 `06e4439`）。方案包在本分支 `docs/redesign-v4.1/`：`00-规则.md`、`01-规格.md`（V-01–V-28，含 V-13 手工设备 `manualItems` 补充和“最终全量 e2e 跑一遍”补充）、`phase-scope.json`、`界面问题清单.md`（第六节原有功能对照表）、`设计稿/`（`.dc.html` 源文件 + 15 张截图）。设计画布 Artifact：https://claude.ai/artifact/PmTR3V3WpVLj5diyEbYVgf
+- **Claude 审计 v4.1：通过**（2026-10-18）。diff-guard / wiring-check（179 文件）/ trace-check 全阶段、typecheck 自己重跑都过；单测 11 条失败全是本容器环境（时区用 `TZ=Asia/Shanghai`、主题对比度要临时补 `PLAYWRIGHT_BROWSERS_PATH` 指向 chromium-1194、一条 Windows 路径老测试）。逐条看过被改的老断言，都是按规格换成同等检查。唯一失败 cad-native:10（用户电脑没装 ODA，基线同样失败）。
+- **交付**：Preview 33 / Build 261016.01，安装包只在用户那台电脑 `D:\my-projects\delivery\preview\`。未发布。
+- **待办**：
+  1. 用户真机验收 Preview 33（左侧联动动画手感、吸管取色、150%/200% 缩放、汇总组合里旧常用组合还在、方案编辑器 5 页、快捷键页）。建议先用 `win-unpacked\XUYU.exe` + 图纸副本，别急着装 Setup.exe。
+  2. 用户在源码 Preview 上见过一次“画面只画在窗口左上角约 970×715、其余空白、顶部模块栏被裁”。原因未定（疑似缩放/换屏后没重绘）。等用户回答：最大化再还原能否恢复、何时出现、显示缩放多少；复现频繁就让 Codex 查（指令见本次对话记录：比对 getContentBounds 与 innerWidth/devicePixelRatio）。
+  3. 协调仓历史 check/seal 两项（Session 编号不连续、旧 WORKLOG 封存指纹）待用户决定是否单独整理；Claude 建议下次开工时单独整理一次。
+  4. 装上 ODA 后复验 cad-native:10。
+  5. 没开始的：G-02 品牌标识（等用户给「品牌标识.html」第三版）、资料整理 / 绩效两页布局（M1、M2，要先出设计稿）、CAD 单独版本（草稿在 `docs/cad-v1/`）。
+- **用户在换电脑**：协调仓规则是“我要换电脑”→ Codex 跑 `switch-device`；新电脑第一次跑 `bootstrap`，之后说“继续”→ `resume`。
+
 ## 一、项目和各方角色
 
 - **产品**：胥宇 / XUYU，Windows 桌面软件（Electron + React + Konva），用来在图纸上布监控点位、汇总设备、导出 PDF，以及季度资料整理、绩效。用户是唯一的开发负责人，中文交流，懂一些技术但不写代码。
