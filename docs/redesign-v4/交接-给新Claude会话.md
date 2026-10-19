@@ -15,7 +15,8 @@
   3. 协调仓历史 check/seal 两项（Session 编号不连续、旧 WORKLOG 封存指纹）待用户决定是否单独整理；Claude 建议下次开工时单独整理一次。
   4. 装上 ODA 后复验 cad-native:10。
   5. 没开始的：G-02 品牌标识（等用户给「品牌标识.html」第三版）、资料整理 / 绩效两页布局（M1、M2，要先出设计稿）、CAD 单独版本（草稿在 `docs/cad-v1/`）。
-- **用户在换电脑**：协调仓规则是“我要换电脑”→ Codex 跑 `switch-device`；新电脑第一次跑 `bootstrap`，之后说“继续”→ `resume`。
+- **换电脑（2026-10-18/19）已完成**：用户现在在 `WIN-MOMCDB7BJMT`（9 月就搭过同步的那台，仓库在 `E:\my_project\tuzhi`，时区 +07:00）。协调仓 `coordination @ 1ab285a`，本机 WIP 由 `checkpoint/win-momcdb7bjmt @ 853f8e5` 保护，WORKLOG 到 Session 100。旧电脑是 `desktop-o1a6epq`。规则：从哪台离开就在哪台跑 `switch-device`，另一台跑 `resume`；离开的那台不再干活。
+- **Preview 33 已在线发布**（用户授权，旧电脑在换机后做的，记录在协调仓 `records/xuyu-preview33-public-2026.10.18/`）：更新服务器 updates.momonganest.top，SHA256 `b824695e…8688`，公告里写了“窗口只绘制在左上角”的已知情况。同事会收到更新提示。用户这台已从 Preview 26 升到 33，旧数据按设计保留。
 
 ## 一、项目和各方角色
 
