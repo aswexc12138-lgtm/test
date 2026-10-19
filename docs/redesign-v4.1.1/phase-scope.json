@@ -1,0 +1,55 @@
+{
+  "$comment": "v4.1.1 修复版。用法同 v4.1：run-gates 带 --scope docs/redesign-v4.1.1/phase-scope.json --trace docs/redesign-v4.1.1/traceability.json --out docs/redesign-v4.1.1/reports/gates --wiring-base <导入提交>。要改范围外的文件，满足 v4.1 00-规则第二节五个条件就自己登记 scopeRevision、单独 docs 提交后继续，否则停下问。always 对所有阶段都允许。",
+  "always": ["tests/**", "fixtures/**", "docs/redesign-v4.1.1/reports/**", "docs/redesign-v4.1.1/traceability.json"],
+  "phases": {
+    "F1": {
+      "title": "今天清单、完成的判定、完成并下一份、已完成图纸重新应用方案",
+      "ids": ["B-01", "B-02", "B-03", "B-04", "B-05", "B-06"],
+      "ui": ["B-01", "B-02", "B-03", "B-04", "B-05", "B-06"],
+      "allow": [
+        "src/renderer/App.tsx",
+        "src/core/today-queue.ts",
+        "src/core/export-status.ts",
+        "src/core/drawing-schemes.ts",
+        "src/core/batch-queue.ts",
+        "src/core/keyboard-shortcuts.ts",
+        "src/renderer/components/BatchQueuePanel.tsx",
+        "src/renderer/components/BatchExportResult.tsx",
+        "src/renderer/components/ui/**",
+        "src/renderer/feedback/**",
+        "src/renderer/*.css",
+        "src/renderer/styles/**"
+      ]
+    },
+    "F2": {
+      "title": "切回文件回到原来那页、翻页不闪不重画",
+      "ids": ["B-07", "B-08"],
+      "ui": ["B-07", "B-08"],
+      "allow": [
+        "src/renderer/App.tsx",
+        "src/renderer/components/FloorPlanCanvas.tsx",
+        "src/renderer/components/PagePanel.tsx",
+        "src/renderer/pdf-raster-cache.ts",
+        "src/renderer/pdf-document-cache.ts",
+        "src/renderer/drawing-view-state.ts",
+        "src/renderer/*.css",
+        "src/renderer/styles/**"
+      ]
+    },
+    "F3": {
+      "title": "补上 v4 规格里没接的小动效",
+      "ids": ["B-09", "B-10", "B-11"],
+      "ui": ["B-09", "B-10", "B-11"],
+      "allow": [
+        "src/renderer/components/FloorPlanCanvas.tsx",
+        "src/renderer/components/DevicePanel.tsx",
+        "src/renderer/components/SummaryList.tsx",
+        "src/renderer/components/PagePanel.tsx",
+        "src/renderer/feedback/**",
+        "src/renderer/App.tsx",
+        "src/renderer/*.css",
+        "src/renderer/styles/**"
+      ]
+    }
+  }
+}
