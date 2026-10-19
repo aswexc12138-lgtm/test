@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>水墨方向三 · 书法</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;600;700&amp;family=Ma+Shan+Zheng&amp;family=Long+Cang&amp;family=Liu+Jian+Mao+Cao&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:inherit}a:hover{color:inherit}
+.scr{--bg:#F6F3EB;--bg2:#EEE9DE;--paper:#FCFAF5;--ink:#121110;--ink2:#6E685E;--line:#E2DBCD;--sel:rgba(18,17,16,.055);--canvas:#EEE9DF;--deco:#121110;--tab-on:#121110;--accent:#121110;--accent-ink:#FCFAF5;--seal:#B32D24;--title-font:'Ma Shan Zheng',cursive;--tab-font:'Ma Shan Zheng',cursive;--tab-size:21px;--title-size:20px;--body-font:'Noto Sans SC',sans-serif;--num-font:'Ma Shan Zheng',cursive;--num-size:21px;--r:0px;width:1280px;height:1100px;background:var(--bg);color:var(--ink);font-family:var(--body-font);font-size:13px;line-height:1.45;position:relative;overflow:hidden}
+.scr.night{--bg:#0F0E0D;--bg2:#0B0A09;--paper:#171614;--ink:#F0EADF;--ink2:#9F988B;--line:#2F2B26;--sel:rgba(201,168,106,.10);--canvas:#131210;--deco:#F0EADF;--tab-on:#C9A86A;--accent:#C9A86A;--accent-ink:#0F0E0D;--seal:#C43B2F}
+.app{position:relative;height:800px;display:flex;flex-direction:column;overflow:hidden}
+.bgdeco{position:absolute;inset:0;pointer-events:none;z-index:0;color:var(--deco)}
+.tb{position:relative;z-index:2;height:48px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 16px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700}
+.mods{display:flex;gap:2px}
+.mod{position:relative;z-index:0;height:48px;padding:0 15px;display:flex;align-items:center;color:var(--ink2);text-decoration:none;font-family:var(--tab-font);font-size:var(--tab-size)}
+.mod.on{color:var(--tab-on)}
+.tabdeco{position:absolute;pointer-events:none;z-index:-1}
+.tbr{justify-self:end;display:flex;align-items:center;gap:18px;color:var(--ink2);font-size:12px}
+.wc{display:inline-flex;gap:20px}
+.etb{position:relative;z-index:2;height:52px;display:flex;align-items:center;gap:8px;padding:0 16px}
+.fname{display:flex;flex-direction:column;line-height:1.25;margin-right:6px}
+.fname strong{font-size:14px}
+.fname small{color:var(--ink2);font-size:11px}
+.btn{height:30px;padding:0 11px;border:1px solid var(--line);border-radius:var(--r);background:var(--paper);color:var(--ink);font:inherit;font-size:12px;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;cursor:pointer}
+.btn.flat{border-color:transparent;background:transparent}
+.pri{position:relative;z-index:0;border:0;background:transparent;cursor:pointer;white-space:nowrap}
+.spacer{flex:1}
+.body{position:relative;z-index:1;flex:1;min-height:0;display:flex;gap:10px;padding:8px 12px 10px}
+.rail{width:40px;flex:none;align-self:flex-start;padding:6px 0;background:var(--paper);border:1px solid var(--line);border-radius:var(--r);display:flex;flex-direction:column;align-items:center;gap:4px}
+.ri{width:30px;height:30px;border-radius:var(--r);display:flex;align-items:center;justify-content:center;color:var(--ink2)}
+.ri.on{background:var(--sel);color:var(--ink)}
+.col,.rc{width:258px;flex:none;display:flex;flex-direction:column;gap:10px;min-height:0}
+.pn{position:relative;background:var(--paper);border:1px solid var(--line);border-radius:var(--r);display:flex;flex-direction:column;overflow:hidden;min-height:0}
+.pn.big{flex:0 0 62%}
+.pn.small{flex:1;opacity:.62}
+.ph{position:relative;height:40px;flex:none;display:flex;align-items:center;gap:8px;padding:0 12px;border-bottom:1px solid var(--line)}
+.ph .t{position:relative;z-index:1;font-family:var(--title-font);font-size:var(--title-size);color:var(--ink)}
+.ph .sub{position:relative;z-index:1;color:var(--ink2);font-size:11px}
+.ph .ic{margin-left:auto;display:flex;gap:10px;color:var(--ink2);font-size:12px}
+.pb{padding:8px 10px;display:flex;flex-direction:column;gap:4px;min-height:0}
+.tabs{display:flex;gap:2px;padding:2px;border-radius:var(--r);background:var(--sel);margin-bottom:6px}
+.tabs span{flex:1;height:26px;display:flex;align-items:center;justify-content:center;border-radius:var(--r);color:var(--ink2);font-size:12px}
+.tabs span.on{background:var(--paper);color:var(--ink);font-weight:600}
+.row{position:relative;z-index:0;display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:var(--r)}
+.row .nm{flex:1;min-width:0}
+.row .nm b{display:block;font-weight:600;font-size:12.5px}
+.row .nm small{display:block;color:var(--ink2);font-size:11px}
+.row .n{font-family:var(--num-font);font-size:var(--num-size);color:var(--ink)}
+.row.sel{background:var(--sel)}
+.done{position:relative;width:22px;height:22px;flex:none;display:inline-flex;align-items:center;justify-content:center}
+.thumb{width:28px;height:28px;flex:none;border-radius:var(--r);background:var(--sel);display:flex;align-items:center;justify-content:center;color:var(--ink2)}
+.cv{position:relative;flex:1;min-width:0;border-radius:var(--r);background:var(--canvas);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.cvdeco{position:absolute;inset:0;pointer-events:none;color:var(--deco)}
+.sheet{position:relative;z-index:1;background:#fff;padding:6px;box-shadow:0 8px 26px rgba(20,18,14,.16)}
+.zoom{position:absolute;right:10px;bottom:10px;z-index:2;display:flex;gap:14px;align-items:center;padding:4px 12px;background:var(--paper);border:1px solid var(--line);border-radius:var(--r);font-size:12px;color:var(--ink2)}
+.sel-combo{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink2);margin-bottom:4px}
+.sel-combo span{flex:1;height:28px;display:flex;align-items:center;justify-content:space-between;padding:0 8px;border:1px solid var(--line);border-radius:var(--r);color:var(--ink);background:var(--paper)}
+.qty{display:flex;align-items:center;gap:6px}
+.qty i{font-style:normal;width:22px;height:22px;border:1px solid var(--line);border-radius:var(--r);display:flex;align-items:center;justify-content:center;color:var(--ink2)}
+.sb{position:relative;z-index:2;height:30px;flex:none;display:flex;align-items:center;gap:16px;padding:0 16px;font-size:12px;color:var(--ink2)}
+.sb b{color:var(--ink)}
+.strip{position:relative;height:300px;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;padding:14px 16px 16px;box-sizing:border-box;background:var(--bg2);border-top:1px solid var(--line)}
+.cell{position:relative;z-index:0;background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:12px;display:flex;flex-direction:column;gap:12px;overflow:hidden}
+.cap{position:relative;z-index:1;font-size:11px;color:var(--ink2);letter-spacing:.12em}
+.stage{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}
+
+.seal{position:relative;display:inline-flex;align-items:center;justify-content:center;font-style:normal;background:var(--seal);color:#FBF3E6;font-family:'Ma Shan Zheng',cursive;filter:url(#f-fine);flex:none}
+.brand .word{font-family:'Long Cang',cursive;font-size:34px;font-weight:400;line-height:1}
+.mod{opacity:.7}.mod.on{opacity:1}
+.ph .t{border:1px solid var(--ink);padding:0 10px 0 13px;line-height:24px;letter-spacing:.32em;font-size:17px}
+.pri{height:36px;padding:0 20px;margin-left:6px;background:var(--accent);color:var(--accent-ink);font-family:'Ma Shan Zheng',cursive;font-size:19px}
+.pri .seal{position:absolute;right:-8px;top:-8px;width:18px;height:18px;font-size:12px}
+.couplet{position:absolute;top:50%;transform:translateY(-50%);writing-mode:vertical-rl;font-family:'Liu Jian Mao Cao',cursive;font-size:66px;line-height:1;color:var(--ink);opacity:.08;letter-spacing:.1em}
+.row .nm b{font-weight:600}
+.mtabs{display:flex;gap:2px}
+.underline{position:relative;border:0;background:transparent;font-family:'Ma Shan Zheng',cursive;font-size:18px;color:var(--ink);padding:0 4px 6px}
+.underline svg{position:absolute;left:-4px;right:-4px;bottom:0;width:calc(100% + 8px);height:8px}
+.tog{position:relative;width:54px;height:24px;border:1.5px solid var(--ink)}
+.tog i{position:absolute;right:3px;top:3px;width:15px;height:15px;background:var(--ink)}
+.seg{display:flex;align-items:center;gap:10px;font-family:'Ma Shan Zheng',cursive;font-size:17px;color:var(--ink2)}
+.seg .on{color:var(--ink)}
+.rule{width:150px;border-top:3px solid var(--ink);padding-top:2px}
+.rule div{border-top:1px solid var(--ink)}
+.big{font-family:'Liu Jian Mao Cao',cursive;font-size:64px;line-height:1;color:var(--ink)}
+.note{font-size:11px;color:var(--ink2);text-align:center}
+
+</style>
+</helmet>
+<div class="{{ rootCls }}">
+<svg width="0" height="0" style="position: absolute" aria-hidden="true"><defs>
+<filter id="f-rough" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="3" seed="7"></feTurbulence><feDisplacementMap in="SourceGraphic" scale="16"></feDisplacementMap></filter>
+<filter id="f-fine" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="0.09" numOctaves="2" seed="3"></feTurbulence><feDisplacementMap in="SourceGraphic" scale="5"></feDisplacementMap></filter>
+<filter id="f-soft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="5"></feGaussianBlur></filter>
+<filter id="f-wash" x="-30%" y="-30%" width="160%" height="160%"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="4" seed="11"></feTurbulence><feDisplacementMap in="SourceGraphic" scale="30"></feDisplacementMap><feGaussianBlur stdDeviation="2.2"></feGaussianBlur></filter>
+<filter id="f-fiber"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="5"></feTurbulence><feColorMatrix type="saturate" values="0"></feColorMatrix></filter>
+</defs></svg>
+<div class="app">
+<div class="bgdeco"></div>
+<header class="tb">
+<div class="brand"><span class="word">胥宇</span><i class="seal" style="width: 20px; height: 20px; font-size: 13px">图</i></div>
+<nav class="mods" aria-label="模块"><a class="mod" href="#">工作台</a><a class="mod" href="#">资料整理</a><a class="mod on" href="#"><svg class="tabdeco" viewBox="0 0 12 8" aria-hidden="true" style="left: 50%; bottom: 7px; width: 12px; height: 8px; margin-left: -6px"><ellipse cx="6" cy="4" rx="5" ry="3.2" style="fill: var(--tab-on)" filter="url(#f-fine)" transform="rotate(-18 6 4)"></ellipse></svg>绘图</a><a class="mod" href="#">绩效</a><a class="mod" href="#">配置</a></nav>
+<div class="tbr"><span>{{ modeLabel }}</span><span class="wc" aria-hidden="true"><span>─</span><span>☐</span><span>✕</span></span></div>
+</header>
+<div class="etb">
+<div class="fname"><strong>2F 平面图.pdf</strong><small>成果目录：BIG 老店 / 2026 Q4</small></div>
+<button type="button" class="btn">方案 BIG（老店） ▾</button>
+<button type="button" class="btn">‹ 第 2 / 4 页 ›</button>
+<span class="spacer"></span>
+<button type="button" class="btn flat">点位说明</button>
+<button type="button" class="btn">设备汇总 2 ▾</button>
+<button type="button" class="btn flat">文件样式</button>
+<button type="button" class="btn flat">图片大小</button>
+<button type="button" class="btn">导出 PDF ▾</button>
+<button type="button" class="pri"><span>完成并下一份</span><i class="seal" style="width: 18px; height: 18px; font-size: 12px">成</i></button>
+</div>
+<div class="body">
+<div class="rail"><span class="ri on"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M5 3l14 8-6 2-2 6z"></path></svg></span><span class="ri"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M5 5h14M12 5v14"></path></svg></span><span class="ri"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M5 19L19 5m0 0h-7m7 0v7"></path></svg></span><span class="ri"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M3 17l14-14 4 4-14 14z"></path></svg></span><span class="ri"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 4h16v16H4z M4 12h16"></path></svg></span><span class="ri"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6h.01M12 6h.01M18 6h.01M6 12h.01M12 12h.01M18 12h.01"></path></svg></span></div>
+<div class="col">
+<section class="pn big">
+<div class="ph"><span class="t">资料</span><span class="ic" aria-hidden="true"><span>⌖</span><span>︿</span><span>✕</span></span></div>
+<div class="pb">
+<div class="tabs"><span>文件</span><span class="on">页面</span><span>点位</span></div>
+<div class="row sel"><span class="thumb">2</span><span class="nm"><b>第 2 页 · 当前</b><small>2 个点位</small></span></div>
+<div class="row"><span class="thumb">1</span><span class="nm"><b>第 1 页</b><small>3 个点位 · 已导出</small></span><span class="done" aria-label="已完成"><i class="seal" style="width: 22px; height: 22px; font-size: 15px">毕</i></span></div>
+<div class="row"><span class="thumb">3</span><span class="nm"><b>第 3 页</b><small>还没放点</small></span></div>
+<div class="row"><span class="thumb">4</span><span class="nm"><b>第 4 页</b><small>还没放点</small></span></div>
+</div>
+</section>
+<section class="pn small">
+<div class="ph"><span class="t">设备</span><span class="sub">BIG（老店）</span></div>
+<div class="pb">
+<div class="row"><span class="thumb">◎</span><span class="nm"><b>点位摄像机</b><small>客流</small></span><span class="n">2</span></div>
+<div class="row"><span class="thumb">◎</span><span class="nm"><b>D6PS-1 半球</b><small>卖场监控</small></span><span class="n">1</span></div>
+</div>
+</section>
+</div>
+<main class="cv">
+<div class="cvdeco"><span class="couplet" style="left: 26px">经纬有度</span><span class="couplet" style="right: 26px">方圆成规</span></div>
+<div class="sheet"><svg viewBox="0 0 520 390" width="500" height="375" aria-hidden="true"><g fill="none" stroke="#3a3a3a" stroke-width="2.4"><rect x="28" y="26" width="464" height="336"></rect><path d="M28 170h170M198 26v120M198 200v162M330 26v110M330 196v166M330 290h162"></path></g><g fill="#6b6b6b" font-size="11" font-family="Noto Sans SC, sans-serif"><text x="90" y="104">收银</text><text x="252" y="104">卖场</text><text x="392" y="104">仓库</text><text x="94" y="276">试衣间</text><text x="392" y="334">办公</text></g><g fill="none" stroke="#24456b" stroke-width="2.2"><circle cx="120" cy="140" r="9"></circle><path d="M129 140h16m-6-6l6 6-6 6"></path><circle cx="268" cy="250" r="9"></circle><path d="M277 250h16m-6-6l6 6-6 6"></path><circle cx="430" cy="210" r="9"></circle><path d="M439 210h16m-6-6l6 6-6 6"></path></g><g font-size="12" font-weight="700" fill="#24456b" font-family="Noto Sans SC, sans-serif"><text x="104" y="166">Cam1</text><text x="252" y="276">Cam2</text><text x="414" y="236">Cam3</text></g><g font-family="Noto Sans SC, sans-serif"><rect x="350" y="298" width="128" height="50" fill="#fff" stroke="#9a9a9a"></rect><text x="362" y="319" font-size="11" fill="#333">录像机 × 1 台</text><text x="362" y="337" font-size="11" fill="#333">交换机 × 1 台</text></g></svg></div>
+<div class="zoom"><span>−</span><span>100%</span><span>+</span><span>适配</span></div>
+</main>
+<aside class="rc">
+<section class="pn" style="flex: 1">
+<div class="ph"><span class="t">汇总清单</span><span class="sub">BIG（老店）</span></div>
+<div class="pb">
+<div class="sel-combo">汇总组合<span>默认 ▾</span></div>
+<div class="row"><span class="nm"><b>点位摄像机</b><small>客流 · 点位</small></span><span class="qty"><i>−</i><span class="n">2</span><i>+</i></span></div>
+<div class="row"><span class="nm"><b>录像机</b><small>汇总设备 · 组合</small></span><span class="qty"><i>−</i><span class="n">1</span><i>+</i></span></div>
+<div class="row"><span class="nm"><b>交换机</b><small>汇总设备 · 组合</small></span><span class="qty"><i>−</i><span class="n">1</span><i>+</i></span></div>
+</div>
+</section>
+</aside>
+</div>
+<footer class="sb"><b>已保存</b><span>上次保存 10:21</span><span>比例 · 未校准</span><span class="spacer"></span><span>整体 100%</span><span>2 / 4 页</span></footer>
+</div>
+<div class="strip">
+<div class="cell"><div class="cap">主按钮</div><div class="stage"><button type="button" class="pri"><span>完成并下一份</span><i class="seal" style="width: 18px; height: 18px; font-size: 12px">成</i></button><button type="button" class="underline">导出 PDF<svg viewBox="0 0 100 8" preserveAspectRatio="none" aria-hidden="true"><path d="M2 5 C 30 2, 70 2, 98 4" fill="none" style="stroke: var(--ink)" stroke-width="3" stroke-linecap="round" filter="url(#f-fine)"></path></svg></button><span class="note">楷书按钮，角上一方小印</span></div></div><div class="cell"><div class="cap">模块标签</div><div class="stage"><div class="mtabs"><a class="mod" href="#">工作台</a><a class="mod on" href="#"><svg class="tabdeco" viewBox="0 0 12 8" aria-hidden="true" style="left: 50%; bottom: 7px; width: 12px; height: 8px; margin-left: -6px"><ellipse cx="6" cy="4" rx="5" ry="3.2" style="fill: var(--tab-on)" filter="url(#f-fine)" transform="rotate(-18 6 4)"></ellipse></svg>绘图</a><a class="mod" href="#">配置</a></div><span class="note">字本身就是装饰；当前项下点一点</span></div></div><div class="cell"><div class="cap">选中 · 已完成</div><div class="stage"><div style="width: 100%"><div class="row sel"><span class="nm"><b>第 2 页 · 当前</b><small>2 个点位</small></span></div><div class="row"><span class="nm"><b>第 1 页</b><small>已导出</small></span><span class="done" aria-label="已完成"><i class="seal" style="width: 22px; height: 22px; font-size: 15px">毕</i></span></div></div></div></div><div class="cell"><div class="cap">加载中</div><div class="stage"><svg width="150" height="60" viewBox="0 0 150 60" aria-hidden="true"><path d="M8 34 C 30 26, 70 24, 104 28" fill="none" style="stroke: var(--ink)" stroke-width="11" stroke-linecap="round" filter="url(#f-rough)"></path><path d="M104 28 C 120 30, 132 33, 142 38" fill="none" style="stroke: var(--ink)" stroke-width="11" stroke-linecap="round" opacity=".15" filter="url(#f-rough)"></path></svg><span class="note">一笔“一”正在写成</span></div></div><div class="cell"><div class="cap">开关 · 分段 · 分隔</div><div class="stage"><div class="tog"><i></i></div><div class="seg"><span class="on">横排</span><span>｜</span><span>竖排</span></div><div class="rule"><div></div></div><span class="note">方正的开关；分隔用文武线</span></div></div><div class="cell"><div class="cap">空状态</div><div class="stage"><span class="big">开卷</span><span class="note">打开图纸 · 选择 DWG、PDF 或图片开始</span><i class="seal" style="width: 30px; height: 30px; font-size: 20px">胥宇</i></div></div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"night":{"editor":"boolean","default":false,"section":"模式"},"$preview":{"width":1280,"height":1100}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const night = this.props.night ?? false;
+    return { rootCls: night ? 'scr night' : 'scr', modeLabel: night ? '水墨 · 夜间' : '水墨 · 白天' };
+  }
+}
+</script>
+</body>
+</html>

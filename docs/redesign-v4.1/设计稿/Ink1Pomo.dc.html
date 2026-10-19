@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>水墨方向一 · 泼墨</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;600;700&amp;family=Zhi+Mang+Xing&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:inherit}a:hover{color:inherit}
+.scr{--bg:#F1ECE2;--bg2:#E9E2D5;--paper:#F8F4EC;--ink:#191815;--ink2:#5F5A51;--line:#DAD1C1;--sel:rgba(25,24,21,.07);--canvas:#E8E1D4;--deco:#191815;--tab-on:#F8F4EC;--accent:#191815;--accent-ink:#F8F4EC;--title-font:'Zhi Mang Xing',cursive;--tab-font:'Zhi Mang Xing',cursive;--tab-size:22px;--title-size:22px;--body-font:'Noto Sans SC',sans-serif;--num-font:'Zhi Mang Xing',cursive;--num-size:21px;--r:3px;width:1280px;height:1100px;background:var(--bg);color:var(--ink);font-family:var(--body-font);font-size:13px;line-height:1.45;position:relative;overflow:hidden}
+.scr.night{--bg:#121110;--bg2:#0D0C0B;--paper:#1C1A17;--ink:#EEE8DD;--ink2:#A69F92;--line:#35312B;--sel:rgba(238,232,221,.09);--canvas:#171513;--deco:#EEE8DD;--tab-on:#121110;--accent:#EEE8DD;--accent-ink:#121110}
+.app{position:relative;height:800px;display:flex;flex-direction:column;overflow:hidden}
+.bgdeco{position:absolute;inset:0;pointer-events:none;z-index:0;color:var(--deco)}
+.tb{position:relative;z-index:2;height:48px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 16px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700}
+.mods{display:flex;gap:2px}
+.mod{position:relative;z-index:0;height:48px;padding:0 15px;display:flex;align-items:center;color:var(--ink2);text-decoration:none;font-family:var(--tab-font);font-size:var(--tab-size)}
+.mod.on{color:var(--tab-on)}
+.tabdeco{position:absolute;pointer-events:none;z-index:-1}
+.tbr{justify-self:end;display:flex;align-items:center;gap:18px;color:var(--ink2);font-size:12px}
+.wc{display:inline-flex;gap:20px}
+.etb{position:relative;z-index:2;height:52px;display:flex;align-items:center;gap:8px;padding:0 16px}
+.fname{display:flex;flex-direction:column;line-height:1.25;margin-right:6px}
+.fname strong{font-size:14px}
+.fname small{color:var(--ink2);font-size:11px}
+.btn{height:30px;padding:0 11px;border:1px solid var(--line);border-radius:var(--r);background:var(--paper);color:var(--ink);font:inherit;font-size:12px;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;cursor:pointer}
+.btn.flat{border-color:transparent;background:transparent}
+.pri{position:relative;z-index:0;border:0;background:transparent;cursor:pointer;white-space:nowrap}
+.spacer{flex:1}
+.body{position:relative;z-index:1;flex:1;min-height:0;display:flex;gap:10px;padding:8px 12px 10px}
+.rail{width:40px;flex:none;align-self:flex-start;padding:6px 0;background:var(--paper);border:1px solid var(--line);border-radius:var(--r);display:flex;flex-direction:column;align-items:center;gap:4px}
+.ri{width:30px;height:30px;border-radius:var(--r);display:flex;align-items:center;justify-content:center;color:var(--ink2)}
+.ri.on{background:var(--sel);color:var(--ink)}
+.col,.rc{width:258px;flex:none;display:flex;flex-direction:column;gap:10px;min-height:0}
+.pn{position:relative;background:var(--paper);border:1px solid var(--line);border-radius:var(--r);display:flex;flex-direction:column;overflow:hidden;min-height:0}
+.pn.big{flex:0 0 62%}
+.pn.small{flex:1;opacity:.62}
+.ph{position:relative;height:40px;flex:none;display:flex;align-items:center;gap:8px;padding:0 12px;border-bottom:1px solid var(--line)}
+.ph .t{position:relative;z-index:1;font-family:var(--title-font);font-size:var(--title-size);color:var(--ink)}
+.ph .sub{position:relative;z-index:1;color:var(--ink2);font-size:11px}
+.ph .ic{margin-left:auto;display:flex;gap:10px;color:var(--ink2);font-size:12px}
+.pb{padding:8px 10px;display:flex;flex-direction:column;gap:4px;min-height:0}
+.tabs{display:flex;gap:2px;padding:2px;border-radius:var(--r);background:var(--sel);margin-bottom:6px}
+.tabs span{flex:1;height:26px;display:flex;align-items:center;justify-content:center;border-radius:var(--r);color:var(--ink2);font-size:12px}
+.tabs span.on{background:var(--paper);color:var(--ink);font-weight:600}
+.row{position:relative;z-index:0;display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:var(--r)}
+.row .nm{flex:1;min-width:0}
+.row .nm b{display:block;font-weight:600;font-size:12.5px}
+.row .nm small{display:block;color:var(--ink2);font-size:11px}
+.row .n{font-family:var(--num-font);font-size:var(--num-size);color:var(--ink)}
+.row.sel{background:var(--sel)}
+.done{position:relative;width:22px;height:22px;flex:none;display:inline-flex;align-items:center;justify-content:center}
+.thumb{width:28px;height:28px;flex:none;border-radius:var(--r);background:var(--sel);display:flex;align-items:center;justify-content:center;color:var(--ink2)}
+.cv{position:relative;flex:1;min-width:0;border-radius:var(--r);background:var(--canvas);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.cvdeco{position:absolute;inset:0;pointer-events:none;color:var(--deco)}
+.sheet{position:relative;z-index:1;background:#fff;padding:6px;box-shadow:0 8px 26px rgba(20,18,14,.16)}
+.zoom{position:absolute;right:10px;bottom:10px;z-index:2;display:flex;gap:14px;align-items:center;padding:4px 12px;background:var(--paper);border:1px solid var(--line);border-radius:var(--r);font-size:12px;color:var(--ink2)}
+.sel-combo{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink2);margin-bottom:4px}
+.sel-combo span{flex:1;height:28px;display:flex;align-items:center;justify-content:space-between;padding:0 8px;border:1px solid var(--line);border-radius:var(--r);color:var(--ink);background:var(--paper)}
+.qty{display:flex;align-items:center;gap:6px}
+.qty i{font-style:normal;width:22px;height:22px;border:1px solid var(--line);border-radius:var(--r);display:flex;align-items:center;justify-content:center;color:var(--ink2)}
+.sb{position:relative;z-index:2;height:30px;flex:none;display:flex;align-items:center;gap:16px;padding:0 16px;font-size:12px;color:var(--ink2)}
+.sb b{color:var(--ink)}
+.strip{position:relative;height:300px;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;padding:14px 16px 16px;box-sizing:border-box;background:var(--bg2);border-top:1px solid var(--line)}
+.cell{position:relative;z-index:0;background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:12px;display:flex;flex-direction:column;gap:12px;overflow:hidden}
+.cap{position:relative;z-index:1;font-size:11px;color:var(--ink2);letter-spacing:.12em}
+.stage{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}
+
+.bgdeco{opacity:.09}.night .bgdeco{opacity:.06}
+.cvdeco{opacity:.1}.night .cvdeco{opacity:.06}
+.brand .logo{position:relative;width:34px;height:34px;display:flex;align-items:center;justify-content:center;color:var(--accent-ink);font-family:'Zhi Mang Xing',cursive;font-size:24px}
+.brand .logo svg{position:absolute;inset:0;width:100%;height:100%;color:var(--accent);z-index:-1}
+.brand .logo{z-index:0}
+.brand .word{font-family:'Zhi Mang Xing',cursive;font-size:28px;font-weight:400}
+.tabdeco svg{width:100%;height:100%}
+.pri{height:40px;padding:0 22px;margin-left:6px;color:var(--accent-ink);font-family:'Zhi Mang Xing',cursive;font-size:21px}
+.pri svg{position:absolute;inset:-4px -10px;width:calc(100% + 20px);height:calc(100% + 8px);z-index:-1;color:var(--accent)}
+.ph .smear{position:absolute;left:2px;top:5px;width:120px;height:30px;color:var(--ink);opacity:.13}
+.ph .smear svg,.seldeco svg{width:100%;height:100%}
+.row.sel{background:transparent}
+.seldeco{position:absolute;inset:1px -4px;z-index:-1;color:var(--ink);opacity:.1}
+.done svg:first-child{position:absolute;inset:0;width:100%;height:100%;color:var(--accent)}
+.mtabs{display:flex;gap:4px}
+.ring{position:relative;width:120px;height:120px}
+.ring svg{width:100%;height:100%;color:var(--ink)}
+.tog{position:relative;width:56px;height:28px;border:1.5px solid var(--ink);border-radius:14px}
+.tog svg{position:absolute;right:2px;top:1px;width:24px;height:24px;color:var(--ink)}
+.seg{display:flex;gap:2px;font-size:12px}
+.seg span{position:relative;z-index:0;padding:4px 12px;color:var(--ink2)}
+.seg span.on{color:var(--accent-ink)}
+.seg span.on svg{position:absolute;inset:-2px -4px;width:calc(100% + 8px);height:calc(100% + 4px);z-index:-1;color:var(--accent)}
+.empty{position:relative;width:170px;height:130px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--accent-ink)}
+.empty svg{position:absolute;inset:0;width:100%;height:100%;color:var(--accent);z-index:-1}
+.empty b{font-family:'Zhi Mang Xing',cursive;font-size:30px;font-weight:400}
+.empty small{font-size:10px;opacity:.85}
+.note{font-size:11px;color:var(--ink2);text-align:center}
+
+</style>
+</helmet>
+<div class="{{ rootCls }}">
+<svg width="0" height="0" style="position: absolute" aria-hidden="true"><defs>
+<filter id="p-rough" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="3" seed="7"></feTurbulence><feDisplacementMap in="SourceGraphic" scale="16"></feDisplacementMap></filter>
+<filter id="p-fine" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="0.09" numOctaves="2" seed="3"></feTurbulence><feDisplacementMap in="SourceGraphic" scale="5"></feDisplacementMap></filter>
+<filter id="p-soft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="5"></feGaussianBlur></filter>
+<filter id="p-wash" x="-30%" y="-30%" width="160%" height="160%"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="4" seed="11"></feTurbulence><feDisplacementMap in="SourceGraphic" scale="30"></feDisplacementMap><feGaussianBlur stdDeviation="2.2"></feGaussianBlur></filter>
+<filter id="p-fiber"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="5"></feTurbulence><feColorMatrix type="saturate" values="0"></feColorMatrix></filter>
+</defs></svg>
+<div class="app">
+<div class="bgdeco"><svg width="1280" height="800" viewBox="0 0 1280 800" aria-hidden="true"><g fill="currentColor"><path d="M382.5,130.0 Q382.5,130.0 382.2,154.0 Q381.8,177.9 350.3,201.6 Q318.8,225.2 286.4,232.0 Q253.9,238.9 211.3,234.0 Q168.7,229.2 137.5,221.3 Q106.3,213.3 73.1,192.4 Q39.9,171.6 26.6,150.8 Q13.2,130.0 32.7,109.4 Q52.2,88.9 67.3,62.6 Q82.4,36.3 123.9,26.9 Q165.5,17.5 206.4,22.5 Q247.3,27.5 286.4,40.7 Q325.6,53.8 359.2,68.8 Q392.8,83.8 387.7,106.9 Z" transform="translate(-140 -120)" filter="url(#p-wash)"></path><path d="M295.1,60.0 Q295.1,60.0 276.3,72.9 Q257.5,85.9 242.3,90.5 Q227.2,95.2 203.8,101.4 Q180.4,107.6 149.3,106.6 Q118.1,105.7 88.8,101.8 Q59.5,97.8 43.8,91.6 Q28.1,85.4 20.3,72.7 Q12.4,60.0 18.9,50.5 Q25.5,41.0 43.2,29.8 Q60.8,18.7 91.3,16.8 Q121.7,15.0 151.7,11.8 Q181.6,8.6 210.9,12.5 Q240.1,16.3 260.5,26.8 Q280.8,37.3 288.0,48.6 Z" transform="translate(150 -30) rotate(8)" filter="url(#p-rough)" opacity=".7"></path><circle cx="380.3" cy="3.0" r="2.6"></circle><circle cx="356.0" cy="131.3" r="1.7"></circle><circle cx="160.3" cy="53.0" r="1.3"></circle><circle cx="158.5" cy="103.4" r="2.2"></circle><circle cx="337.2" cy="83.7" r="3.4"></circle><circle cx="147.0" cy="125.7" r="2.8"></circle><circle cx="195.4" cy="137.0" r="3.7"></circle><circle cx="142.3" cy="2.8" r="2.3"></circle><circle cx="355.1" cy="50.1" r="3.2"></circle><circle cx="167.9" cy="159.1" r="2.5"></circle><circle cx="215.3" cy="151.2" r="2.4"></circle><circle cx="225.2" cy="-49.8" r="1.8"></circle><circle cx="190.5" cy="-3.8" r="1.2"></circle><circle cx="188.9" cy="193.3" r="0.9"></circle><circle cx="317.2" cy="128.6" r="0.7"></circle><circle cx="230.7" cy="189.6" r="3.0"></circle><circle cx="197.9" cy="164.0" r="1.5"></circle><circle cx="204.6" cy="197.1" r="1.9"></circle><circle cx="245.3" cy="159.6" r="3.6"></circle><circle cx="212.9" cy="-63.4" r="1.0"></circle><circle cx="111.3" cy="29.5" r="1.9"></circle><circle cx="338.2" cy="38.2" r="4.3"></circle><circle cx="353.8" cy="108.0" r="0.5"></circle><circle cx="296.8" cy="-50.1" r="3.3"></circle><circle cx="299.3" cy="-68.0" r="1.7"></circle><circle cx="382.7" cy="59.7" r="1.4"></circle><path d="M499.8,160.0 Q499.8,160.0 476.5,194.5 Q453.2,228.9 423.6,250.9 Q394.0,272.9 350.4,288.7 Q306.8,304.6 259.7,303.5 Q212.6,302.4 161.4,289.3 Q110.1,276.2 82.9,251.3 Q55.6,226.4 31.3,193.2 Q7.0,160.0 29.7,125.9 Q52.4,91.8 81.0,73.4 Q109.7,54.9 160.3,31.0 Q211.0,7.0 258.8,11.2 Q306.7,15.3 360.0,40.1 Q413.4,64.8 436.4,84.6 Q459.4,104.3 479.6,132.2 Z" transform="translate(980 600)" filter="url(#p-wash)"></path><circle cx="915.6" cy="761.7" r="2.9"></circle><circle cx="1078.1" cy="805.3" r="2.3"></circle><circle cx="1210.0" cy="686.4" r="1.1"></circle><circle cx="994.2" cy="765.3" r="2.8"></circle><circle cx="1149.8" cy="748.9" r="3.3"></circle><circle cx="877.1" cy="627.6" r="2.4"></circle><circle cx="1091.2" cy="538.5" r="2.1"></circle><circle cx="934.6" cy="660.7" r="5.0"></circle><circle cx="969.6" cy="559.5" r="3.2"></circle><circle cx="941.9" cy="698.7" r="1.2"></circle><circle cx="938.5" cy="665.7" r="3.2"></circle><circle cx="931.2" cy="629.9" r="4.5"></circle><circle cx="1149.3" cy="668.4" r="4.2"></circle><circle cx="1064.4" cy="771.1" r="2.7"></circle><circle cx="912.3" cy="694.9" r="2.4"></circle><circle cx="937.0" cy="651.4" r="4.4"></circle><circle cx="1019.0" cy="740.7" r="2.5"></circle><circle cx="1098.7" cy="502.0" r="2.0"></circle><circle cx="924.3" cy="656.3" r="3.2"></circle><circle cx="978.6" cy="724.2" r="1.1"></circle><circle cx="1169.0" cy="724.9" r="3.5"></circle><circle cx="1043.8" cy="523.3" r="1.1"></circle><path d="M1010 760 C 1080 700, 1180 690, 1290 640" fill="none" stroke="currentColor" stroke-width="18" stroke-linecap="round" filter="url(#p-rough)"></path></g></svg></div>
+<header class="tb">
+<div class="brand"><span class="logo"><svg class="" viewBox="0 0 34 34" preserveAspectRatio="none" aria-hidden="true" style="overflow: visible"><path d="M33.2,17.0 Q33.2,17.0 32.0,20.5 Q30.8,24.0 28.3,26.2 Q25.8,28.4 23.1,30.8 Q20.4,33.2 17.2,31.2 Q14.0,29.2 11.0,29.4 Q8.0,29.6 5.2,26.1 Q2.5,22.6 1.6,19.8 Q0.7,17.0 1.4,13.4 Q2.2,9.8 5.3,6.8 Q8.4,3.9 11.1,4.1 Q13.7,4.4 17.0,4.6 Q20.3,4.8 23.6,5.1 Q26.8,5.5 28.1,8.4 Q29.4,11.2 31.3,14.1 Z" fill="currentColor" filter="url(#p-rough)"></path></svg>胥</span><span class="word">胥宇</span></div>
+<nav class="mods" aria-label="模块"><a class="mod" href="#">工作台</a><a class="mod" href="#">资料整理</a><a class="mod on" href="#"><span class="tabdeco" style="inset: 7px -8px 5px -8px; color: var(--accent)"><svg class="" viewBox="0 0 80 36" preserveAspectRatio="none" aria-hidden="true" style="overflow: visible"><path d="M74.5,18.0 Q74.5,18.0 72.0,21.8 Q69.6,25.6 66.0,28.2 Q62.4,30.8 55.2,31.6 Q47.9,32.5 39.9,32.9 Q31.8,33.4 24.2,32.0 Q16.7,30.7 11.3,27.6 Q5.9,24.6 6.6,21.3 Q7.2,18.0 7.0,15.0 Q6.7,12.0 12.0,8.8 Q17.3,5.5 25.1,3.5 Q32.9,1.6 40.0,1.4 Q47.1,1.2 55.3,4.1 Q63.6,7.1 68.5,8.9 Q73.3,10.8 73.9,14.4 Z" fill="currentColor" filter="url(#p-rough)"></path><g fill="currentColor"><circle cx="61.9" cy="2.3" r="1.0"></circle><circle cx="78.4" cy="44.4" r="1.1"></circle><circle cx="88.4" cy="4.2" r="1.2"></circle><circle cx="94.2" cy="20.1" r="1.2"></circle><circle cx="94.0" cy="19.6" r="1.5"></circle><circle cx="53.4" cy="10.4" r="1.4"></circle><circle cx="80.1" cy="-0.5" r="1.8"></circle><circle cx="66.3" cy="-5.4" r="0.7"></circle><circle cx="95.5" cy="10.1" r="0.6"></circle><circle cx="25.9" cy="26.8" r="0.5"></circle><circle cx="-16.1" cy="26.6" r="1.0"></circle><circle cx="-13.9" cy="27.3" r="0.4"></circle><circle cx="-11.7" cy="29.1" r="1.2"></circle><circle cx="-16.7" cy="15.1" r="0.7"></circle></g></svg></span>绘图</a><a class="mod" href="#">绩效</a><a class="mod" href="#">配置</a></nav>
+<div class="tbr"><span>{{ modeLabel }}</span><span class="wc" aria-hidden="true"><span>─</span><span>☐</span><span>✕</span></span></div>
+</header>
+<div class="etb">
+<div class="fname"><strong>2F 平面图.pdf</strong><small>成果目录：BIG 老店 / 2026 Q4</small></div>
+<button type="button" class="btn">方案 BIG（老店） ▾</button>
+<button type="button" class="btn">‹ 第 2 / 4 页 ›</button>
+<span class="spacer"></span>
+<button type="button" class="btn flat">点位说明</button>
+<button type="button" class="btn">设备汇总 2 ▾</button>
+<button type="button" class="btn flat">文件样式</button>
+<button type="button" class="btn flat">图片大小</button>
+<button type="button" class="btn">导出 PDF ▾</button>
+<button type="button" class="pri"><svg class="" viewBox="0 0 150 40" preserveAspectRatio="none" aria-hidden="true" style="overflow: visible"><path d="M143.2,20.0 Q143.2,20.0 137.5,23.4 Q131.9,26.8 125.1,30.5 Q118.3,34.1 104.6,34.3 Q90.9,34.5 75.7,34.3 Q60.5,34.2 48.3,33.8 Q36.1,33.4 28.7,30.1 Q21.2,26.7 13.9,23.4 Q6.7,20.0 12.7,16.2 Q18.8,12.4 24.9,10.6 Q31.0,8.8 45.2,5.5 Q59.3,2.3 74.3,3.7 Q89.2,5.2 104.7,6.2 Q120.2,7.3 124.9,10.4 Q129.6,13.5 136.4,16.8 Z" fill="currentColor" filter="url(#p-rough)"></path><g fill="currentColor"><circle cx="168.2" cy="25.5" r="0.6"></circle><circle cx="108.2" cy="25.2" r="1.3"></circle><circle cx="111.3" cy="26.1" r="0.5"></circle><circle cx="114.5" cy="28.7" r="1.6"></circle><circle cx="107.3" cy="8.7" r="0.9"></circle><circle cx="153.0" cy="48.0" r="1.2"></circle><circle cx="122.8" cy="33.0" r="1.3"></circle><circle cx="105.7" cy="18.9" r="1.0"></circle><circle cx="108.9" cy="16.8" r="0.9"></circle><circle cx="-9.6" cy="36.1" r="1.1"></circle><circle cx="17.1" cy="40.3" r="0.5"></circle><circle cx="20.5" cy="34.4" r="0.7"></circle><circle cx="-18.8" cy="21.6" r="0.8"></circle><circle cx="-5.8" cy="38.2" r="1.1"></circle></g></svg><span>完成并下一份</span></button>
+</div>
+<div class="body">
+<div class="rail"><span class="ri on"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M5 3l14 8-6 2-2 6z"></path></svg></span><span class="ri"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M5 5h14M12 5v14"></path></svg></span><span class="ri"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M5 19L19 5m0 0h-7m7 0v7"></path></svg></span><span class="ri"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M3 17l14-14 4 4-14 14z"></path></svg></span><span class="ri"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 4h16v16H4z M4 12h16"></path></svg></span><span class="ri"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6h.01M12 6h.01M18 6h.01M6 12h.01M12 12h.01M18 12h.01"></path></svg></span></div>
+<div class="col">
+<section class="pn big">
+<div class="ph"><span class="smear"><svg class="" viewBox="0 0 140 30" preserveAspectRatio="none" aria-hidden="true" style="overflow: visible"><path d="M130.6,15.0 Q130.6,15.0 130.3,17.5 Q129.9,20.0 118.1,21.7 Q106.3,23.5 94.5,24.5 Q82.7,25.5 69.9,26.5 Q57.2,27.6 42.4,26.6 Q27.5,25.7 21.6,23.0 Q15.7,20.4 10.7,17.7 Q5.7,15.0 12.5,11.9 Q19.2,8.8 24.9,7.5 Q30.5,6.2 44.0,5.2 Q57.5,4.1 71.3,4.1 Q85.1,4.1 97.3,3.8 Q109.6,3.4 114.9,6.5 Q120.3,9.6 125.5,12.3 Z" fill="currentColor" filter="url(#p-rough)"></path></svg></span><span class="t">资料</span><span class="ic" aria-hidden="true"><span>⌖</span><span>︿</span><span>✕</span></span></div>
+<div class="pb">
+<div class="tabs"><span>文件</span><span class="on">页面</span><span>点位</span></div>
+<div class="row sel"><span class="seldeco"><svg class="" viewBox="0 0 240 44" preserveAspectRatio="none" aria-hidden="true" style="overflow: visible"><path d="M220.9,22.0 Q220.9,22.0 214.1,25.9 Q207.2,29.7 193.7,32.1 Q180.2,34.4 161.4,36.2 Q142.5,38.1 119.9,39.9 Q97.3,41.8 78.8,39.6 Q60.3,37.3 46.0,34.1 Q31.8,30.9 20.3,26.5 Q8.8,22.0 13.2,17.6 Q17.6,13.3 38.7,10.5 Q59.8,7.7 77.6,4.4 Q95.4,1.1 118.7,3.1 Q142.0,5.1 165.9,5.1 Q189.9,5.1 198.6,10.0 Q207.4,14.9 214.2,18.5 Z" fill="currentColor" filter="url(#p-rough)"></path></svg></span><span class="thumb">2</span><span class="nm"><b>第 2 页 · 当前</b><small>2 个点位</small></span></div>
+<div class="row"><span class="thumb">1</span><span class="nm"><b>第 1 页</b><small>3 个点位 · 已导出</small></span><span class="done" aria-label="已完成"><svg class="" viewBox="0 0 22 22" preserveAspectRatio="none" aria-hidden="true" style="overflow: visible"><path d="M19.8,11.0 Q19.8,11.0 19.4,13.0 Q19.1,15.0 18.2,17.0 Q17.3,19.1 15.2,19.6 Q13.1,20.2 11.1,20.1 Q9.1,20.0 7.1,19.6 Q5.1,19.2 3.6,17.3 Q2.2,15.4 1.8,13.2 Q1.4,11.0 1.5,8.7 Q1.6,6.5 3.4,5.5 Q5.1,4.6 7.0,3.2 Q8.8,1.8 11.1,1.7 Q13.3,1.5 15.2,2.5 Q17.1,3.5 18.3,5.5 Q19.5,7.5 19.7,9.3 Z" fill="currentColor" filter="url(#p-rough)"></path></svg><svg width="12" height="12" viewBox="0 0 12 12" style="position: relative" aria-hidden="true"><path d="M2 6.5l2.6 2.6L10 3" fill="none" stroke="var(--accent-ink)" stroke-width="2" stroke-linecap="round"></path></svg></span></div>
+<div class="row"><span class="thumb">3</span><span class="nm"><b>第 3 页</b><small>还没放点</small></span></div>
+<div class="row"><span class="thumb">4</span><span class="nm"><b>第 4 页</b><small>还没放点</small></span></div>
+</div>
+</section>
+<section class="pn small">
+<div class="ph"><span class="t">设备</span><span class="sub">BIG（老店）</span></div>
+<div class="pb">
+<div class="row"><span class="thumb">◎</span><span class="nm"><b>点位摄像机</b><small>客流</small></span><span class="n">2</span></div>
+<div class="row"><span class="thumb">◎</span><span class="nm"><b>D6PS-1 半球</b><small>卖场监控</small></span><span class="n">1</span></div>
+</div>
+</section>
+</div>
+<main class="cv">
+<div class="cvdeco"><svg width="100%" height="100%" viewBox="0 0 700 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g fill="currentColor"><path d="M322.8,120.0 Q322.8,120.0 321.4,143.6 Q320.0,167.2 295.8,178.7 Q271.7,190.2 242.5,209.3 Q213.4,228.4 180.3,228.1 Q147.2,227.9 112.4,209.4 Q77.5,190.9 56.6,177.3 Q35.7,163.8 29.8,141.9 Q23.9,120.0 36.4,101.2 Q48.9,82.3 60.4,62.3 Q71.8,42.2 109.3,33.8 Q146.8,25.4 180.6,15.3 Q214.4,5.2 243.8,26.1 Q273.1,47.1 299.5,60.9 Q325.8,74.8 324.3,97.4 Z" transform="translate(-90 520)" filter="url(#p-wash)"></path><circle cx="267.1" cy="651.3" r="2.0"></circle><circle cx="276.2" cy="522.6" r="3.6"></circle><circle cx="277.1" cy="678.0" r="4.1"></circle><circle cx="5.9" cy="576.6" r="3.3"></circle><circle cx="105.6" cy="667.9" r="4.7"></circle><circle cx="236.1" cy="667.2" r="4.5"></circle><circle cx="256.4" cy="468.3" r="3.8"></circle><circle cx="199.9" cy="695.2" r="1.2"></circle><circle cx="271.0" cy="585.5" r="1.3"></circle><circle cx="266.5" cy="612.2" r="0.7"></circle><circle cx="106.2" cy="684.6" r="2.1"></circle><circle cx="265.7" cy="553.7" r="4.7"></circle><circle cx="159.7" cy="463.4" r="2.9"></circle><circle cx="187.1" cy="462.7" r="1.4"></circle><circle cx="116.4" cy="698.5" r="2.5"></circle><circle cx="295.7" cy="589.5" r="0.8"></circle><circle cx="16.0" cy="622.9" r="2.0"></circle><circle cx="140.1" cy="504.1" r="0.8"></circle><circle cx="118.7" cy="517.5" r="2.2"></circle><circle cx="89.0" cy="671.9" r="0.7"></circle><circle cx="336.2" cy="607.0" r="2.7"></circle><circle cx="295.0" cy="560.5" r="4.6"></circle><circle cx="261.2" cy="492.7" r="2.6"></circle><circle cx="59.4" cy="594.1" r="2.4"></circle><circle cx="151.4" cy="493.2" r="4.8"></circle><circle cx="30.5" cy="591.6" r="3.8"></circle><circle cx="106.7" cy="517.4" r="1.8"></circle><circle cx="265.6" cy="600.6" r="5.7"></circle><circle cx="30.0" cy="507.8" r="2.9"></circle><circle cx="102.9" cy="753.4" r="3.4"></circle><path d="M-20 690 C 160 600, 380 640, 720 560" fill="none" stroke="currentColor" stroke-width="26" stroke-linecap="round" filter="url(#p-rough)"></path><path d="M189.6,70.0 Q189.6,70.0 187.2,82.1 Q184.8,94.1 170.8,108.4 Q156.8,122.7 139.1,122.6 Q121.3,122.5 100.5,126.5 Q79.7,130.6 62.3,127.2 Q44.9,123.9 32.4,109.7 Q20.0,95.5 11.7,82.8 Q3.5,70.0 13.6,57.8 Q23.7,45.6 34.3,37.8 Q45.0,29.9 62.4,18.5 Q79.9,7.2 99.6,6.1 Q119.4,5.1 139.7,13.7 Q160.0,22.3 171.3,34.8 Q182.6,47.2 186.1,58.6 Z" transform="translate(560 -40)" filter="url(#p-wash)"></path><circle cx="532.0" cy="24.0" r="2.7"></circle><circle cx="703.6" cy="-22.2" r="1.2"></circle><circle cx="697.2" cy="14.0" r="1.3"></circle><circle cx="691.1" cy="88.0" r="0.9"></circle><circle cx="606.3" cy="129.7" r="2.4"></circle><circle cx="620.9" cy="-24.8" r="0.7"></circle><circle cx="617.2" cy="127.8" r="2.7"></circle><circle cx="653.0" cy="-61.5" r="1.6"></circle><circle cx="570.9" cy="-16.6" r="1.4"></circle><circle cx="643.8" cy="123.7" r="2.1"></circle><circle cx="548.3" cy="4.7" r="1.7"></circle><circle cx="621.1" cy="140.8" r="1.7"></circle><circle cx="618.9" cy="-60.7" r="1.0"></circle><circle cx="675.3" cy="90.0" r="3.3"></circle><circle cx="640.6" cy="-37.9" r="2.7"></circle><circle cx="563.6" cy="126.6" r="0.6"></circle><circle cx="613.5" cy="-68.8" r="1.2"></circle><circle cx="555.0" cy="56.0" r="1.4"></circle></g></svg></div>
+<div class="sheet"><svg viewBox="0 0 520 390" width="500" height="375" aria-hidden="true"><g fill="none" stroke="#3a3a3a" stroke-width="2.4"><rect x="28" y="26" width="464" height="336"></rect><path d="M28 170h170M198 26v120M198 200v162M330 26v110M330 196v166M330 290h162"></path></g><g fill="#6b6b6b" font-size="11" font-family="Noto Sans SC, sans-serif"><text x="90" y="104">收银</text><text x="252" y="104">卖场</text><text x="392" y="104">仓库</text><text x="94" y="276">试衣间</text><text x="392" y="334">办公</text></g><g fill="none" stroke="#24456b" stroke-width="2.2"><circle cx="120" cy="140" r="9"></circle><path d="M129 140h16m-6-6l6 6-6 6"></path><circle cx="268" cy="250" r="9"></circle><path d="M277 250h16m-6-6l6 6-6 6"></path><circle cx="430" cy="210" r="9"></circle><path d="M439 210h16m-6-6l6 6-6 6"></path></g><g font-size="12" font-weight="700" fill="#24456b" font-family="Noto Sans SC, sans-serif"><text x="104" y="166">Cam1</text><text x="252" y="276">Cam2</text><text x="414" y="236">Cam3</text></g><g font-family="Noto Sans SC, sans-serif"><rect x="350" y="298" width="128" height="50" fill="#fff" stroke="#9a9a9a"></rect><text x="362" y="319" font-size="11" fill="#333">录像机 × 1 台</text><text x="362" y="337" font-size="11" fill="#333">交换机 × 1 台</text></g></svg></div>
+<div class="zoom"><span>−</span><span>100%</span><span>+</span><span>适配</span></div>
+</main>
+<aside class="rc">
+<section class="pn" style="flex: 1">
+<div class="ph"><span class="t">汇总清单</span><span class="sub">BIG（老店）</span></div>
+<div class="pb">
+<div class="sel-combo">汇总组合<span>默认 ▾</span></div>
+<div class="row"><span class="nm"><b>点位摄像机</b><small>客流 · 点位</small></span><span class="qty"><i>−</i><span class="n">2</span><i>+</i></span></div>
+<div class="row"><span class="nm"><b>录像机</b><small>汇总设备 · 组合</small></span><span class="qty"><i>−</i><span class="n">1</span><i>+</i></span></div>
+<div class="row"><span class="nm"><b>交换机</b><small>汇总设备 · 组合</small></span><span class="qty"><i>−</i><span class="n">1</span><i>+</i></span></div>
+</div>
+</section>
+</aside>
+</div>
+<footer class="sb"><b>已保存</b><span>上次保存 10:21</span><span>比例 · 未校准</span><span class="spacer"></span><span>整体 100%</span><span>2 / 4 页</span></footer>
+</div>
+<div class="strip">
+<div class="cell"><div class="cap">主按钮</div><div class="stage"><button type="button" class="pri"><svg class="" viewBox="0 0 150 40" preserveAspectRatio="none" aria-hidden="true" style="overflow: visible"><path d="M143.2,20.0 Q143.2,20.0 137.5,23.4 Q131.9,26.8 125.1,30.5 Q118.3,34.1 104.6,34.3 Q90.9,34.5 75.7,34.3 Q60.5,34.2 48.3,33.8 Q36.1,33.4 28.7,30.1 Q21.2,26.7 13.9,23.4 Q6.7,20.0 12.7,16.2 Q18.8,12.4 24.9,10.6 Q31.0,8.8 45.2,5.5 Q59.3,2.3 74.3,3.7 Q89.2,5.2 104.7,6.2 Q120.2,7.3 124.9,10.4 Q129.6,13.5 136.4,16.8 Z" fill="currentColor" filter="url(#p-rough)"></path><g fill="currentColor"><circle cx="168.2" cy="25.5" r="0.6"></circle><circle cx="108.2" cy="25.2" r="1.3"></circle><circle cx="111.3" cy="26.1" r="0.5"></circle><circle cx="114.5" cy="28.7" r="1.6"></circle><circle cx="107.3" cy="8.7" r="0.9"></circle><circle cx="153.0" cy="48.0" r="1.2"></circle><circle cx="122.8" cy="33.0" r="1.3"></circle><circle cx="105.7" cy="18.9" r="1.0"></circle><circle cx="108.9" cy="16.8" r="0.9"></circle><circle cx="-9.6" cy="36.1" r="1.1"></circle><circle cx="17.1" cy="40.3" r="0.5"></circle><circle cx="20.5" cy="34.4" r="0.7"></circle><circle cx="-18.8" cy="21.6" r="0.8"></circle><circle cx="-5.8" cy="38.2" r="1.1"></circle></g></svg><span>完成并下一份</span></button><button type="button" class="btn">导出 PDF</button><span class="note">按钮是一团泼墨，边上溅几点</span></div></div><div class="cell"><div class="cap">模块标签</div><div class="stage"><div class="mtabs"><a class="mod" href="#">工作台</a><a class="mod on" href="#"><span class="tabdeco" style="inset: 7px -8px 5px -8px; color: var(--accent)"><svg class="" viewBox="0 0 80 36" preserveAspectRatio="none" aria-hidden="true" style="overflow: visible"><path d="M74.5,18.0 Q74.5,18.0 72.0,21.8 Q69.6,25.6 66.0,28.2 Q62.4,30.8 55.2,31.6 Q47.9,32.5 39.9,32.9 Q31.8,33.4 24.2,32.0 Q16.7,30.7 11.3,27.6 Q5.9,24.6 6.6,21.3 Q7.2,18.0 7.0,15.0 Q6.7,12.0 12.0,8.8 Q17.3,5.5 25.1,3.5 Q32.9,1.6 40.0,1.4 Q47.1,1.2 55.3,4.1 Q63.6,7.1 68.5,8.9 Q73.3,10.8 73.9,14.4 Z" fill="currentColor" filter="url(#p-rough)"></path><g fill="currentColor"><circle cx="61.9" cy="2.3" r="1.0"></circle><circle cx="78.4" cy="44.4" r="1.1"></circle><circle cx="88.4" cy="4.2" r="1.2"></circle><circle cx="94.2" cy="20.1" r="1.2"></circle><circle cx="94.0" cy="19.6" r="1.5"></circle><circle cx="53.4" cy="10.4" r="1.4"></circle><circle cx="80.1" cy="-0.5" r="1.8"></circle><circle cx="66.3" cy="-5.4" r="0.7"></circle><circle cx="95.5" cy="10.1" r="0.6"></circle><circle cx="25.9" cy="26.8" r="0.5"></circle><circle cx="-16.1" cy="26.6" r="1.0"></circle><circle cx="-13.9" cy="27.3" r="0.4"></circle><circle cx="-11.7" cy="29.1" r="1.2"></circle><circle cx="-16.7" cy="15.1" r="0.7"></circle></g></svg></span>绘图</a><a class="mod" href="#">配置</a></div><span class="note">当前模块压在墨团上</span></div></div><div class="cell"><div class="cap">选中 · 已完成</div><div class="stage"><div style="width: 100%"><div class="row sel"><span class="seldeco"><svg class="" viewBox="0 0 240 44" preserveAspectRatio="none" aria-hidden="true" style="overflow: visible"><path d="M220.9,22.0 Q220.9,22.0 214.1,25.9 Q207.2,29.7 193.7,32.1 Q180.2,34.4 161.4,36.2 Q142.5,38.1 119.9,39.9 Q97.3,41.8 78.8,39.6 Q60.3,37.3 46.0,34.1 Q31.8,30.9 20.3,26.5 Q8.8,22.0 13.2,17.6 Q17.6,13.3 38.7,10.5 Q59.8,7.7 77.6,4.4 Q95.4,1.1 118.7,3.1 Q142.0,5.1 165.9,5.1 Q189.9,5.1 198.6,10.0 Q207.4,14.9 214.2,18.5 Z" fill="currentColor" filter="url(#p-rough)"></path></svg></span><span class="nm"><b>第 2 页 · 当前</b><small>2 个点位</small></span></div><div class="row"><span class="nm"><b>第 1 页</b><small>已导出</small></span><span class="done" aria-label="已完成"><svg class="" viewBox="0 0 22 22" preserveAspectRatio="none" aria-hidden="true" style="overflow: visible"><path d="M19.8,11.0 Q19.8,11.0 19.4,13.0 Q19.1,15.0 18.2,17.0 Q17.3,19.1 15.2,19.6 Q13.1,20.2 11.1,20.1 Q9.1,20.0 7.1,19.6 Q5.1,19.2 3.6,17.3 Q2.2,15.4 1.8,13.2 Q1.4,11.0 1.5,8.7 Q1.6,6.5 3.4,5.5 Q5.1,4.6 7.0,3.2 Q8.8,1.8 11.1,1.7 Q13.3,1.5 15.2,2.5 Q17.1,3.5 18.3,5.5 Q19.5,7.5 19.7,9.3 Z" fill="currentColor" filter="url(#p-rough)"></path></svg><svg width="12" height="12" viewBox="0 0 12 12" style="position: relative" aria-hidden="true"><path d="M2 6.5l2.6 2.6L10 3" fill="none" stroke="var(--accent-ink)" stroke-width="2" stroke-linecap="round"></path></svg></span></div></div></div></div><div class="cell"><div class="cap">加载中</div><div class="stage"><div class="ring"><svg viewBox="0 0 120 120" aria-hidden="true"><g fill="currentColor"><circle cx="60" cy="60" r="16" filter="url(#p-rough)"></circle><circle cx="60" cy="60" r="30" opacity=".22" filter="url(#p-wash)"></circle><circle cx="60" cy="60" r="46" opacity=".1" filter="url(#p-wash)"></circle><circle cx="61.7" cy="101.9" r="0.6"></circle><circle cx="75.2" cy="28.1" r="1.1"></circle><circle cx="95.2" cy="42.3" r="1.4"></circle><circle cx="54.9" cy="17.3" r="1.0"></circle><circle cx="27.0" cy="40.3" r="1.5"></circle><circle cx="15.9" cy="90.5" r="0.9"></circle><circle cx="95.4" cy="66.4" r="1.0"></circle><circle cx="73.3" cy="28.7" r="1.2"></circle><circle cx="27.3" cy="96.2" r="1.1"></circle><circle cx="62.5" cy="25.7" r="1.3"></circle></g></svg></div><span class="note">墨滴落下、晕开，代替转圈</span></div></div><div class="cell"><div class="cap">开关 · 分段 · 分隔</div><div class="stage"><div class="tog"><svg class="" viewBox="0 0 24 24" preserveAspectRatio="none" aria-hidden="true" style="overflow: visible"><path d="M23.7,12.0 Q23.7,12.0 22.8,14.2 Q22.0,16.4 20.6,18.1 Q19.2,19.8 16.9,20.3 Q14.6,20.9 12.0,21.3 Q9.4,21.7 7.6,20.7 Q5.8,19.6 4.0,17.7 Q2.2,15.8 1.9,13.9 Q1.7,12.0 2.5,10.0 Q3.3,8.0 4.5,6.3 Q5.8,4.6 7.6,3.4 Q9.5,2.3 12.0,1.5 Q14.5,0.7 16.8,1.8 Q19.2,2.8 20.4,5.1 Q21.7,7.3 22.7,9.6 Z" fill="currentColor" filter="url(#p-rough)"></path></svg></div><div class="seg"><span class="on"><svg class="" viewBox="0 0 60 24" preserveAspectRatio="none" aria-hidden="true" style="overflow: visible"><path d="M57.1,12.0 Q57.1,12.0 55.4,14.4 Q53.7,16.8 50.8,18.4 Q48.0,20.1 42.1,21.4 Q36.2,22.7 29.9,21.6 Q23.7,20.5 19.1,20.9 Q14.6,21.3 9.8,18.7 Q4.9,16.1 3.5,14.1 Q2.2,12.0 4.5,9.8 Q6.8,7.6 10.6,6.3 Q14.4,4.9 19.3,3.2 Q24.1,1.5 29.9,1.5 Q35.7,1.5 41.9,3.3 Q48.2,5.1 50.5,6.6 Q52.8,8.1 55.0,10.1 Z" fill="currentColor" filter="url(#p-rough)"></path></svg>横排</span><span>竖排</span></div><svg width="150" height="10" viewBox="0 0 150 10" aria-hidden="true" style="color: var(--ink)"><g fill="currentColor"><circle cx="3" cy="5.0" r="1.1"></circle><circle cx="10" cy="6.7" r="2.5"></circle><circle cx="17" cy="6.8" r="1.5"></circle><circle cx="24" cy="5.3" r="2.4"></circle><circle cx="31" cy="3.5" r="1.8"></circle><circle cx="38" cy="3.1" r="2.2"></circle><circle cx="45" cy="4.4" r="2.1"></circle><circle cx="52" cy="6.3" r="2.0"></circle><circle cx="59" cy="7.0" r="2.3"></circle><circle cx="66" cy="5.8" r="1.7"></circle><circle cx="73" cy="3.9" r="2.4"></circle><circle cx="80" cy="3.0" r="1.3"></circle><circle cx="87" cy="3.9" r="2.5"></circle><circle cx="94" cy="5.8" r="1.3"></circle><circle cx="101" cy="7.0" r="2.5"></circle><circle cx="108" cy="6.3" r="1.6"></circle><circle cx="115" cy="4.4" r="2.3"></circle><circle cx="122" cy="3.1" r="1.9"></circle><circle cx="129" cy="3.5" r="2.1"></circle><circle cx="136" cy="5.3" r="2.2"></circle><circle cx="143" cy="6.8" r="1.8"></circle></g></svg><span class="note">分隔线是一串溅墨</span></div></div><div class="cell"><div class="cap">空状态</div><div class="stage"><div class="empty"><svg class="" viewBox="0 0 170 130" preserveAspectRatio="none" aria-hidden="true" style="overflow: visible"><path d="M166.5,65.0 Q166.5,65.0 160.0,77.0 Q153.4,89.0 144.9,97.9 Q136.3,106.8 118.9,113.7 Q101.5,120.6 85.1,123.5 Q68.7,126.4 51.6,119.0 Q34.5,111.6 29.1,102.3 Q23.6,92.9 16.4,79.0 Q9.2,65.0 13.0,52.9 Q16.8,40.7 25.4,32.7 Q34.0,24.7 51.8,13.4 Q69.5,2.0 85.2,8.4 Q100.9,14.7 116.0,15.3 Q131.2,15.9 141.0,30.3 Q150.9,44.7 158.7,54.8 Z" fill="currentColor" filter="url(#p-rough)"></path><g fill="currentColor"><circle cx="252.9" cy="120.0" r="0.5"></circle><circle cx="148.9" cy="-49.9" r="1.1"></circle><circle cx="129.9" cy="137.0" r="1.5"></circle><circle cx="253.3" cy="36.9" r="1.0"></circle><circle cx="91.2" cy="114.1" r="1.4"></circle><circle cx="73.1" cy="98.6" r="1.2"></circle><circle cx="111.5" cy="9.4" r="0.9"></circle><circle cx="130.3" cy="-32.2" r="1.5"></circle><circle cx="228.8" cy="83.3" r="1.2"></circle><circle cx="81.5" cy="62.3" r="0.8"></circle><circle cx="-70.4" cy="66.3" r="1.1"></circle><circle cx="-42.0" cy="106.6" r="0.9"></circle><circle cx="79.8" cy="109.5" r="1.2"></circle><circle cx="31.8" cy="156.2" r="0.5"></circle></g></svg><b>打开图纸</b><small>选择 DWG、PDF 或图片开始</small></div></div></div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"night":{"editor":"boolean","default":false,"section":"模式"},"$preview":{"width":1280,"height":1100}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const night = this.props.night ?? false;
+    return { rootCls: night ? 'scr night' : 'scr', modeLabel: night ? '水墨 · 夜间' : '水墨 · 白天' };
+  }
+}
+</script>
+</body>
+</html>

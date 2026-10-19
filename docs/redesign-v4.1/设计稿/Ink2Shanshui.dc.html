@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>水墨方向二 · 山水</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;600;700&amp;family=LXGW+WenKai+TC&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:inherit}a:hover{color:inherit}
+.scr{--bg:#ECEFEA;--bg2:#E2E7E2;--paper:#F6F7F3;--ink:#22302C;--ink2:#5E6B66;--line:#CBD4CF;--sel:rgba(61,106,108,.11);--canvas:#E1E7E3;--deco:#3B5552;--tab-on:#22302C;--accent:#3D6A6C;--accent-ink:#F6F7F3;--sun:#C8553D;--title-font:'LXGW WenKai TC',serif;--tab-font:'LXGW WenKai TC',serif;--tab-size:16px;--title-size:16px;--body-font:'Noto Sans SC',sans-serif;--num-font:'LXGW WenKai TC',serif;--num-size:16px;--r:7px;width:1280px;height:1100px;background:var(--bg);color:var(--ink);font-family:var(--body-font);font-size:13px;line-height:1.45;position:relative;overflow:hidden}
+.scr.night{--bg:#121A1C;--bg2:#0E1416;--paper:#192326;--ink:#DCE5E2;--ink2:#93A29E;--line:#2B393C;--sel:rgba(134,179,176,.13);--canvas:#152024;--deco:#9FB9B5;--tab-on:#DCE5E2;--accent:#86B3B0;--accent-ink:#0E1416;--sun:#E8E3C8}
+.app{position:relative;height:800px;display:flex;flex-direction:column;overflow:hidden}
+.bgdeco{position:absolute;inset:0;pointer-events:none;z-index:0;color:var(--deco)}
+.tb{position:relative;z-index:2;height:48px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 16px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700}
+.mods{display:flex;gap:2px}
+.mod{position:relative;z-index:0;height:48px;padding:0 15px;display:flex;align-items:center;color:var(--ink2);text-decoration:none;font-family:var(--tab-font);font-size:var(--tab-size)}
+.mod.on{color:var(--tab-on)}
+.tabdeco{position:absolute;pointer-events:none;z-index:-1}
+.tbr{justify-self:end;display:flex;align-items:center;gap:18px;color:var(--ink2);font-size:12px}
+.wc{display:inline-flex;gap:20px}
+.etb{position:relative;z-index:2;height:52px;display:flex;align-items:center;gap:8px;padding:0 16px}
+.fname{display:flex;flex-direction:column;line-height:1.25;margin-right:6px}
+.fname strong{font-size:14px}
+.fname small{color:var(--ink2);font-size:11px}
+.btn{height:30px;padding:0 11px;border:1px solid var(--line);border-radius:var(--r);background:var(--paper);color:var(--ink);font:inherit;font-size:12px;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;cursor:pointer}
+.btn.flat{border-color:transparent;background:transparent}
+.pri{position:relative;z-index:0;border:0;background:transparent;cursor:pointer;white-space:nowrap}
+.spacer{flex:1}
+.body{position:relative;z-index:1;flex:1;min-height:0;display:flex;gap:10px;padding:8px 12px 10px}
+.rail{width:40px;flex:none;align-self:flex-start;padding:6px 0;background:var(--paper);border:1px solid var(--line);border-radius:var(--r);display:flex;flex-direction:column;align-items:center;gap:4px}
+.ri{width:30px;height:30px;border-radius:var(--r);display:flex;align-items:center;justify-content:center;color:var(--ink2)}
+.ri.on{background:var(--sel);color:var(--ink)}
+.col,.rc{width:258px;flex:none;display:flex;flex-direction:column;gap:10px;min-height:0}
+.pn{position:relative;background:var(--paper);border:1px solid var(--line);border-radius:var(--r);display:flex;flex-direction:column;overflow:hidden;min-height:0}
+.pn.big{flex:0 0 62%}
+.pn.small{flex:1;opacity:.62}
+.ph{position:relative;height:40px;flex:none;display:flex;align-items:center;gap:8px;padding:0 12px;border-bottom:1px solid var(--line)}
+.ph .t{position:relative;z-index:1;font-family:var(--title-font);font-size:var(--title-size);color:var(--ink)}
+.ph .sub{position:relative;z-index:1;color:var(--ink2);font-size:11px}
+.ph .ic{margin-left:auto;display:flex;gap:10px;color:var(--ink2);font-size:12px}
+.pb{padding:8px 10px;display:flex;flex-direction:column;gap:4px;min-height:0}
+.tabs{display:flex;gap:2px;padding:2px;border-radius:var(--r);background:var(--sel);margin-bottom:6px}
+.tabs span{flex:1;height:26px;display:flex;align-items:center;justify-content:center;border-radius:var(--r);color:var(--ink2);font-size:12px}
+.tabs span.on{background:var(--paper);color:var(--ink);font-weight:600}
+.row{position:relative;z-index:0;display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:var(--r)}
+.row .nm{flex:1;min-width:0}
+.row .nm b{display:block;font-weight:600;font-size:12.5px}
+.row .nm small{display:block;color:var(--ink2);font-size:11px}
+.row .n{font-family:var(--num-font);font-size:var(--num-size);color:var(--ink)}
+.row.sel{background:var(--sel)}
+.done{position:relative;width:22px;height:22px;flex:none;display:inline-flex;align-items:center;justify-content:center}
+.thumb{width:28px;height:28px;flex:none;border-radius:var(--r);background:var(--sel);display:flex;align-items:center;justify-content:center;color:var(--ink2)}
+.cv{position:relative;flex:1;min-width:0;border-radius:var(--r);background:var(--canvas);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.cvdeco{position:absolute;inset:0;pointer-events:none;color:var(--deco)}
+.sheet{position:relative;z-index:1;background:#fff;padding:6px;box-shadow:0 8px 26px rgba(20,18,14,.16)}
+.zoom{position:absolute;right:10px;bottom:10px;z-index:2;display:flex;gap:14px;align-items:center;padding:4px 12px;background:var(--paper);border:1px solid var(--line);border-radius:var(--r);font-size:12px;color:var(--ink2)}
+.sel-combo{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink2);margin-bottom:4px}
+.sel-combo span{flex:1;height:28px;display:flex;align-items:center;justify-content:space-between;padding:0 8px;border:1px solid var(--line);border-radius:var(--r);color:var(--ink);background:var(--paper)}
+.qty{display:flex;align-items:center;gap:6px}
+.qty i{font-style:normal;width:22px;height:22px;border:1px solid var(--line);border-radius:var(--r);display:flex;align-items:center;justify-content:center;color:var(--ink2)}
+.sb{position:relative;z-index:2;height:30px;flex:none;display:flex;align-items:center;gap:16px;padding:0 16px;font-size:12px;color:var(--ink2)}
+.sb b{color:var(--ink)}
+.strip{position:relative;height:300px;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;padding:14px 16px 16px;box-sizing:border-box;background:var(--bg2);border-top:1px solid var(--line)}
+.cell{position:relative;z-index:0;background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:12px;display:flex;flex-direction:column;gap:12px;overflow:hidden}
+.cap{position:relative;z-index:1;font-size:11px;color:var(--ink2);letter-spacing:.12em}
+.stage{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}
+
+.brand .logo{width:32px;height:32px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:flex;align-items:center;justify-content:center;font-family:'LXGW WenKai TC',serif;font-size:18px;overflow:hidden;position:relative}
+.brand .word{font-family:'LXGW WenKai TC',serif;font-size:20px}
+.pri{height:34px;padding:0 18px;margin-left:6px;border-radius:17px;background:var(--accent);color:var(--accent-ink);font-family:var(--title-font);font-size:15px;overflow:hidden}
+.pri svg{position:absolute;left:0;right:0;bottom:0;width:100%;height:65%;z-index:-1;color:var(--accent-ink)}
+.pn.big .ph{border-bottom:0}
+.ph .ridge{position:absolute;left:0;right:0;bottom:0;width:100%;height:10px}
+.row.sel{background:linear-gradient(90deg,var(--sel),transparent 90%)}
+.mtabs{display:flex;gap:2px}
+.land{position:relative;width:150px;height:100px;border-radius:var(--r);overflow:hidden;background:var(--canvas)}
+.land svg{position:absolute;inset:0;width:100%;height:100%;color:var(--deco)}
+.tog{position:relative;width:58px;height:28px;border-radius:14px;background:var(--sel);overflow:hidden}
+.tog i{position:absolute;right:4px;top:4px;width:20px;height:20px;border-radius:50%;background:var(--sun)}
+.tog svg{position:absolute;left:0;right:0;bottom:0;width:100%;height:12px;color:var(--accent)}
+.seg{display:flex;gap:2px;padding:2px;border-radius:14px;background:var(--sel);font-size:12px}
+.seg span{padding:3px 12px;border-radius:12px;color:var(--ink2)}
+.seg span.on{background:var(--paper);color:var(--ink)}
+.empty{position:relative;width:170px;height:130px;border-radius:var(--r);overflow:hidden;background:var(--canvas);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:18px;box-sizing:border-box}
+.empty svg{position:absolute;inset:0;width:100%;height:100%;color:var(--deco)}
+.empty b{position:relative;font-family:'LXGW WenKai TC',serif;font-size:22px;font-weight:400}
+.empty small{position:relative;font-size:10px;color:var(--ink2)}
+.note{font-size:11px;color:var(--ink2);text-align:center}
+
+</style>
+</helmet>
+<div class="{{ rootCls }}">
+<svg width="0" height="0" style="position: absolute" aria-hidden="true"><defs>
+<filter id="s-rough" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="3" seed="7"></feTurbulence><feDisplacementMap in="SourceGraphic" scale="16"></feDisplacementMap></filter>
+<filter id="s-fine" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="0.09" numOctaves="2" seed="3"></feTurbulence><feDisplacementMap in="SourceGraphic" scale="5"></feDisplacementMap></filter>
+<filter id="s-soft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="5"></feGaussianBlur></filter>
+<filter id="s-wash" x="-30%" y="-30%" width="160%" height="160%"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="4" seed="11"></feTurbulence><feDisplacementMap in="SourceGraphic" scale="30"></feDisplacementMap><feGaussianBlur stdDeviation="2.2"></feGaussianBlur></filter>
+<filter id="s-fiber"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="5"></feTurbulence><feColorMatrix type="saturate" values="0"></feColorMatrix></filter>
+</defs></svg>
+<div class="app">
+<div class="bgdeco"><svg width="1280" height="800" viewBox="0 0 1280 800" aria-hidden="true"><defs><linearGradient id="s-mist" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color: var(--bg); stop-opacity: 0"></stop><stop offset="1" style="stop-color: var(--bg); stop-opacity: 1"></stop></linearGradient></defs><circle cx="1046" cy="30" r="15" style="fill: var(--sun)" opacity=".55"></circle><g transform="translate(0 -8)"><path d="M0,466.0 L0,74.1 L14,77.0 L28,77.9 L42,79.1 L56,82.2 L70,86.9 L84,90.9 L98,91.9 L112,88.6 L126,82.2 L140,75.5 L154,71.5 L168,71.6 L182,74.8 L196,78.5 L210,80.3 L224,79.3 L238,76.5 L252,74.5 L266,74.9 L280,77.9 L294,81.2 L308,81.9 L322,78.2 L336,70.2 L350,60.5 L364,52.0 L378,46.9 L392,45.2 L406,44.7 L420,43.3 L434,40.0 L448,35.9 L462,33.4 L476,35.0 L490,41.1 L504,50.0 L518,58.5 L532,64.0 L546,65.6 L560,64.7 L574,63.9 L588,65.1 L602,68.7 L616,72.6 L630,74.5 L644,73.1 L658,69.0 L672,64.8 L686,63.6 L700,66.7 L714,73.4 L728,80.9 L742,86.4 L756,88.6 L770,88.2 L784,87.4 L798,88.3 L812,91.1 L826,94.2 L840,94.9 L854,91.0 L868,82.7 L882,72.3 L896,63.0 L910,57.1 L924,54.9 L938,54.6 L952,53.7 L966,50.7 L980,46.4 L994,42.9 L1008,42.6 L1022,46.4 L1036,52.8 L1050,58.8 L1064,61.6 L1078,60.2 L1092,56.0 L1106,51.7 L1120,49.7 L1134,50.7 L1148,53.3 L1162,55.0 L1176,54.3 L1190,51.5 L1204,48.9 L1218,49.3 L1232,54.3 L1246,63.2 L1260,73.3 L1274,81.5 L1288,86.1 L1280,466.0 Z" fill="currentColor" opacity="0.12" filter="url(#s-soft)"></path><path d="M0,481.6 L0,81.7 L14,75.3 L28,71.5 L42,71.3 L56,74.0 L70,77.6 L84,79.5 L98,78.9 L112,76.3 L126,73.6 L140,72.6 L154,73.6 L168,75.3 L182,75.7 L196,73.3 L210,68.2 L224,62.3 L238,58.2 L252,57.5 L266,60.3 L280,65.0 L294,69.4 L308,72.2 L322,73.7 L336,75.4 L350,79.2 L364,85.5 L378,93.2 L392,99.9 L406,103.3 L420,102.8 L434,99.6 L448,95.9 L462,93.8 L476,93.9 L490,94.9 L504,95.2 L518,93.2 L532,89.4 L546,85.3 L560,83.3 L574,84.6 L588,88.5 L602,92.8 L616,95.3 L630,94.5 L644,90.8 L658,86.3 L672,82.8 L686,81.1 L700,80.5 L714,78.9 L728,74.9 L742,68.4 L756,61.1 L770,55.6 L784,53.7 L798,55.7 L812,60.0 L826,64.3 L840,67.0 L854,67.9 L868,68.7 L882,71.0 L896,75.8 L910,82.0 L924,87.7 L938,90.6 L952,89.8 L966,86.5 L980,82.9 L994,81.3 L1008,82.5 L1022,85.6 L1036,88.6 L1050,89.9 L1064,89.3 L1078,88.2 L1092,88.6 L1106,91.7 L1120,97.3 L1134,103.1 L1148,106.8 L1162,106.7 L1176,103.1 L1190,98.0 L1204,93.4 L1218,90.6 L1232,89.1 L1246,87.1 L1260,83.0 L1274,76.6 L1288,69.2 L1280,481.6 Z" fill="currentColor" opacity="0.2"></path><path d="M0,498.4 L0,89.9 L14,89.9 L28,91.1 L42,94.6 L56,100.3 L70,106.6 L84,111.8 L98,114.4 L112,114.3 L126,112.7 L140,111.3 L154,111.1 L168,111.9 L182,112.4 L196,111.3 L210,108.1 L224,103.7 L238,99.8 L252,98.0 L266,98.8 L280,101.3 L294,103.8 L308,104.8 L322,103.6 L336,101.3 L350,99.3 L364,98.6 L378,99.1 L392,99.6 L406,98.6 L420,95.2 L434,89.9 L448,84.4 L462,80.4 L476,79.2 L490,80.3 L504,82.5 L518,84.1 L532,84.6 L546,84.6 L560,85.5 L574,88.4 L588,93.3 L602,99.2 L616,104.0 L630,106.3 L644,106.0 L658,104.1 L672,102.5 L686,102.4 L700,103.8 L714,105.5 L728,106.3 L742,105.3 L756,103.2 L770,101.3 L784,101.4 L798,104.0 L812,108.2 L826,112.2 L840,114.4 L854,114.1 L868,111.9 L882,109.4 L896,107.8 L910,107.2 L924,106.9 L938,105.2 L952,101.2 L966,95.4 L980,89.2 L994,84.5 L1008,82.6 L1022,83.2 L1036,85.1 L1050,86.6 L1064,86.7 L1078,85.9 L1092,85.5 L1106,86.7 L1120,89.8 L1134,93.9 L1148,97.1 L1162,98.1 L1176,96.6 L1190,93.6 L1204,91.1 L1218,90.4 L1232,91.8 L1246,94.3 L1260,96.5 L1274,97.3 L1288,97.1 L1280,498.4 Z" fill="currentColor" opacity="0.32"></path></g><rect x="0" y="70" width="1280" height="50" fill="url(#s-mist)"></rect><g transform="translate(0 690)"><path d="M0,454.0 L0,56.1 L14,66.7 L28,75.2 L42,78.6 L56,76.6 L70,71.5 L84,66.7 L98,65.0 L112,66.6 L126,69.6 L140,71.2 L154,69.6 L168,65.7 L182,62.1 L196,61.8 L210,66.0 L224,73.2 L238,80.0 L252,83.0 L266,80.7 L280,74.5 L294,67.2 L308,61.8 L322,58.9 L336,57.1 L350,53.5 L364,46.2 L378,35.9 L392,25.2 L406,17.8 L420,16.1 L434,19.8 L448,26.0 L462,31.4 L476,34.0 L490,34.2 L504,34.3 L518,36.9 L532,42.9 L546,50.5 L560,56.7 L574,58.6 L588,55.6 L602,49.8 L616,44.9 L630,43.7 L644,46.9 L658,52.8 L672,58.3 L686,61.2 L700,61.6 L714,61.8 L728,64.6 L742,71.4 L756,80.8 L770,89.7 L784,94.5 L798,93.5 L812,87.7 L826,80.2 L840,74.1 L854,70.6 L868,68.8 L882,65.9 L896,59.9 L910,50.7 L924,40.7 L938,33.6 L952,31.6 L966,34.7 L980,40.3 L994,44.8 L1008,45.8 L1022,43.4 L1036,39.8 L1050,37.9 L1064,39.1 L1078,42.3 L1092,44.8 L1106,43.8 L1120,38.5 L1134,30.9 L1148,24.5 L1162,22.5 L1176,26.0 L1190,33.1 L1204,40.8 L1218,46.4 L1232,49.4 L1246,51.7 L1260,55.9 L1274,63.6 L1288,74.0 L1280,454.0 Z" fill="currentColor" opacity="0.08" filter="url(#s-soft)"></path><path d="M0,472.0 L0,55.9 L14,56.2 L28,57.2 L42,61.3 L56,69.2 L70,79.6 L84,89.4 L98,95.8 L112,97.5 L126,95.5 L140,92.6 L154,91.0 L168,91.7 L182,93.3 L196,93.4 L210,90.3 L224,84.3 L238,77.8 L252,73.6 L266,73.5 L280,77.3 L294,82.4 L308,85.8 L322,85.7 L336,82.5 L350,78.3 L364,75.4 L378,74.9 L392,75.5 L406,74.8 L420,70.6 L434,62.7 L448,52.9 L462,44.5 L476,40.1 L490,40.3 L504,43.5 L518,47.0 L532,48.9 L546,49.1 L560,49.5 L574,52.2 L588,58.6 L602,67.5 L616,76.3 L630,81.8 L644,82.8 L658,80.2 L672,76.6 L686,74.9 L700,76.1 L714,79.2 L728,82.0 L742,82.4 L756,80.3 L770,77.4 L784,76.5 L798,79.5 L812,86.0 L826,93.8 L840,99.5 L854,101.2 L868,98.8 L882,94.4 L896,90.5 L910,88.5 L924,87.9 L938,86.2 L952,81.4 L966,73.0 L980,62.7 L994,53.5 L1008,48.2 L1022,47.6 L1036,50.4 L1050,53.6 L1064,55.0 L1078,54.1 L1092,52.5 L1106,52.5 L1120,55.6 L1134,61.2 L1148,66.8 L1162,69.8 L1176,68.5 L1190,63.8 L1204,58.4 L1218,55.2 L1232,55.9 L1246,59.7 L1260,64.2 L1274,67.2 L1288,68.0 L1280,472.0 Z" fill="currentColor" opacity="0.13"></path></g></svg></div>
+<header class="tb">
+<div class="brand"><span class="logo">胥</span><span class="word">胥宇</span></div>
+<nav class="mods" aria-label="模块"><a class="mod" href="#">工作台</a><a class="mod" href="#">资料整理</a><a class="mod on" href="#"><svg class="tabdeco" viewBox="0 0 30 9" aria-hidden="true" style="left: 50%; bottom: 7px; width: 30px; height: 9px; margin-left: -15px"><path d="M0 9 L9 2 L13 5 L19 0 L30 9 Z" style="fill: var(--accent)"></path></svg>绘图</a><a class="mod" href="#">绩效</a><a class="mod" href="#">配置</a></nav>
+<div class="tbr"><span>{{ modeLabel }}</span><span class="wc" aria-hidden="true"><span>─</span><span>☐</span><span>✕</span></span></div>
+</header>
+<div class="etb">
+<div class="fname"><strong>2F 平面图.pdf</strong><small>成果目录：BIG 老店 / 2026 Q4</small></div>
+<button type="button" class="btn">方案 BIG（老店） ▾</button>
+<button type="button" class="btn">‹ 第 2 / 4 页 ›</button>
+<span class="spacer"></span>
+<button type="button" class="btn flat">点位说明</button>
+<button type="button" class="btn">设备汇总 2 ▾</button>
+<button type="button" class="btn flat">文件样式</button>
+<button type="button" class="btn flat">图片大小</button>
+<button type="button" class="btn">导出 PDF ▾</button>
+<button type="button" class="pri"><svg viewBox="0 0 160 20" preserveAspectRatio="none" aria-hidden="true"><path d="M0,409.0 L0,8.9 L4,9.5 L8,10.2 L12,10.7 L16,11.3 L20,11.7 L24,12.1 L28,12.4 L32,12.6 L36,12.8 L40,12.9 L44,13.0 L48,13.0 L52,13.0 L56,13.0 L60,13.1 L64,13.1 L68,13.2 L72,13.3 L76,13.4 L80,13.6 L84,13.8 L88,14.1 L92,14.3 L96,14.6 L100,14.8 L104,15.1 L108,15.2 L112,15.4 L116,15.5 L120,15.5 L124,15.4 L128,15.2 L132,15.0 L136,14.7 L140,14.3 L144,13.9 L148,13.4 L152,12.9 L156,12.4 L160,11.9 L160,409.0 Z" fill="currentColor" opacity="0.22"></path><path d="M0,415.0 L0,12.3 L4,12.6 L8,12.9 L12,13.2 L16,13.4 L20,13.6 L24,13.8 L28,13.9 L32,13.9 L36,13.9 L40,13.8 L44,13.7 L48,13.6 L52,13.5 L56,13.3 L60,13.1 L64,12.9 L68,12.8 L72,12.7 L76,12.6 L80,12.6 L84,12.5 L88,12.6 L92,12.6 L96,12.7 L100,12.8 L104,13.0 L108,13.1 L112,13.2 L116,13.3 L120,13.4 L124,13.4 L128,13.4 L132,13.3 L136,13.3 L140,13.1 L144,12.9 L148,12.7 L152,12.5 L156,12.3 L160,12.0 L160,415.0 Z" fill="currentColor" opacity="0.3"></path></svg><span>完成并下一份</span></button>
+</div>
+<div class="body">
+<div class="rail"><span class="ri on"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M5 3l14 8-6 2-2 6z"></path></svg></span><span class="ri"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M5 5h14M12 5v14"></path></svg></span><span class="ri"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M5 19L19 5m0 0h-7m7 0v7"></path></svg></span><span class="ri"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M3 17l14-14 4 4-14 14z"></path></svg></span><span class="ri"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 4h16v16H4z M4 12h16"></path></svg></span><span class="ri"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6h.01M12 6h.01M18 6h.01M6 12h.01M12 12h.01M18 12h.01"></path></svg></span></div>
+<div class="col">
+<section class="pn big">
+<div class="ph"><svg class="ridge" viewBox="0 0 260 10" preserveAspectRatio="none" aria-hidden="true"><path d="M0,408 L0,6.0 L6,5.8 L12,5.6 L18,5.3 L24,5.0 L30,4.7 L36,4.4 L42,4.1 L48,3.9 L54,3.9 L60,3.9 L66,4.1 L72,4.3 L78,4.7 L84,5.1 L90,5.6 L96,6.0 L102,6.4 L108,6.8 L114,7.0 L120,7.1 L126,7.2 L132,7.1 L138,7.0 L144,6.9 L150,6.7 L156,6.6 L162,6.5 L168,6.5 L174,6.5 L180,6.6 L186,6.8 L192,7.0 L198,7.2 L204,7.4 L210,7.5 L216,7.6 L222,7.5 L228,7.4 L234,7.2 L240,7.0 L246,6.8 L252,6.5 L258,6.3 L264,6.2 L260,408 Z" style="fill: var(--accent)" opacity=".16"></path></svg><span class="t">资料</span><span class="ic" aria-hidden="true"><span>⌖</span><span>︿</span><span>✕</span></span></div>
+<div class="pb">
+<div class="tabs"><span>文件</span><span class="on">页面</span><span>点位</span></div>
+<div class="row sel"><span class="thumb">2</span><span class="nm"><b>第 2 页 · 当前</b><small>2 个点位</small></span></div>
+<div class="row"><span class="thumb">1</span><span class="nm"><b>第 1 页</b><small>3 个点位 · 已导出</small></span><span class="done" aria-label="已完成"><svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><circle cx="15.5" cy="6.5" r="3.4" style="fill: var(--sun)"></circle><path d="M1 20 L8.5 9 L12.5 14 L15.5 11 L21 20 Z" style="fill: var(--accent)"></path></svg></span></div>
+<div class="row"><span class="thumb">3</span><span class="nm"><b>第 3 页</b><small>还没放点</small></span></div>
+<div class="row"><span class="thumb">4</span><span class="nm"><b>第 4 页</b><small>还没放点</small></span></div>
+</div>
+</section>
+<section class="pn small">
+<div class="ph"><span class="t">设备</span><span class="sub">BIG（老店）</span></div>
+<div class="pb">
+<div class="row"><span class="thumb">◎</span><span class="nm"><b>点位摄像机</b><small>客流</small></span><span class="n">2</span></div>
+<div class="row"><span class="thumb">◎</span><span class="nm"><b>D6PS-1 半球</b><small>卖场监控</small></span><span class="n">1</span></div>
+</div>
+</section>
+</div>
+<main class="cv">
+<div class="cvdeco"><svg width="100%" height="100%" viewBox="0 0 700 700" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><defs><linearGradient id="s-mist2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color: var(--canvas); stop-opacity: 0"></stop><stop offset="1" style="stop-color: var(--canvas); stop-opacity: .9"></stop></linearGradient></defs><circle cx="590" cy="110" r="34" style="fill: var(--sun)" opacity=".35"></circle><ellipse cx="160" cy="180" rx="120" ry="14" fill="currentColor" opacity=".06" filter="url(#s-soft)"></ellipse><ellipse cx="520" cy="260" rx="150" ry="12" fill="currentColor" opacity=".05" filter="url(#s-soft)"></ellipse><g transform="translate(0 420)"><path d="M0,498.0 L0,71.5 L7,71.0 L14,71.1 L21,72.4 L28,75.3 L35,79.8 L42,85.7 L49,92.3 L56,98.7 L63,104.2 L70,107.9 L77,109.2 L84,108.1 L91,104.5 L98,99.2 L105,92.9 L112,86.5 L119,81.3 L126,77.9 L133,77.1 L140,79.0 L147,83.6 L154,90.3 L161,98.3 L168,106.7 L175,114.7 L182,121.4 L189,126.5 L196,129.8 L203,131.6 L210,132.4 L217,132.9 L224,133.9 L231,136.1 L238,139.9 L245,145.5 L252,152.7 L259,160.8 L266,169.0 L273,176.4 L280,181.9 L287,184.8 L294,184.5 L301,180.9 L308,174.4 L315,165.5 L322,155.2 L329,144.4 L336,134.1 L343,125.2 L350,118.0 L357,112.8 L364,109.3 L371,106.9 L378,105.0 L385,102.7 L392,99.5 L399,94.7 L406,88.4 L413,80.6 L420,72.1 L427,63.5 L434,55.9 L441,50.0 L448,46.6 L455,46.0 L462,48.2 L469,53.0 L476,59.5 L483,66.8 L490,73.9 L497,79.8 L504,83.7 L511,85.3 L518,84.4 L525,81.5 L532,77.1 L539,72.0 L546,67.2 L553,63.5 L560,61.2 L567,60.7 L574,61.8 L581,64.1 L588,66.8 L595,69.0 L602,70.2 L609,69.5 L616,66.9 L623,62.3 L630,56.2 L637,49.4 L644,42.8 L651,37.5 L658,34.3 L665,33.8 L672,36.5 L679,42.3 L686,50.6 L693,60.6 L700,71.5 L700,498.0 Z" fill="currentColor" opacity="0.1" filter="url(#s-soft)"></path><path d="M0,554.0 L0,148.7 L7,144.4 L14,140.3 L21,137.2 L28,135.3 L35,135.0 L42,135.9 L49,137.7 L56,139.6 L63,140.9 L70,140.9 L77,139.1 L84,135.1 L91,129.1 L98,121.4 L105,112.7 L112,103.9 L119,96.0 L126,89.7 L133,85.6 L140,84.2 L147,85.3 L154,88.8 L161,93.9 L168,99.9 L175,106.0 L182,111.6 L189,116.2 L196,119.5 L203,121.7 L210,123.3 L217,124.8 L224,127.0 L231,130.4 L238,135.4 L245,142.4 L252,151.2 L259,161.2 L266,171.9 L273,182.4 L280,191.7 L287,199.1 L294,204.0 L301,206.1 L308,205.7 L315,203.1 L322,199.0 L329,194.2 L336,189.6 L343,186.0 L350,183.7 L357,183.0 L364,183.7 L371,185.5 L378,187.6 L385,189.5 L392,190.4 L399,189.9 L406,187.8 L413,184.1 L420,179.4 L427,174.1 L434,169.1 L441,165.3 L448,163.1 L455,163.2 L462,165.5 L469,169.9 L476,175.8 L483,182.4 L490,188.9 L497,194.3 L504,198.0 L511,199.4 L518,198.4 L525,195.2 L532,190.3 L539,184.4 L546,178.2 L553,172.5 L560,167.8 L567,164.3 L574,162.1 L581,160.8 L588,159.8 L595,158.4 L602,156.0 L609,152.1 L616,146.2 L623,138.4 L630,129.0 L637,118.6 L644,108.1 L651,98.4 L658,90.3 L665,84.5 L672,81.4 L679,81.1 L686,83.4 L693,87.5 L700,92.8 L700,554.0 Z" fill="currentColor" opacity="0.16"></path><path d="M0,618.4 L0,191.6 L7,197.8 L14,203.0 L21,206.9 L28,209.2 L35,210.2 L42,210.0 L49,209.2 L56,208.2 L63,207.6 L70,207.8 L77,209.0 L84,211.2 L91,214.1 L98,217.5 L105,220.7 L112,223.4 L119,224.9 L126,225.1 L133,223.9 L140,221.4 L147,218.1 L154,214.5 L161,211.1 L168,208.7 L175,207.7 L182,208.4 L189,210.9 L196,215.0 L203,220.3 L210,226.3 L217,232.4 L224,238.0 L231,242.6 L238,246.0 L245,248.1 L252,249.1 L259,249.3 L266,249.3 L273,249.5 L280,250.3 L287,252.0 L294,254.6 L301,257.9 L308,261.6 L315,265.2 L322,268.0 L329,269.4 L336,269.2 L343,267.0 L350,262.8 L357,257.0 L364,250.0 L371,242.3 L378,234.7 L385,227.7 L392,221.9 L399,217.5 L406,214.5 L413,212.7 L420,211.8 L427,211.2 L434,210.5 L441,209.3 L448,207.2 L455,204.2 L462,200.4 L469,196.3 L476,192.3 L483,188.9 L490,186.6 L497,185.8 L504,186.7 L511,189.2 L518,193.0 L525,197.6 L532,202.4 L539,206.7 L546,210.0 L553,211.9 L560,212.1 L567,210.7 L574,208.0 L581,204.4 L588,200.5 L595,196.9 L602,194.1 L609,192.3 L616,191.7 L623,192.2 L630,193.5 L637,195.1 L644,196.5 L651,197.2 L658,197.1 L665,195.8 L672,193.5 L679,190.6 L686,187.4 L693,184.6 L700,182.8 L700,618.4 Z" fill="currentColor" opacity="0.24"></path></g><rect x="0" y="560" width="700" height="140" fill="url(#s-mist2)"></rect></svg></div>
+<div class="sheet"><svg viewBox="0 0 520 390" width="500" height="375" aria-hidden="true"><g fill="none" stroke="#3a3a3a" stroke-width="2.4"><rect x="28" y="26" width="464" height="336"></rect><path d="M28 170h170M198 26v120M198 200v162M330 26v110M330 196v166M330 290h162"></path></g><g fill="#6b6b6b" font-size="11" font-family="Noto Sans SC, sans-serif"><text x="90" y="104">收银</text><text x="252" y="104">卖场</text><text x="392" y="104">仓库</text><text x="94" y="276">试衣间</text><text x="392" y="334">办公</text></g><g fill="none" stroke="#24456b" stroke-width="2.2"><circle cx="120" cy="140" r="9"></circle><path d="M129 140h16m-6-6l6 6-6 6"></path><circle cx="268" cy="250" r="9"></circle><path d="M277 250h16m-6-6l6 6-6 6"></path><circle cx="430" cy="210" r="9"></circle><path d="M439 210h16m-6-6l6 6-6 6"></path></g><g font-size="12" font-weight="700" fill="#24456b" font-family="Noto Sans SC, sans-serif"><text x="104" y="166">Cam1</text><text x="252" y="276">Cam2</text><text x="414" y="236">Cam3</text></g><g font-family="Noto Sans SC, sans-serif"><rect x="350" y="298" width="128" height="50" fill="#fff" stroke="#9a9a9a"></rect><text x="362" y="319" font-size="11" fill="#333">录像机 × 1 台</text><text x="362" y="337" font-size="11" fill="#333">交换机 × 1 台</text></g></svg></div>
+<div class="zoom"><span>−</span><span>100%</span><span>+</span><span>适配</span></div>
+</main>
+<aside class="rc">
+<section class="pn" style="flex: 1">
+<div class="ph"><span class="t">汇总清单</span><span class="sub">BIG（老店）</span></div>
+<div class="pb">
+<div class="sel-combo">汇总组合<span>默认 ▾</span></div>
+<div class="row"><span class="nm"><b>点位摄像机</b><small>客流 · 点位</small></span><span class="qty"><i>−</i><span class="n">2</span><i>+</i></span></div>
+<div class="row"><span class="nm"><b>录像机</b><small>汇总设备 · 组合</small></span><span class="qty"><i>−</i><span class="n">1</span><i>+</i></span></div>
+<div class="row"><span class="nm"><b>交换机</b><small>汇总设备 · 组合</small></span><span class="qty"><i>−</i><span class="n">1</span><i>+</i></span></div>
+</div>
+</section>
+</aside>
+</div>
+<footer class="sb"><b>已保存</b><span>上次保存 10:21</span><span>比例 · 未校准</span><span class="spacer"></span><span>整体 100%</span><span>2 / 4 页</span></footer>
+</div>
+<div class="strip">
+<div class="cell"><div class="cap">主按钮</div><div class="stage"><button type="button" class="pri"><svg viewBox="0 0 160 20" preserveAspectRatio="none" aria-hidden="true"><path d="M0,409.0 L0,8.9 L4,9.5 L8,10.2 L12,10.7 L16,11.3 L20,11.7 L24,12.1 L28,12.4 L32,12.6 L36,12.8 L40,12.9 L44,13.0 L48,13.0 L52,13.0 L56,13.0 L60,13.1 L64,13.1 L68,13.2 L72,13.3 L76,13.4 L80,13.6 L84,13.8 L88,14.1 L92,14.3 L96,14.6 L100,14.8 L104,15.1 L108,15.2 L112,15.4 L116,15.5 L120,15.5 L124,15.4 L128,15.2 L132,15.0 L136,14.7 L140,14.3 L144,13.9 L148,13.4 L152,12.9 L156,12.4 L160,11.9 L160,409.0 Z" fill="currentColor" opacity="0.22"></path><path d="M0,415.0 L0,12.3 L4,12.6 L8,12.9 L12,13.2 L16,13.4 L20,13.6 L24,13.8 L28,13.9 L32,13.9 L36,13.9 L40,13.8 L44,13.7 L48,13.6 L52,13.5 L56,13.3 L60,13.1 L64,12.9 L68,12.8 L72,12.7 L76,12.6 L80,12.6 L84,12.5 L88,12.6 L92,12.6 L96,12.7 L100,12.8 L104,13.0 L108,13.1 L112,13.2 L116,13.3 L120,13.4 L124,13.4 L128,13.4 L132,13.3 L136,13.3 L140,13.1 L144,12.9 L148,12.7 L152,12.5 L156,12.3 L160,12.0 L160,415.0 Z" fill="currentColor" opacity="0.3"></path></svg><span>完成并下一份</span></button><button type="button" class="btn" style="border-radius: 17px">导出 PDF</button><span class="note">按钮底部藏着一层远山</span></div></div><div class="cell"><div class="cap">模块标签</div><div class="stage"><div class="mtabs"><a class="mod" href="#">工作台</a><a class="mod on" href="#"><svg class="tabdeco" viewBox="0 0 30 9" aria-hidden="true" style="left: 50%; bottom: 7px; width: 30px; height: 9px; margin-left: -15px"><path d="M0 9 L9 2 L13 5 L19 0 L30 9 Z" style="fill: var(--accent)"></path></svg>绘图</a><a class="mod" href="#">配置</a></div><span class="note">当前项下面一座小山</span></div></div><div class="cell"><div class="cap">选中 · 已完成</div><div class="stage"><div style="width: 100%"><div class="row sel"><span class="nm"><b>第 2 页 · 当前</b><small>2 个点位</small></span></div><div class="row"><span class="nm"><b>第 1 页</b><small>已导出</small></span><span class="done" aria-label="已完成"><svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><circle cx="15.5" cy="6.5" r="3.4" style="fill: var(--sun)"></circle><path d="M1 20 L8.5 9 L12.5 14 L15.5 11 L21 20 Z" style="fill: var(--accent)"></path></svg></span></div></div></div></div><div class="cell"><div class="cap">加载中</div><div class="stage"><div class="land"><svg viewBox="0 0 150 100" preserveAspectRatio="none" aria-hidden="true"><g transform="translate(0 30)"><path d="M0,428.0 L0,28.5 L4,27.8 L8,27.2 L12,26.8 L16,26.4 L20,26.3 L24,26.5 L28,26.9 L32,27.6 L36,28.6 L40,29.9 L44,31.4 L48,33.1 L52,35.0 L56,36.9 L60,38.9 L64,40.9 L68,42.7 L72,44.5 L76,46.0 L80,47.3 L84,48.4 L88,49.2 L92,49.7 L96,50.0 L100,50.0 L104,49.9 L108,49.5 L112,49.1 L116,48.6 L120,48.1 L124,47.6 L128,47.1 L132,46.8 L136,46.6 L140,46.5 L144,46.6 L148,46.7 L152,47.0 L150,428.0 Z" fill="currentColor" opacity="0.14"></path><path d="M0,442.0 L0,34.2 L4,34.0 L8,34.1 L12,34.2 L16,34.5 L20,35.0 L24,35.5 L28,36.1 L32,36.7 L36,37.3 L40,37.9 L44,38.3 L48,38.7 L52,38.9 L56,38.9 L60,38.7 L64,38.3 L68,37.8 L72,37.0 L76,36.1 L80,35.0 L84,33.9 L88,32.7 L92,31.5 L96,30.3 L100,29.2 L104,28.3 L108,27.5 L112,26.9 L116,26.5 L120,26.3 L124,26.4 L128,26.6 L132,27.0 L136,27.6 L140,28.3 L144,29.1 L148,29.9 L152,30.7 L150,442.0 Z" fill="currentColor" opacity="0.22"></path><path d="M0,457.4 L0,59.3 L4,59.5 L8,59.5 L12,59.4 L16,59.2 L20,58.9 L24,58.5 L28,58.1 L32,57.7 L36,57.3 L40,56.8 L44,56.5 L48,56.1 L52,55.9 L56,55.7 L60,55.7 L64,55.7 L68,55.7 L72,55.9 L76,56.1 L80,56.2 L84,56.4 L88,56.6 L92,56.7 L96,56.7 L100,56.6 L104,56.4 L108,56.1 L112,55.6 L116,55.0 L120,54.3 L124,53.4 L128,52.5 L132,51.6 L136,50.6 L140,49.6 L144,48.6 L148,47.7 L152,46.9 L150,457.4 Z" fill="currentColor" opacity="0.34"></path></g><rect x="-20" y="52" width="190" height="10" fill="white" opacity=".55" filter="url(#s-soft)"></rect></svg></div><span class="note">一道云雾从山间流过</span></div></div><div class="cell"><div class="cap">开关 · 分段 · 分隔</div><div class="stage"><div class="tog"><svg viewBox="0 0 58 12" preserveAspectRatio="none" aria-hidden="true"><path d="M0,409 L0,10.2 L4,10.0 L8,9.7 L12,9.5 L16,9.3 L20,9.1 L24,9.0 L28,8.9 L32,8.9 L36,8.9 L40,8.9 L44,9.0 L48,9.2 L52,9.4 L56,9.5 L60,9.8 L58,409 Z" fill="currentColor" opacity=".35"></path></svg><i></i></div><div class="seg"><span class="on">横排</span><span>竖排</span></div><svg width="150" height="12" viewBox="0 0 150 12" aria-hidden="true"><path d="M0,410 L0,11.8 L5,12.2 L10,12.5 L15,12.8 L20,12.9 L25,13.0 L30,12.9 L35,12.8 L40,12.6 L45,12.4 L50,12.2 L55,12.0 L60,11.8 L65,11.7 L70,11.7 L75,11.7 L80,11.7 L85,11.9 L90,12.0 L95,12.2 L100,12.3 L105,12.4 L110,12.5 L115,12.6 L120,12.5 L125,12.4 L130,12.3 L135,12.1 L140,11.8 L145,11.6 L150,11.3 L150,410 Z" style="fill: var(--accent)" opacity=".3"></path></svg><span class="note">开关是日月，分隔是山脊线</span></div></div><div class="cell"><div class="cap">空状态</div><div class="stage"><div class="empty"><svg viewBox="0 0 170 130" preserveAspectRatio="none" aria-hidden="true"><circle cx="128" cy="34" r="12" style="fill: var(--sun)" opacity=".6"></circle><g transform="translate(0 50)"><path d="M0,432.0 L0,24.8 L4,25.9 L8,27.1 L12,28.3 L16,29.5 L20,30.5 L24,31.4 L28,32.0 L32,32.3 L36,32.2 L40,31.9 L44,31.2 L48,30.3 L52,29.0 L56,27.5 L60,25.8 L64,24.0 L68,22.1 L72,20.3 L76,18.5 L80,16.9 L84,15.4 L88,14.1 L92,13.2 L96,12.4 L100,11.9 L104,11.7 L108,11.7 L112,11.9 L116,12.1 L120,12.5 L124,12.9 L128,13.2 L132,13.5 L136,13.7 L140,13.7 L144,13.6 L148,13.2 L152,12.8 L156,12.2 L160,11.5 L164,10.7 L168,10.0 L172,9.3 L170,432.0 Z" fill="currentColor" opacity="0.12"></path><path d="M0,448.0 L0,49.5 L4,51.0 L8,52.6 L12,54.2 L16,55.9 L20,57.7 L24,59.3 L28,60.9 L32,62.3 L36,63.5 L40,64.4 L44,65.2 L48,65.6 L52,65.8 L56,65.7 L60,65.3 L64,64.8 L68,64.0 L72,63.1 L76,62.1 L80,61.1 L84,60.0 L88,59.0 L92,58.2 L96,57.4 L100,56.8 L104,56.4 L108,56.1 L112,56.1 L116,56.1 L120,56.3 L124,56.6 L128,57.0 L132,57.3 L136,57.7 L140,58.0 L144,58.1 L148,58.2 L152,58.1 L156,57.8 L160,57.4 L164,56.9 L168,56.2 L172,55.5 L170,448.0 Z" fill="currentColor" opacity="0.2"></path><path d="M0,465.6 L0,58.3 L4,58.0 L8,57.9 L12,57.8 L16,57.7 L20,57.6 L24,57.5 L28,57.3 L32,57.1 L36,56.8 L40,56.4 L44,55.9 L48,55.3 L52,54.7 L56,54.1 L60,53.5 L64,52.9 L68,52.3 L72,51.9 L76,51.6 L80,51.4 L84,51.4 L88,51.6 L92,51.9 L96,52.4 L100,53.1 L104,54.0 L108,54.9 L112,56.0 L116,57.0 L120,58.1 L124,59.2 L128,60.2 L132,61.1 L136,61.9 L140,62.6 L144,63.0 L148,63.3 L152,63.5 L156,63.5 L160,63.3 L164,63.0 L168,62.7 L172,62.2 L170,465.6 Z" fill="currentColor" opacity="0.32"></path></g></svg><b>打开图纸</b><small>选择 DWG、PDF 或图片开始</small></div></div></div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"night":{"editor":"boolean","default":false,"section":"模式"},"$preview":{"width":1280,"height":1100}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const night = this.props.night ?? false;
+    return { rootCls: night ? 'scr night' : 'scr', modeLabel: night ? '水墨 · 夜间' : '水墨 · 白天' };
+  }
+}
+</script>
+</body>
+</html>
