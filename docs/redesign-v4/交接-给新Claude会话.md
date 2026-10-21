@@ -18,6 +18,9 @@
 - **换电脑（2026-10-18/19）已完成**：用户现在在 `WIN-MOMCDB7BJMT`（9 月就搭过同步的那台，仓库在 `E:\my_project\tuzhi`，时区 +07:00）。协调仓 `coordination @ 1ab285a`，本机 WIP 由 `checkpoint/win-momcdb7bjmt @ 853f8e5` 保护，WORKLOG 到 Session 100。旧电脑是 `desktop-o1a6epq`。规则：从哪台离开就在哪台跑 `switch-device`，另一台跑 `resume`；离开的那台不再干活。
 - **Preview 33 已在线发布**（用户授权，旧电脑在换机后做的，记录在协调仓 `records/xuyu-preview33-public-2026.10.18/`）：更新服务器 updates.momonganest.top，SHA256 `b824695e…8688`，公告里写了“窗口只绘制在左上角”的已知情况。同事会收到更新提示。用户这台已从 Preview 26 升到 33，旧数据按设计保留。
 
+- **v4.1.1 修复版（2026-10-20/21）进行中**：任务包在本分支 `docs/redesign-v4.1.1/`（e69ff1c），xuyu 导入提交 `a1d15b14`（= wiring-base）。Codex 停在 F1，原因是一条 e2e 连续失败两次。F1 未提交的代码已经在远端 `checkpoint/win-momcdb7bjmt @ 755bcdd7`（Codex 报“推送超时”，但远端其实有：today-queue.ts、App.tsx、css、3 个测试文件、F1-报告.md 和失败现场）。
+  - Claude 诊断（2026-10-21）：不是软件逻辑问题，是测试的时间竞争。自动保存在 `documents` 最后一次变化后等 1.2 秒才执行（WIP App.tsx 约 3597–3662 行）。`closeDocument`（约 5132–5153 行）把“已自动保存的版本或当前版本已导出”当成可以直接关；否则弹“还有未保存或未导出的修改”。测试在打开第三份后约 0.4–1 秒就关 F1-completed，这时自动保存有没有赶上全凭运气。第 1 次没赶上，弹了框，测试没点；第 2 次赶上了，没弹框，测试却等框，等了 30 秒。修法：先等这份确实自动保存了，再关，并且断言“不弹框”；不减任何断言。
+  - Claude 顺带看过 WIP 的其余逻辑，没发现要返工的。
 ## 一、项目和各方角色
 
 - **产品**：胥宇 / XUYU，Windows 桌面软件（Electron + React + Konva），用来在图纸上布监控点位、汇总设备、导出 PDF，以及季度资料整理、绩效。用户是唯一的开发负责人，中文交流，懂一些技术但不写代码。
