@@ -37,6 +37,13 @@
     - 实测脚本 `outputs/claude-audit/a4-reopen.spec.ts`、`a5/a6` 只在本容器。
   - 同日又加 F6：A12 资料整理退不回上一步（按钮在窗口外，a7 脚本实测）→ B-20；A13 只设品牌 → B-21（只有品牌时目录用“季度/品牌”，Claude 定的默认）。
   - 用户还没把给 Codex 的指令发出去，Claude 合成了一条总指令：导入 F5、F6 追加，打 F1 补丁，迁移旧测试，然后 F1→F6→最终。
+- **Claude ↔ Codex 信箱（2026-10-23 起，用户要求不再人工转达）**：
+  - Claude 写本分支的 `docs/codex-inbox.md`，消息编号 M-xxx，追加不改旧消息。
+  - Codex 有问题时，写进 xuyu 的 `docs/redesign-v4.1.1/reports/进度报告.md` 的 `## 等 Claude：Q-xxx`，checkpoint 推到 `checkpoint/win-momcdb7bjmt`，然后每 5 分钟看一次信箱，最多等 3 小时。
+  - Claude 用 send_later 定时检查：`git fetch` 那个 checkpoint 分支和 dev，读进度报告。看到新的 Q-xxx，就复现、查清，在信箱追加“M-xxx 回复 Q-xxx”，再推送。
+  - 信箱不能授权发布、上传、碰 main/Tag/Release 或真实数据，这些只听用户本人的。
+  - 用户发给 Codex 的启动语见 2026-10-23 的对话。
+
 ## 一、项目和各方角色
 
 - **产品**：胥宇 / XUYU，Windows 桌面软件（Electron + React + Konva），用来在图纸上布监控点位、汇总设备、导出 PDF，以及季度资料整理、绩效。用户是唯一的开发负责人，中文交流，懂一些技术但不写代码。
