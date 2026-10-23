@@ -139,6 +139,36 @@
         "src/renderer/*.css",
         "src/renderer/styles/**"
       ]
+    },
+    "F6": {
+      "title": "资料整理：能退回上一步，只填品牌也能整理（2026-10-23 追加）",
+      "ids": [
+        "B-20",
+        "B-21"
+      ],
+      "ui": [
+        "B-20",
+        "B-21"
+      ],
+      "allow": [
+        "src/renderer/components/SourceLibraryPanel.tsx",
+        "src/renderer/components/source-library-panel.css",
+        "src/renderer/components/SourceWorkflowSettings.tsx",
+        "src/renderer/components/SourceFileOperationDialog.tsx",
+        "src/renderer/use-source-library-scan.ts",
+        "src/core/source-business.ts",
+        "src/core/source-file-plan.ts",
+        "src/core/source-library.ts",
+        "src/shared/source-library.ts",
+        "src/shared/models.ts",
+        "electron/services/source-file-operations.ts",
+        "electron/services/source-library-service.ts",
+        "electron/services/pdf-export.ts",
+        "electron/main.ts",
+        "src/renderer/App.tsx",
+        "src/renderer/*.css",
+        "src/renderer/styles/**"
+      ]
     }
   }
 }
