@@ -92,7 +92,8 @@
         "B-14",
         "B-15",
         "B-16",
-        "B-17"
+        "B-17",
+        "B-18"
       ],
       "ui": [
         "B-12",
@@ -100,7 +101,8 @@
         "B-14",
         "B-15",
         "B-16",
-        "B-17"
+        "B-17",
+        "B-18"
       ],
       "allow": [
         "src/renderer/App.tsx",
@@ -113,6 +115,27 @@
         "src/renderer/drawing-view-state.ts",
         "src/renderer/feedback/**",
         "src/renderer/themes/**",
+        "src/renderer/*.css",
+        "src/renderer/styles/**",
+        "src/renderer/components/source-library-panel.css"
+      ]
+    },
+    "F5": {
+      "title": "拖回已导出的成品再改，结果别放进存放（2026-10-23 追加）",
+      "ids": [
+        "B-19"
+      ],
+      "ui": [
+        "B-19"
+      ],
+      "allow": [
+        "electron/main.ts",
+        "electron/preload.ts",
+        "electron/services/source-library-service.ts",
+        "electron/services/file-service.ts",
+        "src/shared/source-library.ts",
+        "src/core/output-directory.ts",
+        "src/renderer/App.tsx",
         "src/renderer/*.css",
         "src/renderer/styles/**"
       ]

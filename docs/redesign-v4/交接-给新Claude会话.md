@@ -31,6 +31,10 @@
     - Claude 在本容器用 worktree 跑了 Codex 的 WIP（`e76762db`），查清三处问题：两处是夹具或测试不真实，一处是解除完成没加 `recoveryEligible`。
     - 补丁在 `docs/redesign-v4.1.1/patches/`，F1 新测试 3×5=15 次全过。
     - 三个旧测试的迁移要点写在补丁目录的 README 里。
+  - 2026-10-23 用户又报两条，Claude 在 b6ee2f5 上复现并查清，追加进 v4.1.1：
+    - A10：把成品拖回来改，导出进了存放（拖入复制进存放 + 新修订把副本当导出位置），写成 F5 的 B-19；
+    - A11：文件列表滚轮不动（`.today-queue-list` 的 overscroll-behavior: contain），写成 F4 的 B-18；
+    - 实测脚本 `outputs/claude-audit/a4-reopen.spec.ts`、`a5/a6` 只在本容器。
 ## 一、项目和各方角色
 
 - **产品**：胥宇 / XUYU，Windows 桌面软件（Electron + React + Konva），用来在图纸上布监控点位、汇总设备、导出 PDF，以及季度资料整理、绩效。用户是唯一的开发负责人，中文交流，懂一些技术但不写代码。
