@@ -171,16 +171,20 @@
       ]
     },
     "F7": {
-      "title": "从历史目录导入：给品牌建议、一次导多个、不卡（2026-10-23 追加）",
+      "title": "从历史目录导入与资料整理：品牌建议、多选季度、不卡、凭据核对、预览失败原因（2026-10-23 追加）",
       "ids": [
         "B-22",
         "B-23",
-        "B-24"
+        "B-24",
+        "B-25",
+        "B-26"
       ],
       "ui": [
         "B-22",
         "B-23",
-        "B-24"
+        "B-24",
+        "B-25",
+        "B-26"
       ],
       "allow": [
         "electron/main.ts",
@@ -194,7 +198,11 @@
         "src/renderer/components/SourceWorkflowSettings.tsx",
         "src/renderer/components/source-library-panel.css",
         "src/renderer/*.css",
-        "src/renderer/styles/**"
+        "src/renderer/styles/**",
+        "electron/services/source-identity-store.ts",
+        "electron/services/file-service.ts",
+        "src/renderer/components/SourceLibraryPanel.tsx",
+        "src/renderer/components/SourceDocumentPreview.tsx"
       ]
     }
   }
