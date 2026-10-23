@@ -169,6 +169,33 @@
         "src/renderer/*.css",
         "src/renderer/styles/**"
       ]
+    },
+    "F7": {
+      "title": "从历史目录导入：给品牌建议、一次导多个、不卡（2026-10-23 追加）",
+      "ids": [
+        "B-22",
+        "B-23",
+        "B-24"
+      ],
+      "ui": [
+        "B-22",
+        "B-23",
+        "B-24"
+      ],
+      "allow": [
+        "electron/main.ts",
+        "electron/preload.ts",
+        "electron/services/source-library-service.ts",
+        "electron/services/data-service.ts",
+        "src/shared/source-library.ts",
+        "src/core/source-business.ts",
+        "src/core/source-brand-suggest.ts",
+        "src/core/source-library.ts",
+        "src/renderer/components/SourceWorkflowSettings.tsx",
+        "src/renderer/components/source-library-panel.css",
+        "src/renderer/*.css",
+        "src/renderer/styles/**"
+      ]
     }
   }
 }
