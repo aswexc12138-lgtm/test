@@ -1,0 +1,24 @@
+diff --git a/src/renderer/components/FloorPlanCanvas.tsx b/src/renderer/components/FloorPlanCanvas.tsx
+index 3020c1a9..44efbf36 100644
+--- a/src/renderer/components/FloorPlanCanvas.tsx
++++ b/src/renderer/components/FloorPlanCanvas.tsx
+@@ -284,12 +284,17 @@ function ObjectLabel({ object, selected, onUpdateObject, fallbackColor = '#17203
+   }, [label.text, fontFamily, fontSize, fontStyle]);
+   if (!lines.length) return null;
+   return <Group x={label.left} y={label.top} draggable={selected} name="object-label"
++    // Space or middle-button panning makes the stage draggable; a label under the pointer must not move then.
++    onDragStart={event => { if (event.target.getStage()?.draggable()) event.target.stopDrag(); }}
+     onDragEnd={event => {
+       event.cancelBubble = true;
+-      onUpdateObject(object.id, { labelOffset: {
++      const labelOffset = {
+         x: event.target.x() - (object.width - label.width) / 2,
+         y: event.target.y() - object.height - (object.nameGap ?? (object.type === 'device' ? 8 : 5)),
+-      } });
++      };
++      // A drag stopped for panning ends where it began; do not record a no-op edit.
++      if (Math.abs(labelOffset.x - (object.labelOffset?.x ?? 0)) < 0.01 && Math.abs(labelOffset.y - (object.labelOffset?.y ?? 0)) < 0.01) return;
++      onUpdateObject(object.id, { labelOffset });
+     }}>
+     {lines.map((line, index) => <Text key={index} name="object-label-line"
+       x={label.align === 'left' ? 0 : (label.width - line.width) / (label.align === 'right' ? 1 : 2)}
