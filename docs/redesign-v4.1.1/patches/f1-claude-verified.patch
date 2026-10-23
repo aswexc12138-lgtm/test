@@ -1,0 +1,75 @@
+diff --git a/src/renderer/App.tsx b/src/renderer/App.tsx
+index bf540c26..8f214e2e 100644
+--- a/src/renderer/App.tsx
++++ b/src/renderer/App.tsx
+@@ -3281,7 +3281,7 @@ export default function App() {
+     const updatedAt = now();
+     const latest = documentsRef.current.find(item => item.project.id === project.id)?.project;
+     if (!latest || activeIdRef.current !== project.id) return;
+-    const editable: FloorPlanProject = { ...latest, workflowStatus: 'editing', workflowCompletedAt: undefined, updatedAt };
++    const editable: FloorPlanProject = { ...latest, recoveryEligible: true, workflowStatus: 'editing', workflowCompletedAt: undefined, updatedAt };
+     const next = documentsRef.current.map(item => item.project.id === project.id ? { ...item, project: editable } : item);
+     documentsRef.current = next;
+     setDocuments(next);
+diff --git a/tests/e2e/v411-f1-queue.e2e.test.ts b/tests/e2e/v411-f1-queue.e2e.test.ts
+index 56f48350..d8d4e698 100644
+--- a/tests/e2e/v411-f1-queue.e2e.test.ts
++++ b/tests/e2e/v411-f1-queue.e2e.test.ts
+@@ -2,7 +2,8 @@ import { expect, test } from '@playwright/test';
+ import { fixFixture, launchFix, fixShot, addFixPoint, fixCommand } from './v411-fixtures';
+ import { openQ6Project } from './v41-q6-fixtures';
+ import { revealEditorControl, showEditorPanel } from './editor-ui';
+-import { readFile } from 'node:fs/promises';
++import { readdir, readFile } from 'node:fs/promises';
++import path from 'node:path';
+ 
+ for (const mode of ['light', 'dark'] as const) test(`B-01 B-02 ${mode} 今日分组与关闭完成保留，当前导出算完成且编辑后退出`, async () => {
+   const f = await fixFixture(mode), current = await f.make('F1-current'), completed = await f.make('F1-completed', 'completed');
+@@ -52,9 +53,13 @@ test('B-03 批量导出仅导出未交付完成项，跳过最新导出且不混
+     const queue = page.getByTestId('today-queue'); await expect(queue.locator('header')).toContainText('已完成 2');
+     await expect(queue.getByTestId('today-queue-export')).toHaveText('批量导出已完成（2）');
+     await queue.getByTestId('today-queue-export').click(); await expect(page.getByText('1 份已是最新，跳过', { exact: true })).toBeVisible();
+-    await expect.poll(() => page.evaluate(async id => (await window.desktop.openProject(id))?.project.exportHistory.length, done.projectPath!), { timeout: 60_000 }).toBe(1);
+-    expect((await page.evaluate(async id => (await window.desktop.openProject(id))?.project.exportHistory.length, legacy.projectPath!))).toBe(0);
+-    expect((await page.evaluate(async id => (await window.desktop.openProject(id))?.project.exportHistory.length, exported.projectPath!))).toBe(0);
++    // Export archives the delivered work into the project library; the opened fixture file is not the ledger.
++    const archived = async () => Object.fromEntries(await Promise.all((await readdir(f.archive, { recursive: true }))
++      .filter(name => name.endsWith('project.cctv.json')).map(async name => {
++        const saved = JSON.parse(await readFile(path.join(f.archive, name), 'utf8')) as { id: string; exportHistory: unknown[] };
++        return [saved.id, saved.exportHistory.length] as const;
++      })));
++    await expect.poll(archived, { timeout: 60_000 }).toEqual({ [done.id]: 1 });
+     await fixShot(page, 'F1', 'B-03-batch');
+   } finally { await app.close(); }
+ });
+diff --git a/tests/e2e/v411-fixtures.ts b/tests/e2e/v411-fixtures.ts
+index c9fb3e70..117a7252 100644
+--- a/tests/e2e/v411-fixtures.ts
++++ b/tests/e2e/v411-fixtures.ts
+@@ -6,6 +6,7 @@ import { expect, type Page } from '@playwright/test';
+ import { monitor, projectFixture } from '../helpers';
+ import type { FloorPlanProject, TeamProfile } from '../../src/shared/models';
+ import { schemeIdentity } from '../../src/core/drawing-schemes';
++import { syncLegacySummaryPreset } from '../../src/core/summary-combos';
+ import { quantityFixture, canvasPoint } from './p1-quantity-fixtures';
+ import { firstEditorWindow, launchE2EElectron } from './application-launch';
+ import { openQ6Project } from './v41-q6-fixtures';
+@@ -18,6 +19,8 @@ export async function fixFixture(mode: 'light' | 'dark' = 'light', pages = 1) {
+   const profile: TeamProfile = JSON.parse(await readFile(profilePath, 'utf8'));
+   profile.templates[0].summaryCombos = [{ id: 'fix-combo', name: '修复测试组合', items: [{ assetId: 'recorder', quantity: 2, unit: '台' }] }];
+   profile.templates[0].defaultSummaryComboId = 'fix-combo';
++  // Profiles are normalized on load; snapshot what the app itself would see.
++  profile.templates[0] = syncLegacySummaryPreset(profile.templates[0]);
+   await writeFile(profilePath, JSON.stringify(profile));
+   const output = path.join(input.directory, 'customer'), archive = path.join(input.directory, 'archive');
+   await mkdir(output); await mkdir(archive);
+@@ -38,6 +41,9 @@ export async function fixFixture(mode: 'light' | 'dark' = 'light', pages = 1) {
+       sha256: createHash('sha256').update(bytes).digest('hex') };
+     project.objects = [{ ...monitor(id+'-point', 'traffic', 1), x: 250, y: 350, width: 42, height: 32,
+       assetId: 'camera', pointLabel: 'Cam1', pointLabelAuto: false, style: { ...project.defaultStyles.pointLabel } }];
++    // Saved drawings carry the bytes of the assets they use (projectForPersistence).
++    const camera = profile.assets.find(asset => asset.id === 'camera')!;
++    project.assetDataById = { camera: `data:${camera.mimeType};base64,${camera.dataBase64}` };
+     return project;
+   };
+   const save = async (project: FloorPlanProject) => {
