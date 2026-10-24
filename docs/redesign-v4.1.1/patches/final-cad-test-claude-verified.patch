@@ -1,0 +1,19 @@
+diff --git a/tests/e2e/v411-final-cad-business.e2e.test.ts b/tests/e2e/v411-final-cad-business.e2e.test.ts
+index b423779f..ac6d42bc 100644
+--- a/tests/e2e/v411-final-cad-business.e2e.test.ts
++++ b/tests/e2e/v411-final-cad-business.e2e.test.ts
+@@ -32,11 +32,11 @@ for (const mode of ['light', 'dark'] as const) test(`B-21 ${mode} CAD已存工
+     await page.getByTestId('commands.search').fill('打开可编辑图纸');
+     await page.getByTestId('commands.run.file.open').click();
+     // CAD titles use .dwg; the shared Q6 launcher is specifically for PDF drawings.
+-    await expect(page.getByTestId('drawing-toolbar').getByTitle(project.name+'.dwg', { exact: true })).toBeVisible();
++    await expect(page.getByRole('navigation', { name: '当前文件与主要命令' }).getByTitle(project.name+'.dwg', { exact: true })).toBeVisible();
+     await expect(page.getByTestId('canvas-host')).toHaveAttribute('data-render-state', 'ready', { timeout: 60_000 });
+     await expect(page.getByTestId('drawing-task-overlay')).toHaveCount(0, { timeout: 60_000 });
+-    const savedFile = path.join(f.directory, 'confirmed.cctv.json');
+-    await app.evaluate(({ dialog }, filePath) => { dialog.showSaveDialog = async () => ({ canceled: false, filePath }); }, savedFile);
++    // An opened editable project saves back to its own projectPath; no save dialog is shown.
++    const savedFile = file;
+     await saveProjectCopy(page, savedFile);
+     const before = JSON.parse(await readFile(savedFile, 'utf8')) as FloorPlanProject;
+     await page.getByTestId('module-config').click();

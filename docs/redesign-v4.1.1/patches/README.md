@@ -45,3 +45,22 @@ Claude 在自己的 Linux 容器里验证过：
 ## 顺带发现：F1 漏迁移的旧断言
 
 `r0-quantity.e2e.test.ts:305`：关闭已导出的图纸后，断言 `.file-item` 数量为 0。按 B-01/B-02，已导出就算完成，关闭后仍留在今天清单。应改成：那一行还在、`data-today-completed="true"`、没有关闭按钮。最终全量 e2e 里可能还有同类问题，按同样原则迁移，不算失败次数。
+
+---
+
+# 最终阶段 CAD 补填测试补丁（Claude 已验证，2026-10-24）
+
+`final-cad-test-claude-verified.patch` 针对 Codex 的最终 WIP（`checkpoint/win-momcdb7bjmt @ 967fc2c9`），只改 `tests/e2e/v411-final-cad-business.e2e.test.ts`，不改产品代码。
+
+## 两处测试问题
+
+1. **标题定位**（Codex 已自己查到）：CAD 图纸的工具栏没有 `data-testid="drawing-toolbar"`，那个只在 PDF 分支上（App.tsx 约 8502 行）。CAD 分支是约 8285 行的 `<nav aria-label="当前文件与主要命令">`，两种工具栏同一时刻只出现一个。改为按导航的可访问名称限定，仍然精确核对 `.dwg` 标题。
+2. **保存副本的路径**（修完第 1 处后才暴露出来）：从工程文件打开的图纸，“保存项目副本”会写回它自己的 `projectPath`（`electron/main.ts` 的 `project:save`：`requestedPath ?? project.projectPath`），不弹保存框。测试却模拟了保存框，并等一个新文件 `confirmed.cctv.json` 出现，所以一直等不到。改为直接读打开的那个工程文件。
+
+## Claude 的验证
+
+WIP 加补丁后重新构建，light、dark 两例 2/2 通过：业务弹窗只填品牌，企业为空且不可用，保存后月份、季度、品牌都对，企业字段为空，CAD 来源、对象、页面不变，没有任何 CAD 引擎请求，原生 DWG 和 PDF 载体字节不变。ESLint 通过。
+
+## 另记一条（不在本轮修）
+
+“保存项目副本”这个名字有误导：对已有工程文件的图纸，它其实是覆盖保存原文件，不是另存一份。已记入验收问题 A20，等用户定。
