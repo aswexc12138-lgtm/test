@@ -57,6 +57,12 @@
   - Claude 给了补丁 `docs/redesign-v4.1.1/patches/final-r11-claude-verified.patch`（aac982d）：把冷启动挪进 `beforeAll`（60 秒），断言和测试超时都不改。Linux 上 R-11 测试体从 950–2158ms 降到约 30ms。
   - 用户随后决定最终验证从简：Codex 只跑本轮改动的 e2e 各 1 遍就打 Preview 34。Claude 在 Linux 上补跑全量，结果见 `docs/redesign-v4.1.1/Claude-全量e2e复核.md`（3ad06c2）：没有影响使用的问题。下一轮要做：迁移 4 条旧测试（p3-merge-export ×2、p3-save-concurrency、p6-configuration），以及异常行少页数点位的小修（`patches/next-exception-row-claude-verified.patch`）。
   - 用户问过缩短门禁时间的办法：第 46 条 CAD 每次都会撞停；改动的 e2e 实际跑了 4 遍；用户电脑比 v4.1 时慢了 2–4 倍。那段调整用户没发，改为让 Codex 最终验证从简（上一条）。
+- **2026-10-26 用户授权**：用户在自己电脑上用 `claude remote-control` 开了一个本机会话，工作目录是 `E:\OneDrive\图纸`（用户的图纸文件夹）。
+  - 用户明确要求这个会话控制这个文件夹。“执行者不碰用户真实资料目录”那条是给 Codex 定的，不约束这个会话。
+  - 默认做法：
+    - 改、删、移动文件前先问用户。这是 OneDrive 同步目录，删除会同步到云端。
+    - 文件和内容不传到 GitHub 或其他任何地方。
+    - 不碰 Codex 的仓库 `E:\my_project\tuzhi`，除非用户要求。
 
 ## 一、项目和各方角色
 
