@@ -1,0 +1,16 @@
+diff --git a/src/renderer/App.tsx b/src/renderer/App.tsx
+index 315c6223..cc43d3a8 100644
+--- a/src/renderer/App.tsx
++++ b/src/renderer/App.tsx
+@@ -6413,8 +6413,9 @@ export default function App() {
+   for (const exception of workflowExceptionEntries) {
+     const opened = documents.find(item => item.project.id === exception.projectId);
+     if (opened?.project.source.cad || /\.dwg$/iu.test(exception.sourcePath)) continue;
+-    p3TodayItems.set(exception.projectId, { ...p3TodayItems.get(exception.projectId), id: exception.projectId,
+-      name: exception.projectName, sourcePath: exception.sourcePath, opened, exception });
++    const existing = p3TodayItems.get(exception.projectId);
++    p3TodayItems.set(exception.projectId, { ...existing, id: exception.projectId, name: exception.projectName,
++      sourcePath: exception.sourcePath, candidate: existing?.candidate ?? opened?.project, opened, exception });
+   }
+   const olderIds = new Set(queueGroups.older.map(item => item.candidate.id));
+   const p3OlderItems = [...p3TodayItems.values()].filter(item => olderIds.has(item.id));
