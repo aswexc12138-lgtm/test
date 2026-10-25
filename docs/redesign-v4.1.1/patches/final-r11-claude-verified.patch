@@ -1,0 +1,25 @@
+diff --git a/tests/unit/r0-installer.test.mjs b/tests/unit/r0-installer.test.mjs
+index e8d935bb..2f0f0aee 100644
+--- a/tests/unit/r0-installer.test.mjs
++++ b/tests/unit/r0-installer.test.mjs
+@@ -1,11 +1,18 @@
+ /* global process */
+-import { describe, expect, it } from 'vitest';
++import { beforeAll, describe, expect, it } from 'vitest';
+ import { ESLint } from 'eslint';
+ import { prepareInstallerUi } from '../../scripts/installer-ui/tools/prepare-installer-ui.mjs';
+ 
+ describe('R0 installer preparation', () => {
++  let eslint;
++
++  // Loading the flat config pulls in typescript-eslint and TypeScript; on Windows this cold load alone took 5.7s.
++  beforeAll(async () => {
++    eslint = new ESLint();
++    await eslint.lintText('', { filePath: 'scripts/r0-lint-warmup.mjs' });
++  }, 60_000);
++
+   it('R-11 ignores shipped references while linting application code', async () => {
+-    const eslint = new ESLint();
+     expect(await eslint.isPathIgnored('docs/redesign-v4/reference/run-gates.mjs')).toBe(true);
+     expect(await eslint.isPathIgnored('scripts/installer-ui/tools/check-extract-template.mjs')).toBe(true);
+     expect(await eslint.isPathIgnored('src/renderer/App.tsx')).toBe(false);

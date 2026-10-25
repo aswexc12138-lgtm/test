@@ -64,3 +64,27 @@ WIP 加补丁后重新构建，light、dark 两例 2/2 通过：业务弹窗只�
 ## 另记一条（不在本轮修）
 
 “保存项目副本”这个名字有误导：对已有工程文件的图纸，它其实是覆盖保存原文件，不是另存一份。已记入验收问题 A20，等用户定。
+
+---
+
+# 最终阶段 R-11 超时补丁（Claude 已验证，2026-10-25）
+
+`final-r11-claude-verified.patch` 针对 `checkpoint/win-momcdb7bjmt @ 4c5d6609`，只改 `tests/unit/r0-installer.test.mjs`（在 always 范围 `tests/**` 内），不改产品代码、不改 ESLint 配置。
+
+## 原因
+
+- R-11 在测试体里第一次 `new ESLint()` 并读配置。`eslint.config.js` 会加载 typescript-eslint 和整个 TypeScript 编译器，这是一次性的冷启动开销，测的规则本身几乎不花时间。
+- Claude 在 Linux 上拆开计时：加载配置约 620ms，三次 `isPathIgnored` 约 70ms，`lintText` 约 50ms，冷启动占 R-11 的九成以上。用户电脑上单跑 5743ms、全量 9609ms，超过 vitest 默认的 5 秒。
+- 测试文件、`eslint.config.js`、`package.json`、`pnpm-lock.yaml` 从导入基线 02e9854a 到 4c5d6609 都没变，所以不是 v4.1.1 引入的。v4 的 P4 第 3 次门禁也因为这条超时停过（6245ms），说明它在这台机器上一直贴着 5 秒线。
+
+## 改法
+
+- 把 `new ESLint()` 和一次空的 `lintText`（预热配置、解析器、规则）挪进 `beforeAll`，钩子给 60 秒。
+- R-11 的四条断言一字不改，测试体仍是默认 5 秒。
+- 这不算放宽：被测内容（忽略规则和 no-undef）不变，只是把与被测内容无关的启动时间从测试计时里拿出去。
+
+## Claude 的验证（Linux）
+
+- 单跑 3 次：R-11 测试体 27ms、39ms、25ms（改前 950–2158ms），4/4 通过。
+- `npm run test:unit`（TZ=Asia/Shanghai）：462 通过、71 跳过。剩下 3 条失败是 Linux 特有的（`export-layout` 的 Windows 路径分隔符，`theme-css` 找不到本机 Chromium），与本补丁无关，Windows 上不受影响。
+- `npx eslint tests/unit/r0-installer.test.mjs` 通过。
