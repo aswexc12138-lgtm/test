@@ -53,6 +53,8 @@
   - Codex 又停在 `completion.e2e.test.ts:503`“启动时立即显示中文加载进度”：Windows 上两次都找不到启动窗。
   - Claude 在 Linux 上用原版测试跑 Preview 33 构建和 `c0572b30` 构建，都通过。这个测试和启动窗代码本轮都没改。启动窗只在启动超过 1.5 秒时才创建，会写诊断日志 `startup-loading-created`。
   - 已让 Codex 在基线上对比，用测试自己的隔离数据目录日志判断，不再盲改测试。
+  - J9 第 333 行诊断重跑通过（1355ms，长任务 0）。之后最终门禁停在 `tests/unit/r0-installer.test.mjs:7`（R-11）：全量 9609ms、单跑 5743ms，超过默认 5 秒。测试、ESLint 配置、依赖从导入基线起都没变。原因：测试体里冷加载 ESLint 配置（typescript-eslint + TypeScript），这一步占九成以上；v4 P4 第 3 次门禁也因它停过（6245ms）。
+  - Claude 给了补丁 `docs/redesign-v4.1.1/patches/final-r11-claude-verified.patch`（aac982d）：把冷启动挪进 `beforeAll`（60 秒），断言和测试超时都不改。Linux 上 R-11 测试体从 950–2158ms 降到约 30ms。
 
 ## 一、项目和各方角色
 
