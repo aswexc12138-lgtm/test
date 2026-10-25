@@ -56,7 +56,7 @@
   - J9 第 333 行诊断重跑通过（1355ms，长任务 0）。之后最终门禁停在 `tests/unit/r0-installer.test.mjs:7`（R-11）：全量 9609ms、单跑 5743ms，超过默认 5 秒。测试、ESLint 配置、依赖从导入基线起都没变。原因：测试体里冷加载 ESLint 配置（typescript-eslint + TypeScript），这一步占九成以上；v4 P4 第 3 次门禁也因它停过（6245ms）。
   - Claude 给了补丁 `docs/redesign-v4.1.1/patches/final-r11-claude-verified.patch`（aac982d）：把冷启动挪进 `beforeAll`（60 秒），断言和测试超时都不改。Linux 上 R-11 测试体从 950–2158ms 降到约 30ms。
   - 用户随后决定最终验证从简：Codex 只跑本轮改动的 e2e 各 1 遍就打 Preview 34。Claude 在 Linux 上补跑全量，结果见 `docs/redesign-v4.1.1/Claude-全量e2e复核.md`（3ad06c2）：没有影响使用的问题。下一轮要做：迁移 4 条旧测试（p3-merge-export ×2、p3-save-concurrency、p6-configuration），以及异常行少页数点位的小修（`patches/next-exception-row-claude-verified.patch`）。
-  - 用户问过缩短门禁时间的办法：第 46 条 CAD 每次都会撞停；改动的 e2e 实际跑了 4 遍；用户电脑比 v4.1 时慢了 2–4 倍。用户说“算了吧”，没让 Codex 改。
+  - 用户问过缩短门禁时间的办法：第 46 条 CAD 每次都会撞停；改动的 e2e 实际跑了 4 遍；用户电脑比 v4.1 时慢了 2–4 倍。那段调整用户没发，改为让 Codex 最终验证从简（上一条）。
 
 ## 一、项目和各方角色
 
